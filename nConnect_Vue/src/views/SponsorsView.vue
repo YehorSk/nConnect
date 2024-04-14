@@ -1,0 +1,30 @@
+<template>
+  <NavigationComponent/>
+  <section class="page-title bg-title overlay-dark">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <div class="title">
+            <h3>Our Sponsors</h3>
+          </div>
+          <ol class="breadcrumb p-0 m-0">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">Our Sponsors</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+  <SponsorsComponent/>
+  <ActionSubscribeComponent/>
+  <MapComponent/>
+  <FooterComponent/>
+</template>
+<script setup lang="ts">
+import ActionSubscribeComponent from "@/components/ActionSubscribeComponent.vue";
+import NavigationComponent from "@/components/NavigationComponent.vue";
+import ScheduleComponent from "@/components/ScheduleComponent.vue";
+import FooterComponent from "@/components/FooterComponent.vue";
+import MapComponent from "@/components/MapComponent.vue";
+import SponsorsComponent from "@/components/SponsorsComponent.vue";
+</script>

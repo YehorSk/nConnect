@@ -6,8 +6,6 @@ import AboutComponent from "@/components/AboutComponent.vue";
 import SpeakersComponent from "@/components/SpeakersComponent.vue";
 import ScheduleComponent from "@/components/ScheduleComponent.vue";
 import RegistrationComponent from "@/components/RegistrationComponent.vue";
-import PricingComponent from "@/components/PricingComponent.vue";
-import ActionTicketComponent from "@/components/ActionTicketComponent.vue";
 import SponsorsComponent from "@/components/SponsorsComponent.vue";
 import NewsComponent from "@/components/NewsComponent.vue";
 import ActionSubscribeComponent from "@/components/ActionSubscribeComponent.vue";
@@ -22,8 +20,6 @@ import FooterComponent from "@/components/FooterComponent.vue";
   <SpeakersComponent/>
   <ScheduleComponent/>
   <RegistrationComponent/>
-  <PricingComponent/>
-  <ActionTicketComponent/>
   <SponsorsComponent/>
   <NewsComponent/>
   <ActionSubscribeComponent/>
