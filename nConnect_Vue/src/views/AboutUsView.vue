@@ -59,5 +59,5 @@ import MapComponent from "@/components/MapComponent.vue";
 import FooterComponent from "@/components/FooterComponent.vue";
 import ActionSubscribeComponent from "@/components/ActionSubscribeComponent.vue";
 import SpeakersComponent from "@/components/SpeakersComponent.vue";
-import TestimonialVuew from "@/views/TestimonialVuew.vue";
+import TestimonialVuew from "@/views/TestimonialView.vue";
 </script>
