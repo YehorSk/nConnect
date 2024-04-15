@@ -4,27 +4,27 @@
       <div class="row">
         <div class="col-lg-4 col-md-6 align-self-center">
           <div class="image-block bg-about">
-            <img class="img-fluid" src="/images/speakers/featured-speaker.jpg" alt="">
+            <img class="img-fluid" src="/images/background/about-logo.jpg" alt="">
           </div>
         </div>
         <div class="col-lg-8 col-md-6 align-self-center">
           <div class="content-block">
-            <h2>About The <span class="alternate">Eventre</span></h2>
+            <h2>PÁR SLOV O KONFERENCII <span class="alternate">NCONNECT</span></h2>
             <div class="description-one">
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusm tempor incididunt ut labore dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco.
+                Po mnohých rokoch premýšľania a plánovania sme vytvorili nConnect, jedinečnú udalosť v Nitre, ktorá spája študentov IT a popredné firmy z tohto dynamického odvetvia. Konferencia nConnect nadväzuje na dlhoročnú tradíciu formátu "IT v praxi" Fakulty prírodných vied a informatiky UKF v Nitre. Táto iniciatíva je mostom medzi novou generáciou talentov a skúsenými profesionálmi, ktorý poskytuje fórum pre vzájomnú výmenu myšlienok a inšpirácií. Naše poslanie bolo jasné: vyplniť medzeru v regionálnej komunikácii a spolupráci v IT a nConnect je hrdým výsledkom tejto vízie.
               </p>
             </div>
-            <div class="description-two">
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmtempor incididunt ut labore et dolore magna aliq enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.</p>
-            </div>
+<!--            <div class="description-two">-->
+<!--              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmtempor incididunt ut labore et dolore magna aliq enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.</p>-->
+<!--            </div>-->
             <ul class="list-inline">
               <li class="list-inline-item">
-                <a href="#" class="btn btn-main-md">Buy ticket</a>
+                <a href="#" class="btn btn-main-md">REGISTRÁCIA</a>
               </li>
-              <li class="list-inline-item">
-                <a href="#" class="btn btn-transparent-md">Read more</a>
-              </li>
+<!--              <li class="list-inline-item">-->
+<!--                <a href="#" class="btn btn-transparent-md">Read more</a>-->
+<!--              </li>-->
             </ul>
           </div>
         </div>

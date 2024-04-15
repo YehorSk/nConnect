@@ -68,7 +68,7 @@
         </ul>
         <a href="#" class="ticket">
           <img src="/images/icon/ticket.png" alt="ticket">
-          <span>Buy Ticket</span>
+          <span>REGISTRÁCIA</span>
         </a>
       </div>
     </div>
