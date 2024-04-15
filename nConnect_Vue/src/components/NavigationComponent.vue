@@ -10,40 +10,43 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mx-auto">
-          <li class="nav-item dropdown active dropdown-slide">
-            <a class="nav-link" href="#"  data-toggle="dropdown">Home
-              <span>/</span>
-            </a>
-            <!-- Dropdown list -->
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">Homepage</a>
-              <a class="dropdown-item" href="#">Homepage 2</a>
-            </div>
+          <li class="nav-item">
+            <router-link
+                to="/" class="nav-link">Home<span>/</span>
+            </router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Speakers
-              <span>/</span>
-            </a>
+            <router-link
+                to="/speakers" class="nav-link">Speakers<span>/</span>
+            </router-link>
           </li>
           <li class="nav-item dropdown dropdown-slide">
             <a class="nav-link" href="#" data-toggle="dropdown">Pages<span>/</span></a>
             <!-- Dropdown list -->
             <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">About Us</a>
-              <a class="dropdown-item" href="#">Single Speaker</a>
-              <a class="dropdown-item" href="#">Gallery</a>
-              <a class="dropdown-item" href="#">Gallery-02</a>
-              <a class="dropdown-item" href="#">Testimonial</a>
-              <a class="dropdown-item" href="#">Pricing</a>
-              <a class="dropdown-item" href="#">FAQ</a>
-              <a class="dropdown-item" href="#">404</a>
+              <router-link
+                  to="/aboutus" class="dropdown-item">About Us
+              </router-link>
+              <router-link
+                  to="/gallery" class="dropdown-item">Gallery
+              </router-link>
+              <router-link
+                  to="/testimonial" class="dropdown-item">Testimonial
+              </router-link>
+              <router-link
+                  to="/faq" class="dropdown-item">FAQ
+              </router-link>
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Schedule<span>/</span></a>
+            <router-link
+                to="/schedule" class="nav-link">Schedule<span>/</span>
+            </router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Sponsors<span>/</span></a>
+            <router-link
+                to="/sponsors" class="nav-link">Sponsors<span>/</span>
+            </router-link>
           </li>
           <li class="nav-item dropdown dropdown-slide">
             <a class="nav-link" href="#"  data-toggle="dropdown">News
@@ -58,7 +61,9 @@
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
+            <router-link
+                to="/contact" class="nav-link">Contact<span>/</span>
+            </router-link>
           </li>
         </ul>
         <a href="#" class="ticket">
