@@ -20,24 +20,6 @@
                 to="/speakers" class="nav-link">Speakers<span>/</span>
             </router-link>
           </li>
-          <li class="nav-item dropdown dropdown-slide">
-            <a class="nav-link" href="#" data-toggle="dropdown">Pages<span>/</span></a>
-            <!-- Dropdown list -->
-            <div class="dropdown-menu">
-              <router-link
-                  to="/aboutus" class="dropdown-item">About Us
-              </router-link>
-              <router-link
-                  to="/gallery" class="dropdown-item">Gallery
-              </router-link>
-              <router-link
-                  to="/testimonial" class="dropdown-item">Testimonial
-              </router-link>
-              <router-link
-                  to="/faq" class="dropdown-item">FAQ
-              </router-link>
-            </div>
-          </li>
           <li class="nav-item">
             <router-link
                 to="/schedule" class="nav-link">Schedule<span>/</span>
@@ -48,21 +30,9 @@
                 to="/sponsors" class="nav-link">Sponsors<span>/</span>
             </router-link>
           </li>
-          <li class="nav-item dropdown dropdown-slide">
-            <a class="nav-link" href="#"  data-toggle="dropdown">News
-              <span>/</span>
-            </a>
-            <!-- Dropdown list -->
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">News without sidebar</a>
-              <a class="dropdown-item" href="#">News with right sidebar</a>
-              <a class="dropdown-item" href="#">News with left sidebar</a>
-              <a class="dropdown-item" href="#">News Single</a>
-            </div>
-          </li>
           <li class="nav-item">
             <router-link
-                to="/contact" class="nav-link">Contact<span>/</span>
+                to="/gallery" class="nav-link">Gallery<span></span>
             </router-link>
           </li>
         </ul>
