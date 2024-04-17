@@ -2073,7 +2073,11 @@ select.form-control:not([size]):not([multiple]) {
 
 .map #map {
   height: 480px;
+  width: 100%;
   color: white;
+  background: url(../images/background/header-2.jpg) ;
+
+
 }
 
 .map .address-block {
