@@ -11,7 +11,7 @@
             <h2>TECH KONFERENCIA PRE ŠTUDENTOV V NITRE</h2>
             <h6>14 MAREC 2024 , NITRA</h6>
             <!-- Action Button -->
-            <a href="#" class="btn btn-white-md">Registrácia</a>
+            <router-link to="/register" class="btn btn-white-md">Registrácia</router-link>
           </div>
         </div>
       </div>
