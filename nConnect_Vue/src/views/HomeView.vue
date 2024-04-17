@@ -11,6 +11,8 @@ import NewsComponent from "@/components/NewsComponent.vue";
 import ActionSubscribeComponent from "@/components/ActionSubscribeComponent.vue";
 import MapComponent from "@/components/MapComponent.vue";
 import FooterComponent from "@/components/FooterComponent.vue";
+import TestimonialView from "@/views/TestimonialView.vue";
+import TestimonialComponent from "@/components/TestimonialComponent.vue";
 </script>
 
 <template>
@@ -21,7 +23,7 @@ import FooterComponent from "@/components/FooterComponent.vue";
   <ScheduleComponent/>
   <RegistrationComponent/>
   <SponsorsComponent/>
-  <NewsComponent/>
+  <TestimonialComponent/>
   <ActionSubscribeComponent/>
   <MapComponent/>
   <FooterComponent/>
