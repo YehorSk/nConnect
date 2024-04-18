@@ -18,7 +18,6 @@
   <AboutComponent/>
   <SpeakersComponent/>
   <TestimonialVuew/>
-  <ActionSubscribeComponent/>
   <MapComponent/>
   <FooterComponent/>
 </template>
@@ -26,7 +25,6 @@
 import NavigationComponent from "@/components/NavigationComponent.vue";
 import MapComponent from "@/components/MapComponent.vue";
 import FooterComponent from "@/components/FooterComponent.vue";
-import ActionSubscribeComponent from "@/components/ActionSubscribeComponent.vue";
 import SpeakersComponent from "@/components/SpeakersComponent.vue";
 import TestimonialVuew from "@/views/TestimonialView.vue";
 import AboutComponent from "@/components/AboutComponent.vue";

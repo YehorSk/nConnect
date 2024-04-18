@@ -16,12 +16,10 @@
     </div>
   </section>
   <SponsorsComponent/>
-  <ActionSubscribeComponent/>
   <MapComponent/>
   <FooterComponent/>
 </template>
 <script setup lang="ts">
-import ActionSubscribeComponent from "@/components/ActionSubscribeComponent.vue";
 import NavigationComponent from "@/components/NavigationComponent.vue";
 import ScheduleComponent from "@/components/ScheduleComponent.vue";
 import FooterComponent from "@/components/FooterComponent.vue";

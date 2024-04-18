@@ -156,13 +156,11 @@
       </div>
     </div>
   </section>
-  <ActionSubscribeComponent/>
   <MapComponent/>
   <FooterComponent/>
 </template>
 <script setup lang="ts">
 import NavigationComponent from "@/components/NavigationComponent.vue";
-import ActionSubscribeComponent from "@/components/ActionSubscribeComponent.vue";
 import MapComponent from "@/components/MapComponent.vue";
 import FooterComponent from "@/components/FooterComponent.vue";
 </script>
