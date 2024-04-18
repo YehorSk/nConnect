@@ -37,7 +37,6 @@
           </li>
         </ul>
         <a href="#" class="ticket">
-          <img src="/images/icon/ticket.png" alt="ticket">
           <span>REGISTRÁCIA</span>
         </a>
       </div>
