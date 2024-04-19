@@ -32,7 +32,12 @@
           </li>
           <li class="nav-item">
             <router-link
-                to="/gallery" class="nav-link">Gallery<span></span>
+                to="/gallery" class="nav-link">Gallery<span>/</span>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
+                to="/admin" class="nav-link">Admin<span></span>
             </router-link>
           </li>
         </ul>

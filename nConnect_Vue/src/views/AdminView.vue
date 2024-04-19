@@ -1,346 +1,103 @@
+<style scoped>
+ @import '/src/assets/main.css';
+</style>
 <template>
+
+
   <AdminNavComponent/>
-  <!-- ========================= Main ==================== -->
-  <div class="main">
 
-    <!-- ================ Order Details List ================= -->
-    <div class="details">
-      <div class="recentOrders">
-        <div class="cardHeader">
-          <h2>Recent Orders</h2>
-          <a href="#" class="btn">View All</a>
-        </div>
+  <div class="p-4 sm:ml-64">
+    <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
 
-        <table>
-          <thead>
+
+      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <td>Name</td>
-            <td>Price</td>
-            <td>Payment</td>
-            <td>Status</td>
+            <th scope="col" class="px-6 py-3">
+              Product name
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Color
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Category
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Price
+            </th>
+            <th scope="col" class="px-6 py-3">
+              <span class="sr-only">Edit</span>
+            </th>
           </tr>
           </thead>
-
           <tbody>
-          <tr>
-            <td>Star Refrigerator</td>
-            <td>$1200</td>
-            <td>Paid</td>
-            <td><span class="status delivered">Delivered</span></td>
+          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              Apple MacBook Pro 17"
+            </th>
+            <td class="px-6 py-4">
+              Silver
+            </td>
+            <td class="px-6 py-4">
+              Laptop
+            </td>
+            <td class="px-6 py-4">
+              $2999
+            </td>
+            <td class="px-6 py-4 text-right">
+              <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+            </td>
           </tr>
-
-          <tr>
-            <td>Dell Laptop</td>
-            <td>$110</td>
-            <td>Due</td>
-            <td><span class="status pending">Pending</span></td>
+          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              Microsoft Surface Pro
+            </th>
+            <td class="px-6 py-4">
+              White
+            </td>
+            <td class="px-6 py-4">
+              Laptop PC
+            </td>
+            <td class="px-6 py-4">
+              $1999
+            </td>
+            <td class="px-6 py-4 text-right">
+              <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+            </td>
           </tr>
-
-          <tr>
-            <td>Apple Watch</td>
-            <td>$1200</td>
-            <td>Paid</td>
-            <td><span class="status return">Return</span></td>
-          </tr>
-
-          <tr>
-            <td>Addidas Shoes</td>
-            <td>$620</td>
-            <td>Due</td>
-            <td><span class="status inProgress">In Progress</span></td>
-          </tr>
-
-          <tr>
-            <td>Star Refrigerator</td>
-            <td>$1200</td>
-            <td>Paid</td>
-            <td><span class="status delivered">Delivered</span></td>
-          </tr>
-
-          <tr>
-            <td>Dell Laptop</td>
-            <td>$110</td>
-            <td>Due</td>
-            <td><span class="status pending">Pending</span></td>
-          </tr>
-
-          <tr>
-            <td>Apple Watch</td>
-            <td>$1200</td>
-            <td>Paid</td>
-            <td><span class="status return">Return</span></td>
-          </tr>
-
-          <tr>
-            <td>Addidas Shoes</td>
-            <td>$620</td>
-            <td>Due</td>
-            <td><span class="status inProgress">In Progress</span></td>
+          <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
+            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              Magic Mouse 2
+            </th>
+            <td class="px-6 py-4">
+              Black
+            </td>
+            <td class="px-6 py-4">
+              Accessories
+            </td>
+            <td class="px-6 py-4">
+              $99
+            </td>
+            <td class="px-6 py-4 text-right">
+              <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+            </td>
           </tr>
           </tbody>
         </table>
       </div>
 
-      <!-- ================= New Customers ================ -->
-
     </div>
   </div>
+
 </template>
-
-<script setup lang="ts">
+<script setup>
+import { onMounted } from 'vue'
+import { initFlowbite } from 'flowbite'
 import AdminNavComponent from "@/components/AdminNavComponent.vue";
+
+// initialize components based on data attribute selectors
+onMounted(() => {
+  initFlowbite();
+})
 </script>
-<style>
-/* =========== Google Fonts ============ */
-@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap");
-
-/* =============== Globals ============== */
-* {
-  font-family: "Ubuntu", sans-serif;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-:root {
-  --blue: #2a2185;
-  --white: #fff;
-  --gray: #f5f5f5;
-  --black1: #222;
-  --black2: #999;
-}
-
-body {
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-.container {
-  position: relative;
-  width: 100%;
-}
-
-
-/* ===================== Main ===================== */
-
-.main.active {
-  width: calc(100% - 80px);
-  left: 80px;
-}
-
-
-.user img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-
-/* ================== Order Details List ============== */
-.details {
-  position: relative;
-  width: 100%;
-  padding: 20px;
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  grid-gap: 30px;
-  /* margin-top: 10px; */
-}
-
-.details .recentOrders {
-  position: relative;
-  display: grid;
-  min-height: 500px;
-  background: var(--white);
-  padding: 20px;
-  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
-  border-radius: 20px;
-}
-
-.details .cardHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-.cardHeader h2 {
-  font-weight: 600;
-  color: var(--blue);
-}
-.cardHeader .btn {
-  position: relative;
-  padding: 5px 10px;
-  background: var(--blue);
-  text-decoration: none;
-  color: var(--white);
-  border-radius: 6px;
-}
-
-.details table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
-.details table thead td {
-  font-weight: 600;
-}
-.details .recentOrders table tr {
-  color: var(--black1);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
-.details .recentOrders table tr:last-child {
-  border-bottom: none;
-}
-.details .recentOrders table tbody tr:hover {
-  background: var(--blue);
-  color: var(--white);
-}
-.details .recentOrders table tr td {
-  padding: 10px;
-}
-.details .recentOrders table tr td:last-child {
-  text-align: end;
-}
-.details .recentOrders table tr td:nth-child(2) {
-  text-align: end;
-}
-.details .recentOrders table tr td:nth-child(3) {
-  text-align: center;
-}
-.status.delivered {
-  padding: 2px 4px;
-  background: #8de02c;
-  color: var(--white);
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-}
-.status.pending {
-  padding: 2px 4px;
-  background: #e9b10a;
-  color: var(--white);
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-}
-.status.return {
-  padding: 2px 4px;
-  background: #f00;
-  color: var(--white);
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-}
-.status.inProgress {
-  padding: 2px 4px;
-  background: #1795ce;
-  color: var(--white);
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.recentCustomers {
-  position: relative;
-  display: grid;
-  min-height: 500px;
-  padding: 20px;
-  background: var(--white);
-  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
-  border-radius: 20px;
-}
-.recentCustomers .imgBx {
-  position: relative;
-  width: 40px;
-  height: 40px;
-  border-radius: 50px;
-  overflow: hidden;
-}
-.recentCustomers .imgBx img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.recentCustomers table tr td {
-  padding: 12px 10px;
-}
-.recentCustomers table tr td h4 {
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1.2rem;
-}
-.recentCustomers table tr td h4 span {
-  font-size: 14px;
-  color: var(--black2);
-}
-.recentCustomers table tr:hover {
-  background: var(--blue);
-  color: var(--white);
-}
-.recentCustomers table tr:hover td h4 span {
-  color: var(--white);
-}
-
-/* ====================== Responsive Design ========================== */
-@media (max-width: 991px) {
-  .main {
-    width: 100%;
-    left: 0;
-  }
-  .main.active {
-    left: 300px;
-  }
-  .cardBox {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .details {
-    grid-template-columns: 1fr;
-  }
-  .recentOrders {
-    overflow-x: auto;
-  }
-  .status.inProgress {
-    white-space: nowrap;
-  }
-}
-
-@media (max-width: 480px) {
-  .cardBox {
-    grid-template-columns: repeat(1, 1fr);
-  }
-  .cardHeader h2 {
-    font-size: 20px;
-  }
-  .user {
-    min-width: 40px;
-  }
-  .navigation {
-    width: 100%;
-    left: -100%;
-    z-index: 1000;
-  }
-  .navigation.active {
-    width: 100%;
-    left: 0;
-  }
-  .toggle {
-    z-index: 10001;
-  }
-  .main.active .toggle {
-    color: #fff;
-    position: fixed;
-    right: 0;
-    left: initial;
-  }
-}
-
-
-</style>
