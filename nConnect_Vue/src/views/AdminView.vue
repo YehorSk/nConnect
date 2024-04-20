@@ -1,9 +1,7 @@
 <style scoped>
- @import '../assets/main.css';
+@import '/src/assets/main.css';
 </style>
 <template>
-
-
   <AdminNavComponent/>
 
   <div class="p-4 sm:ml-64">
