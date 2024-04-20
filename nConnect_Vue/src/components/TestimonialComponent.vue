@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-12">
           <div class="section-title">
-            <h3>What People <span class="alternate">Say?</span></h3>
+            <h3>Povedali o nás</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti aliquid vero harum rerum voluptates, ab, ullam.</p>
           </div>
         </div>
