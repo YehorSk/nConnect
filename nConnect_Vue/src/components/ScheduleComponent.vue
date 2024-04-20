@@ -4,7 +4,8 @@
       <div class="row">
         <div class="col-12">
           <div class="section-title">
-            <h3>Program</h3>
+            <h3>Event <span class="alternate">Schedule</span></h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do eiusm tempor incididunt ut labore</p>
           </div>
         </div>
       </div>
@@ -14,12 +15,20 @@
             <ul class="nav nav-pills text-center">
               <li class="nav-item">
                 <a class="nav-link active" href="#nov20" data-toggle="pill">
-                  Stage 1
+                  Day-01
+                  <span>20 November 2017</span>
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#nov21" data-toggle="pill">
-                  Stage 2
+                  Day-02
+                  <span>21 November 2017</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#nov22" data-toggle="pill">
+                  Day-03
+                  <span>22 November 2017</span>
                 </a>
               </li>
             </ul>

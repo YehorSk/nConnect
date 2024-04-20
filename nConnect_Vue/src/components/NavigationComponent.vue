@@ -12,7 +12,7 @@
         <ul class="navbar-nav mx-auto">
           <li class="nav-item">
             <router-link
-                to="/" class="nav-link">Domov<span>/</span>
+                to="/" class="nav-link">Home<span>/</span>
             </router-link>
           </li>
           <li class="nav-item">
@@ -22,17 +22,18 @@
           </li>
           <li class="nav-item">
             <router-link
-                to="/schedule" class="nav-link">Program<span>/</span>
+                to="/schedule" class="nav-link">Schedule<span>/</span>
             </router-link>
           </li>
           <li class="nav-item">
             <router-link
-                to="/sponsors" class="nav-link">Partneri<span>/</span>
+                to="/sponsors" class="nav-link">Sponsors<span>/</span>
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link>
+            <router-link
                 to="/gallery" class="nav-link">Galéria<span></span>
+
             </router-link>
           </li>
           <li class="nav-item">

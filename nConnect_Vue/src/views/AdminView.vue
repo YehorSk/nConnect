@@ -1,5 +1,5 @@
 <style scoped>
- @import '/src/assets/main.css';
+ @import '../assets/main.css';
 </style>
 <template>
 
