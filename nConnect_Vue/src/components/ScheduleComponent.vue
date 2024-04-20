@@ -4,8 +4,7 @@
       <div class="row">
         <div class="col-12">
           <div class="section-title">
-            <h3>Event <span class="alternate">Schedule</span></h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do eiusm tempor incididunt ut labore</p>
+            <h3>Program</h3>
           </div>
         </div>
       </div>
@@ -15,22 +14,17 @@
             <ul class="nav nav-pills text-center">
               <li class="nav-item">
                 <a class="nav-link active" href="#nov20" data-toggle="pill">
-                  Day-01
-                  <span>20 November 2017</span>
+                  Soft Dev Stage
+                  <span>14 marec</span>
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#nov21" data-toggle="pill">
-                  Day-02
-                  <span>21 November 2017</span>
+                  AI&Data Stage
+                  <span>14 marec</span>
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#nov22" data-toggle="pill">
-                  Day-03
-                  <span>22 November 2017</span>
-                </a>
-              </li>
+
             </ul>
           </div>
           <div class="schedule-contents bg-schedule">
@@ -39,10 +33,10 @@
                 <!-- Headings -->
                 <ul class="m-0 p-0">
                   <li class="headings">
-                    <div class="time">Time</div>
+                    <div class="time">Čas</div>
                     <div class="speaker">Speaker</div>
-                    <div class="subject">Subject</div>
-                    <div class="venue">Venue</div>
+                    <div class="subject">Prednaška</div>
+                    <div class="venue">Miestnosť</div>
                   </li>
                   <!-- Schedule Details -->
                   <li class="schedule-details">
@@ -419,3 +413,5 @@
   </section>
 
 </template>
+<script setup>
+</script>

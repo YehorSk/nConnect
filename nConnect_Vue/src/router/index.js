@@ -4,11 +4,8 @@ import ScheduleView from "@/views/ScheduleView.vue";
 import SpeakersView from "@/views/SpeakersView.vue";
 import SponsorsView from "@/views/SponsorsView.vue";
 import SingleSpeakerView from "@/views/SingleSpeakerView.vue";
-import FAQView from "@/views/FAQView.vue";
 import GalleryView from "@/views/GalleryView.vue";
 import ContactView from "@/views/ContactView.vue";
-import AboutUsView from "@/views/AboutUsView.vue";
-import TestimonialView from "@/views/TestimonialView.vue";
 import RegisterView from "@/views/RegisterView.vue";
 import AdminView from "@/views/AdminView.vue";
 
@@ -41,29 +38,14 @@ const router = createRouter({
       component: SingleSpeakerView
     },
     {
-      path: '/faq',
-      name: 'faq',
-      component: FAQView
-    },
-    {
       path: '/gallery',
       name: 'gallery',
       component: GalleryView
     },
     {
-      path: '/testimonial',
-      name: 'testimonial',
-      component: TestimonialView
-    },
-    {
       path: '/contact',
       name: 'contact',
       component: ContactView
-    },
-    {
-      path: '/aboutus',
-      name: 'aboutus',
-      component: AboutUsView
     },
     {
       path: '/register',

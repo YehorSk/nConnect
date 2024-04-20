@@ -1,35 +1,47 @@
 <template>
-  <footer class="footer-main">
+  <div class="footer-main">
     <div class="container">
       <div class="row">
-        <div class="col-md-12">
-          <div class="block text-center">
+        <div class="col-md-4 col-sm-6">
+          <div class="single-footer-widget">
             <div class="footer-logo">
               <img src="/images/footer-logo.png" alt="logo" class="img-fluid">
             </div>
+            <p>Spájame IT komunity</p>
+            <br>
             <ul class="social-links-footer list-inline">
               <li class="list-inline-item">
-                <a href="#"><i class="fa fa-facebook"></i></a>
+                <a href="https://www.facebook.com/nconnectsk/"><i class="fa fa-facebook"></i></a>
               </li>
               <li class="list-inline-item">
-                <a href="#"><i class="fa fa-twitter"></i></a>
+                <a href="https://www.instagram.com/nconnect_sk/"><i class="fa fa-instagram"></i></a>
               </li>
               <li class="list-inline-item">
-                <a href="#"><i class="fa fa-instagram"></i></a>
-              </li>
-              <li class="list-inline-item">
-                <a href="#"><i class="fa fa-rss"></i></a>
-              </li>
-              <li class="list-inline-item">
-                <a href="#"><i class="fa fa-vimeo"></i></a>
+                <a href="https://www.linkedin.com/company/nconnectsk/"><i class="fa fa-linkedin"></i></a>
               </li>
             </ul>
           </div>
-
         </div>
+        <div class="col-md-4 col-sm-6">
+          <div class="single-footer-widget">
+            <p>Študentské centrum UKF Dražovská 2, Nitra</p>
+            <br><br>
+            <p>Ochrana osobných údajov</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <div class="single-footer-widget">
+            <a href="https://www.fpvai.ukf.sk/sk/">
+              <p>Fakulta prírodných vied a informatiky UKF v Nitre</p>
+              <br><br>
+              <p>info@nconnect.sk</p>
+            </a>
+          </div>
+        </div>
+
       </div>
     </div>
-  </footer>
+  </div>
   <!-- Subfooter -->
   <footer class="subfooter">
     <div class="container">
@@ -46,3 +58,5 @@
     </div>
   </footer>
 </template>
+<script setup>
+</script>

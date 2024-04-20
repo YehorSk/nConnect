@@ -763,7 +763,7 @@ select.form-control:not([size]):not([multiple]) {
 
 .footer-main {
   background: #272735;
-  padding: 90px 0;
+  padding: 60px 0;
 }
 
 @media (max-width: 767px) {
@@ -2089,6 +2089,7 @@ select.form-control:not([size]):not([multiple]) {
   left: 10%;
   background: #ff6600;
 }
+
 
 @media (max-width: 480px) {
   .map .address-block {

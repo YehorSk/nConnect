@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-12">
           <div class="section-title">
-            <h3>Our <span class="alternate">Sponsors</span></h3>
+            <h3>Naši <span class="alternate">partneri</span></h3>
           </div>
         </div>
       </div>

@@ -5,11 +5,11 @@
       <div class="row">
         <div class="col-12 text-center">
           <div class="title">
-            <h3>Our Speaker</h3>
+            <h3>Speakers</h3>
           </div>
           <ol class="breadcrumb p-0 m-0">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">Our Speaker</li>
+            <li class="breadcrumb-item"><a href="#">Domov</a></li>
+            <li class="breadcrumb-item active">Speakers</li>
           </ol>
         </div>
       </div>

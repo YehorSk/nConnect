@@ -6,10 +6,8 @@ import AboutComponent from "@/components/AboutComponent.vue";
 import SpeakersComponent from "@/components/SpeakersComponent.vue";
 import ScheduleComponent from "@/components/ScheduleComponent.vue";
 import SponsorsComponent from "@/components/SponsorsComponent.vue";
-import NewsComponent from "@/components/NewsComponent.vue";
 import MapComponent from "@/components/MapComponent.vue";
 import FooterComponent from "@/components/FooterComponent.vue";
-import TestimonialView from "@/views/TestimonialView.vue";
 import TestimonialComponent from "@/components/TestimonialComponent.vue";
 </script>
 

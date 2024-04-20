@@ -2,9 +2,9 @@
   <nav class="navbar main-nav border-less fixed-top navbar-expand-lg p-0">
     <div class="container-fluid p-0">
       <!-- logo -->
-      <a class="navbar-brand" href="index.html">
-        <img src="/images/logo.png" alt="logo">
-      </a>
+      <router-link
+          to="/" class="navbar-brand"><img src="/images/logo.png" alt="logo">
+      </router-link>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="fa fa-bars"></span>
       </button>
@@ -12,7 +12,7 @@
         <ul class="navbar-nav mx-auto">
           <li class="nav-item">
             <router-link
-                to="/" class="nav-link">Home<span>/</span>
+                to="/" class="nav-link">Domov<span>/</span>
             </router-link>
           </li>
           <li class="nav-item">
@@ -22,17 +22,22 @@
           </li>
           <li class="nav-item">
             <router-link
-                to="/schedule" class="nav-link">Schedule<span>/</span>
+                to="/schedule" class="nav-link">Program<span>/</span>
             </router-link>
           </li>
           <li class="nav-item">
             <router-link
-                to="/sponsors" class="nav-link">Sponsors<span>/</span>
+                to="/sponsors" class="nav-link">Partneri<span>/</span>
             </router-link>
           </li>
           <li class="nav-item">
             <router-link
-                to="/gallery" class="nav-link">Gallery<span></span>
+                to="/gallery" class="nav-link">Galéria<span>/</span>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
+                to="/contact" class="nav-link">Kontakt<span></span>
             </router-link>
           </li>
         </ul>

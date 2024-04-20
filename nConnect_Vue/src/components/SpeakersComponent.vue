@@ -5,8 +5,7 @@
         <div class="col-12">
           <!-- Section Title -->
           <div class="section-title white">
-            <h3>Who <span class="alternate">Speaking?</span></h3>
-<!--            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do eiusm tempor incididunt ut labore</p>-->
+            <h3>Speakers</h3>
           </div>
         </div>
       </div>

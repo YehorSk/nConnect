@@ -5,11 +5,11 @@
       <div class="row">
         <div class="col-12 text-center">
           <div class="title">
-            <h3>Our Gallery</h3>
+            <h3>Naša Galéria</h3>
           </div>
           <ol class="breadcrumb p-0 m-0">
-            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-            <li class="breadcrumb-item active">Our Gallery</li>
+            <li class="breadcrumb-item"><a href="index.html">Domov</a></li>
+            <li class="breadcrumb-item active">Naša Galéria</li>
           </ol>
         </div>
       </div>
@@ -22,11 +22,8 @@
         <div class="col-12">
           <div class="controls">
             <button type="button" class="control mixitup-control-active" data-filter="all">All</button>
-            <button type="button" class="control" data-filter=".conference">Conference</button>
-            <button type="button" class="control" data-filter=".meeting">Meeting</button>
-            <button type="button" class="control" data-filter=".events">Events</button>
-            <button type="button" class="control" data-filter=".party">Party</button>
-            <button type="button" class="control" data-filter=".concert">Concert</button>
+            <button type="button" class="control" data-filter=".conference">2025</button>
+            <button type="button" class="control" data-filter=".meeting">2024</button>
           </div>
           <div class="gallery-wrapper">
             <div class="gallery-item mix meeting">
