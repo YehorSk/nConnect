@@ -7,7 +7,8 @@ import SingleSpeakerView from "@/views/SingleSpeakerView.vue";
 import GalleryView from "@/views/GalleryView.vue";
 import ContactView from "@/views/ContactView.vue";
 import RegisterView from "@/views/RegisterView.vue";
-import AdminView from "@/views/AdminView.vue";
+import AdminView from "@/views/admin/AdminView.vue";
+import AdminStagesView from "@/views/admin/AdminStagesView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,6 +57,11 @@ const router = createRouter({
       path: '/admin',
       name: 'admin',
       component: AdminView
+    },
+    {
+      path: '/admin-stages',
+      name: 'admin-stages',
+      component: AdminStagesView
     }
   ]
 })
