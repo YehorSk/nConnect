@@ -22,13 +22,13 @@ class StageController extends Controller
         return response()->json("Stage Created");
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request,$id)
     {
-        $stage = Stage::find($id);
         $data = $request->validate([
             'name' => 'required',
             'date' => 'required'
         ]);
+        $stage = Stage::find($id);
         $stage->update($data);
         return response()->json("Stage Updated");
     }
