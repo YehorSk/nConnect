@@ -39,6 +39,20 @@ export const useStageStore = defineStore("stages",{
             } catch (error) {
                 console.error('Error deleting stage:', error);
             }
+        },
+        async updateStage(stage){
+             try{
+                 const response = await axios.put("stages/" +stage.id,{
+                     name: stage.name,
+                     date: stage.date,
+                 });
+                 const index = this.stages.findIndex(s => s.id === stage.id);
+                 if (index !== -1) {
+                     this.stages[index] = stage;
+                 }
+             }catch (error) {
+                 console.error('Error Updating stage:', error);
+             }
         }
     }
 

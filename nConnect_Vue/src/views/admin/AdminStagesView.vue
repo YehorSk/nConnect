@@ -16,7 +16,7 @@
           <v-form fast-fail @submit.prevent>
             <v-text-field
                 v-model="name"
-                :rules="tules"
+                :rules="rules"
                 label="Name"
             ></v-text-field>
 
@@ -45,48 +45,40 @@
         </form>
 
 
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            <th scope="col" class="px-6 py-3">
-              Stage name
-            </th>
-            <th scope="col" class="px-6 py-3">
-              Date
-            </th>
-            <th scope="col" class="px-6 py-3">
-              <span class="sr-only">Edit</span>
-            </th>
-            <th scope="col" class="px-6 py-3">
-              <span class="sr-only">Delete</span>
-            </th>
-          </tr>
-          </thead>
-          <tbody v-for="stage in stageStore.getStages" :key="stage.id">
-          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+        <div class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <div class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <div class="flex">
+              <div class="flex-1 px-6 py-3">Stage name</div>
+              <div class="flex-1 px-6 py-3">Date</div>
+              <div class="flex-1 px-6 py-3">
+                <span class="sr-only">Edit</span>
+              </div>
+              <div class="flex-1 px-6 py-3">
+                <span class="sr-only">Delete</span>
+              </div>
+            </div>
+          </div>
+          <div v-for="stage in stageStore.getStages" :key="stage.id" class="flex bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 items-center">
+            <form @submit.prevent class="flex-1">
+              <div class="flex items-center justify-between px-6 py-4">
+                <input type="hidden" v-model="stage.id">
+                <input type="text" v-model="stage.name" placeholder="Name" class="flex-1 mr-2">
+                <input type="text" v-model="stage.date" placeholder="Date" class="flex-1 mr-2">
+                <button :disabled="dialog" class="font-medium text-green-600 dark:text-green-500 hover:underline" @click="stageStore.updateStage(stage);" type="submit">Update</button>
+              </div>
+            </form>
+            <form @submit.prevent>
+              <button :disabled="dialog" class="font-medium text-red-600 dark:text-red-500 hover:underline" type="submit" @click="stageStore.destroyStage(stage.id)">DELETE</button>
+            </form>
+          </div>
+        </div>
 
-
-            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-              {{ stage.name }}
-            </th>
-            <td class="px-6 py-4">
-              {{ stage.date }}
-            </td>
-            <td class="px-6 py-4 text-right">
-              <v-btn class="font-medium text-green-600 dark:text-green-500 hover:underline" type="submit" @click="stageStore.insertStage(name,date)" block>Update</v-btn>
-            </td>
-            <td class="px-6 py-4 text-right">
-              <v-form fast-fail @submit.prevent>
-                <v-btn class="font-medium text-red-600 dark:text-red-500 hover:underline" type="submit" @click="stageStore.destroyStage(stage.id)" block>DELETE</v-btn>
-              </v-form>
-            </td>
-          </tr>
-          </tbody>
-        </table>
       </div>
 
     </div>
   </div>
+
+
 
 </template>
 <script>
