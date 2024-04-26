@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Stage;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class StageController extends Controller
 {
@@ -15,8 +16,8 @@ class StageController extends Controller
 
     public function store(Request $request){
         $data = $request->validate([
-            'name' => 'required',
-            'date' => 'required'
+            'name' => 'required|unique:stages',
+            'date' => 'required|unique:stages',
         ]);
         Stage::create($data);
         return response()->json("Stage Created");
