@@ -7,6 +7,8 @@ export const useStageStore = defineStore("stages",{
         stages: [],
         error_name:'',
         error_date:'',
+        update_error_name:'',
+        update_error_date:'',
         success: ''
     }),
     getters:{
@@ -69,7 +71,12 @@ export const useStageStore = defineStore("stages",{
                  this.success = "Updated successfully";
              }catch (error) {
                  if(error.response.status === 422){
-                     this.errors.value = error.response.data.errors;
+                     if(error.response.data.errors.name){
+                         this.update_error_name = error.response.data.errors.name[0];
+                     }
+                     if(error.response.data.errors.date){
+                         this.update_error_date = error.response.data.errors.date[0];
+                     }
                  }
              }
         }

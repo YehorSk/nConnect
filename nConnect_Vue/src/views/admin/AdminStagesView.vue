@@ -42,7 +42,7 @@
                 <input type="hidden" v-model="stage.id">
                 <input type="text" v-model="stage.name" placeholder="Name" class="inline-block mr-2">
                 <input type="text" v-model="stage.date" placeholder="Date" class="inline-block mr-2">
-                <button class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block mr-2" @click="stageStore.updateStage(stage);" type="submit">Update</button>
+                <button class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block mr-2" @click="updateForm(stage)" type="submit">Update</button>
               </form>
               <form @submit.prevent class="inline-block">
                 <button class="font-medium text-red-600 dark:text-red-500 hover:underline inline-block" type="submit" @click="stageStore.destroyStage(stage.id)">DELETE</button>
@@ -56,6 +56,12 @@
     <div v-if="stageStore.success" id="alert-3" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
         <SuccessAlertComponent :message="stageStore.success"/>
     </div>
+    <div v-if="stageStore.update_error_name" id="alert-2" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+      <ErrorAlertComponent :message="stageStore.update_error_name"/>
+    </div>
+    <div v-if="stageStore.update_error_date" id="alert-2" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+      <ErrorAlertComponent :message="stageStore.update_error_date"/>
+    </div>
 
   </div>
 
@@ -68,10 +74,11 @@ import { initFlowbite } from 'flowbite'
 import {useStageStore} from "@/stores/StageStore.js";
 import AdminNavComponent from "@/components/AdminNavComponent.vue";
 import SuccessAlertComponent from "@/components/alerts/SuccessAlertComponent.vue";
+import ErrorAlertComponent from "@/components/alerts/ErrorAlertComponent.vue";
 
 
   export default {
-    components: {SuccessAlertComponent, AdminNavComponent},
+    components: {ErrorAlertComponent, SuccessAlertComponent, AdminNavComponent},
     data(){
       return {
         name: '',
@@ -95,6 +102,11 @@ import SuccessAlertComponent from "@/components/alerts/SuccessAlertComponent.vue
         this.stageStore.error_date = '';
         this.name = '';
         this.date = '';
+      },
+      updateForm(stage) {
+        this.stageStore.updateStage(stage);
+        this.stageStore.update_error_name = '';
+        this.stageStore.update_error_date = '';
       }
     }
   }

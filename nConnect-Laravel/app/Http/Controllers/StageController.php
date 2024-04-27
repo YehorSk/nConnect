@@ -23,16 +23,26 @@ class StageController extends Controller
         return response()->json("Stage Created");
     }
 
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
-        $data = $request->validate([
-            'name' => 'required',
-            'date' => 'required'
-        ]);
         $stage = Stage::find($id);
+
+        $data = $request->validate([
+            'name' => [
+                'required',
+                Rule::unique('stages')->ignore($stage),
+            ],
+            'date' => [
+                'required',
+                Rule::unique('stages')->ignore($stage),
+            ],
+        ]);
+
         $stage->update($data);
+
         return response()->json("Stage Updated");
     }
+
 
     public function destroy($id){
         $stage = Stage::find($id);
