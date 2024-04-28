@@ -10,6 +10,7 @@ import RegisterView from "@/views/RegisterView.vue";
 import AdminView from "@/views/admin/AdminView.vue";
 import AdminStagesView from "@/views/admin/AdminStagesView.vue";
 import AdminTimeSlots from "@/views/admin/AdminTimeSlots.vue";
+import AdminGalleryView from "@/views/admin/AdminGalleryView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -68,7 +69,13 @@ const router = createRouter({
       path: '/admin-time-slots/:id',
       name: 'admin-time-slots',
       component: AdminTimeSlots
+    },
+    {
+      path: '/admin-gallery',
+      name: 'admin-gallery',
+      component: AdminGalleryView
     }
+
   ]
 })
 

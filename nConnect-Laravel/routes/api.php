@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\StageController;
 use \App\Http\Controllers\TimeSlotController;
+use \App\Http\Controllers\GalleryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,4 +27,6 @@ Route::apiResource('stages',StageController::class);
 Route::get('/get-time-slots/{id}',[TimeSlotController::class,'index']);
 
 Route::apiResource('slots', TimeSlotController::class);
+
+Route::apiResource('gallery', GalleryController::class);
 
