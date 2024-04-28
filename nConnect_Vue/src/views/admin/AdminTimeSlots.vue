@@ -17,9 +17,9 @@
                 type="time"
                 label="Time"
             ></v-text-field>
-            <div v-if="stageStore.error_name">
+            <div v-if="timeSlotStore.error_time">
               <span class="text-sm text-red-400">
-                {{stageStore.error_name}}
+                {{timeSlotStore.error_time}}
               </span>
             </div>
             <v-btn class="mt-2" type="submit" @click="submitForm()" block>Save</v-btn>
@@ -28,12 +28,12 @@
 
         <br>
         <div class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <div v-for="slot in timeSlotStore.slots" :key="slot.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 items-center">
+          <div v-for="slot in timeSlotStore.getSlots" :key="slot.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 items-center">
             <div>
               <form @submit.prevent class="inline-block">
                 <input type="hidden" v-model="slot.id">
-                <input type="text" v-model="slot.time" placeholder="Time" class="inline-block mr-2">
-                <button class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block mr-2" @click="updateTimeSlot(slot.id, slot.time)" type="submit">Update</button>
+                <input type="time" v-model="slot.time" placeholder="Time" class="inline-block mr-2">
+                <button class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block mr-2" @click="updateTimeSlot(slot)" type="submit">Update</button>
               </form>
               <form @submit.prevent class="inline-block">
                 <button class="font-medium text-red-600 dark:text-red-500 hover:underline inline-block" type="submit" @click="timeSlotStore.deleteTimeSlot(slot.id)">DELETE</button>
@@ -47,11 +47,8 @@
     <div v-if="timeSlotStore.success" id="alert-3" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
         <SuccessAlertComponent :message="timeSlotStore.success"/>
     </div>
-    <div v-if="timeSlotStore.update_error_name" id="alert-2" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-      <ErrorAlertComponent :message="timeSlotStore.update_error_name"/>
-    </div>
-    <div v-if="timeSlotStore.update_error_date" id="alert-2" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-      <ErrorAlertComponent :message="timeSlotStore.update_error_date"/>
+    <div v-if="timeSlotStore.update_error_time" id="alert-2" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+      <ErrorAlertComponent :message="timeSlotStore.update_error_time"/>
     </div>
 
   </div>
@@ -91,23 +88,14 @@ import {useTimeSlotStore} from "@/stores/TimeSlotStore.js";
     }
     ,
     methods:{
-      itemProps (stage) {
-        return {
-          title: stage.name,
-          subtitle: stage.date,
-        }
+      submitForm() {
+        this.timeSlotStore.saveTimeSlot(this.$route.params.id, this.time);
+        this.time = '';
+        this.timeSlotStore.error_time = '';
       },
-      async submitForm() {
-        try {
-          await this.timeSlotStore.saveTimeSlot(this.$route.params.id, this.time);
-        } catch (error) {
-          console.error(error);
-        }
-      },
-      updateTimeSlot(id, time) {
-        this.timeSlotStore.updateTimeSlot(id, time);
-        this.timeSlotStore.update_error_name = '';
-        this.timeSlotStore.update_error_date = '';
+      updateTimeSlot(slot) {
+        this.timeSlotStore.updateTimeSlot(slot);
+        this.timeSlotStore.update_error_time = '';
       }
     }
   }

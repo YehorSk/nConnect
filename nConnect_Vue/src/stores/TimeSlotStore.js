@@ -6,23 +6,18 @@ export const useTimeSlotStore = defineStore("timeslots",{
     state:()=>({
         slots:[],
         success: null,
-        update_error_name: null,
-        update_error_date: null,
+        error_time:'',
+        update_error_time: null,
     }),
+    getters:{
+        getSlots(){
+            return this.slots;
+        }
+    },
     actions:{
         async fetchTimeSlotsByStageId(id){
             try {
                 const response = await axios.get(`get-time-slots/${id}`);
-                this.slots = response.data;
-            } catch (error) {
-                if(error.response.status === 422){
-                    this.errors.value = error.response.data.errors;
-                }
-            }
-        },
-        async fetchStages(){
-            try {
-                const response = await axios.get('slots');
                 this.slots = response.data;
             } catch (error) {
                 if(error.response.status === 422){
@@ -38,7 +33,7 @@ export const useTimeSlotStore = defineStore("timeslots",{
                 });
                 this.slots.push(response.data);
                 this.success = "Added successfully";
-                await this.fetchStages();
+                await this.fetchTimeSlotsByStageId(stageId);
             } catch (error) {
                 if (error.response.status === 422) {
                     if (error.response.data.errors && error.response.data.errors.time) {
@@ -59,28 +54,21 @@ export const useTimeSlotStore = defineStore("timeslots",{
                 this.error = "Failed to delete time slot";
             }
         },
-        async updateTimeSlot(slotId, updatedTime) {
+        async updateTimeSlot(slot) {
             try {
-                const response = await axios.patch(`slots/${slotId}`, { time: updatedTime });
-                const index = this.slots.findIndex(slot => slot.id === slotId);
+                const response = await axios.put(`slots/`+slot.id, { time: slot.time });
+                const index = this.slots.findIndex(s => s.id === slot.id);
                 if (index!== -1) {
-                    this.slots[index] = response.data;
+                    this.slots[index] = slot;
                 }
+
                 this.success = "Updated successfully";
 
             } catch (error) {
-                if (error.response) {
-                    if (error.response.status === 422) {
-                        if (error.response.data.errors) {
-                            if (error.response.data.errors.time) {
-                                this.update_error_time = error.response.data.errors.time[0];
-                            }
-                        }
-                    } else {
-                        console.error(error);
+                if (error.response.status === 422) {
+                    if (error.response.data.errors.time) {
+                        this.update_error_time = error.response.data.errors.time[0];
                     }
-                } else {
-                    console.error(error);
                 }
             }
         }

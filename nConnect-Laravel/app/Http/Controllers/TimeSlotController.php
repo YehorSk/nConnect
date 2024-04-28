@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Stage;
 use App\Models\TimeSlot;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class TimeSlotController extends Controller
 {
@@ -17,18 +18,13 @@ class TimeSlotController extends Controller
     }
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $data = $request->validate([
             'stage_id' => 'required|exists:stages,id',
-            'time' => 'required|date_format:H:i',
+            'time' => 'required|date_format:H:i|unique:time_slots,time,null,id,stage_id,' . $request->input('stage_id'),
         ]);
+        TimeSlot::create($data);
 
-        $timeSlot = new TimeSlot();
-        $timeSlot->stage_id = $validatedData['stage_id'];
-        $timeSlot->time = $validatedData['time'];
-
-        $timeSlot->save();
-
-        return response()->json($timeSlot, 201);
+        return response()->json("Time Slot Created");
     }
     public function destroy($id){
         $timeSlot = TimeSlot::find($id);
@@ -46,7 +42,13 @@ class TimeSlotController extends Controller
         }
 
         $data = $request->validate([
-            'time' => 'required|date_format:H:i:s',
+            'time' => [
+                'required',
+                'date_format:H:i',
+                Rule::unique('time_slots')->where(function ($query) use ($timeSlot) {
+                    return $query->where('stage_id', $timeSlot->stage_id);
+                })->ignore($timeSlot->id),
+            ],
         ]);
 
         $timeSlot->time = $data['time'];
