@@ -15,8 +15,8 @@ class GalleryController extends Controller
     }
     public function store(Request $request){
         $data = $request->validate([
-            'image' => 'required|unique:stages',
-            'year' => 'required|unique:stages',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'year' => 'required|unique:galleries',
         ]);
         Gallery::create($data);
         return response()->json("Image Added");
@@ -28,11 +28,9 @@ class GalleryController extends Controller
         $data = $request->validate([
             'image' => [
                 'required',
-                Rule::unique('galleries')->ignore($gallery),
             ],
             'year' => [
                 'required',
-                Rule::unique('galleries')->ignore($gallery),
             ],
         ]);
 
