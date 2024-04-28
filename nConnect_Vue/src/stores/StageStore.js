@@ -1,6 +1,6 @@
 import {defineStore} from "pinia";
 import axios from "axios";
-axios.defaults.baseURL = "http://localhost/backend/nConnect/nConnect-Laravel/public/api/";
+axios.defaults.baseURL = "http://localhost/backend/nconnect/nConnect-Laravel/public/api/";
 
 export const useStageStore = defineStore("stages",{
     state:()=>({
