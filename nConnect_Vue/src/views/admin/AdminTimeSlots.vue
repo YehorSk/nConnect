@@ -13,21 +13,13 @@
         <v-sheet class="max-w-sm ">
           <v-form fast-fail @submit.prevent>
             <v-text-field
-                v-model="name"
-                label="Name"
+                v-model="time"
+                type="time"
+                label="Time"
             ></v-text-field>
             <div v-if="stageStore.error_name">
               <span class="text-sm text-red-400">
                 {{stageStore.error_name}}
-              </span>
-            </div>
-            <v-text-field
-                v-model="date"
-                label="Date"
-            ></v-text-field>
-            <div v-if="stageStore.error_date">
-              <span class="text-sm text-red-400">
-                {{stageStore.error_date}}
               </span>
             </div>
             <v-btn class="mt-2" type="submit" @click="submitForm()" block>Save</v-btn>
@@ -36,20 +28,16 @@
 
         <br>
         <div class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <div v-for="stage in stageStore.getStages" :key="stage.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 items-center">
+          <div v-for="slot in timeSlotStore.slots" :key="slot.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 items-center">
             <div>
               <form @submit.prevent class="inline-block">
-                <input type="hidden" v-model="stage.id">
-                <input type="text" v-model="stage.name" placeholder="Name" class="inline-block mr-2">
-                <input type="text" v-model="stage.date" placeholder="Date" class="inline-block mr-2">
+                <input type="hidden" v-model="slot.id">
+                <input type="text" v-model="slot.time" placeholder="Time" class="inline-block mr-2">
                 <button class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block mr-2" @click="updateForm(stage)" type="submit">Update</button>
               </form>
               <form @submit.prevent class="inline-block">
                 <button class="font-medium text-red-600 dark:text-red-500 hover:underline inline-block" type="submit" @click="stageStore.destroyStage(stage.id)">DELETE</button>
               </form>
-              <router-link
-                  :to="'/admin-time-slots/'+stage.id" class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block mr-2">Manage slots
-              </router-link>
             </div>
           </div>
         </div>
@@ -78,6 +66,7 @@ import {useStageStore} from "@/stores/StageStore.js";
 import AdminNavComponent from "@/components/AdminNavComponent.vue";
 import SuccessAlertComponent from "@/components/alerts/SuccessAlertComponent.vue";
 import ErrorAlertComponent from "@/components/alerts/ErrorAlertComponent.vue";
+import {useTimeSlotStore} from "@/stores/TimeSlotStore.js";
 
 
   export default {
@@ -85,31 +74,28 @@ import ErrorAlertComponent from "@/components/alerts/ErrorAlertComponent.vue";
     data(){
       return {
         name: '',
-        date: '',
+        time: '',
         stages:[],
+        timeslots:[],
         errors:[],
+        timeSlotStore: useTimeSlotStore(),
         stageStore: useStageStore(),
       };
     },
     created(){
       this.stageStore.fetchStages();
+      this.timeSlotStore.fetchTimeSlotsByStageId(this.$route.params.id);
     },
     mounted() {
       initFlowbite();
     }
     ,
     methods:{
-      submitForm() {
-        this.stageStore.insertStage(this.name, this.date);
-        this.stageStore.error_name = '';
-        this.stageStore.error_date = '';
-        this.name = '';
-        this.date = '';
-      },
-      updateForm(stage) {
-        this.stageStore.updateStage(stage);
-        this.stageStore.update_error_name = '';
-        this.stageStore.update_error_date = '';
+      itemProps (stage) {
+        return {
+          title: stage.name,
+          subtitle: stage.date,
+        }
       }
     }
   }
