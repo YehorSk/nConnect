@@ -24,3 +24,6 @@ Route::apiResource('stages',StageController::class);
 
 //Get all time slots for the stage
 Route::get('/get-time-slots/{id}',[TimeSlotController::class,'index']);
+
+Route::apiResource('slots', TimeSlotController::class);
+

@@ -33,10 +33,10 @@
               <form @submit.prevent class="inline-block">
                 <input type="hidden" v-model="slot.id">
                 <input type="text" v-model="slot.time" placeholder="Time" class="inline-block mr-2">
-                <button class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block mr-2" @click="updateForm(stage)" type="submit">Update</button>
+                <button class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block mr-2" @click="updateTimeSlot(slot.id, slot.time)" type="submit">Update</button>
               </form>
               <form @submit.prevent class="inline-block">
-                <button class="font-medium text-red-600 dark:text-red-500 hover:underline inline-block" type="submit" @click="stageStore.destroyStage(stage.id)">DELETE</button>
+                <button class="font-medium text-red-600 dark:text-red-500 hover:underline inline-block" type="submit" @click="timeSlotStore.deleteTimeSlot(slot.id)">DELETE</button>
               </form>
             </div>
           </div>
@@ -44,14 +44,14 @@
       </div>
     </div>
 
-    <div v-if="stageStore.success" id="alert-3" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
-        <SuccessAlertComponent :message="stageStore.success"/>
+    <div v-if="timeSlotStore.success" id="alert-3" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+        <SuccessAlertComponent :message="timeSlotStore.success"/>
     </div>
-    <div v-if="stageStore.update_error_name" id="alert-2" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-      <ErrorAlertComponent :message="stageStore.update_error_name"/>
+    <div v-if="timeSlotStore.update_error_name" id="alert-2" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+      <ErrorAlertComponent :message="timeSlotStore.update_error_name"/>
     </div>
-    <div v-if="stageStore.update_error_date" id="alert-2" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-      <ErrorAlertComponent :message="stageStore.update_error_date"/>
+    <div v-if="timeSlotStore.update_error_date" id="alert-2" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+      <ErrorAlertComponent :message="timeSlotStore.update_error_date"/>
     </div>
 
   </div>
@@ -96,6 +96,18 @@ import {useTimeSlotStore} from "@/stores/TimeSlotStore.js";
           title: stage.name,
           subtitle: stage.date,
         }
+      },
+      async submitForm() {
+        try {
+          await this.timeSlotStore.saveTimeSlot(this.$route.params.id, this.time);
+        } catch (error) {
+          console.error(error);
+        }
+      },
+      updateTimeSlot(id, time) {
+        this.timeSlotStore.updateTimeSlot(id, time);
+        this.timeSlotStore.update_error_name = '';
+        this.timeSlotStore.update_error_date = '';
       }
     }
   }
