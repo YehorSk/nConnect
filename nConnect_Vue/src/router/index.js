@@ -9,6 +9,7 @@ import ContactView from "@/views/ContactView.vue";
 import RegisterView from "@/views/RegisterView.vue";
 import AdminView from "@/views/admin/AdminView.vue";
 import AdminStagesView from "@/views/admin/AdminStagesView.vue";
+import AdminTimeSlots from "@/views/admin/AdminTimeSlots.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -62,6 +63,11 @@ const router = createRouter({
       path: '/admin-stages',
       name: 'admin-stages',
       component: AdminStagesView
+    },
+    {
+      path: '/admin-time-slots/:id',
+      name: 'admin-time-slots',
+      component: AdminTimeSlots
     }
   ]
 })
