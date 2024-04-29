@@ -11,8 +11,8 @@ class TimeSlotController extends Controller
 {
     public function index($id){
         $stage = Stage::find($id);
-        if($stage){
-            $timeslots = $stage->time_slots()->orderBy("time")->get();
+        if ($stage) {
+            $timeslots = $stage->time_slots()->orderBy("start_time")->get();
             return response()->json($timeslots);
         }
     }
@@ -20,8 +20,11 @@ class TimeSlotController extends Controller
     {
         $data = $request->validate([
             'stage_id' => 'required|exists:stages,id',
-            'time' => 'required|date_format:H:i|unique:time_slots,time,null,id,stage_id,' . $request->input('stage_id'),
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i|after:start_time',
         ]);
+        $this->validateNoOverlap($data['stage_id'], $data['start_time'], $data['end_time']);
+
         TimeSlot::create($data);
 
         return response()->json("Time Slot Created");
@@ -42,19 +45,35 @@ class TimeSlotController extends Controller
         }
 
         $data = $request->validate([
-            'time' => [
-                'required',
-                'date_format:H:i',
-                Rule::unique('time_slots')->where(function ($query) use ($timeSlot) {
-                    return $query->where('stage_id', $timeSlot->stage_id);
-                })->ignore($timeSlot->id),
-            ],
+            'start_time' => 'required',
+            'end_time' => 'required|after:start_time',
         ]);
+        $this->validateNoOverlap($timeSlot->stage_id, $data['start_time'], $data['end_time'], $id);
 
-        $timeSlot->time = $data['time'];
-        $timeSlot->save();
+        $timeSlot->update($data);
 
         return response()->json("TimeSlot Updated");
+    }
+
+    private function validateNoOverlap($stageId, $startTime, $endTime, $exceptId = null)
+    {
+        $query = TimeSlot::where('stage_id', $stageId)
+            ->where(function($q) use ($startTime, $endTime) {
+                $q->whereBetween('start_time', [$startTime, $endTime])
+                    ->orWhereBetween('end_time', [$startTime, $endTime])
+                    ->orWhere(function($q) use ($startTime, $endTime) {
+                        $q->where('start_time', '<', $startTime)
+                            ->where('end_time', '>', $endTime);
+                    });
+            });
+
+        if($exceptId) {
+            $query->where('id', '!=', $exceptId);
+        }
+
+        if($query->exists()) {
+            abort(422, 'The time slot overlaps with existing ones.');
+        }
     }
 
 

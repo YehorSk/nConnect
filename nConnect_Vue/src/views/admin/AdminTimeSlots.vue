@@ -13,9 +13,14 @@
         <v-sheet class="max-w-sm ">
           <v-form fast-fail @submit.prevent>
             <v-text-field
-                v-model="time"
+                v-model="start_time"
                 type="time"
-                label="Time"
+                label="Start Time"
+            ></v-text-field>
+            <v-text-field
+                v-model="end_time"
+                type="time"
+                label="End Time"
             ></v-text-field>
             <div v-if="timeSlotStore.error_time">
               <span class="text-sm text-red-400">
@@ -32,7 +37,8 @@
             <div>
               <form @submit.prevent class="inline-block">
                 <input type="hidden" v-model="slot.id">
-                <input type="time" v-model="slot.time" placeholder="Time" class="inline-block mr-2">
+                <input type="time" v-model="slot.start_time" placeholder="Start Time" class="inline-block mr-2">
+                <input type="time" v-model="slot.end_time" placeholder="End Time" class="inline-block mr-2">
                 <button class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block mr-2" @click="updateTimeSlot(slot)" type="submit">Update</button>
               </form>
               <form @submit.prevent class="inline-block">
@@ -71,7 +77,8 @@ import {useTimeSlotStore} from "@/stores/TimeSlotStore.js";
     data(){
       return {
         name: '',
-        time: '',
+        start_time: '',
+        end_time: '',
         stages:[],
         timeslots:[],
         errors:[],
@@ -89,8 +96,9 @@ import {useTimeSlotStore} from "@/stores/TimeSlotStore.js";
     ,
     methods:{
       submitForm() {
-        this.timeSlotStore.saveTimeSlot(this.$route.params.id, this.time);
-        this.time = '';
+        this.timeSlotStore.saveTimeSlot(this.$route.params.id, this.start_time, this.end_time);
+        this.start_time = '';
+        this.end_time = '';
         this.timeSlotStore.error_time = '';
       },
       updateTimeSlot(slot) {

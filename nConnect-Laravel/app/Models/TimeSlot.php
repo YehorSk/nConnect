@@ -12,7 +12,8 @@ class TimeSlot extends Model
 
     protected $fillable = [
         'stage_id',
-        'time'
+        'start_time',
+        'end_time'
     ];
 
     public function stage():BelongsTo{
