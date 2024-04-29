@@ -19,6 +19,7 @@
   import {onMounted} from "vue";
   import {initFlowbite} from "flowbite";
   import {useTimeSlotStore} from "@/stores/TimeSlotStore.js";
+  import {useSponsorsStore} from "@/stores/SponsorsStore.js";
 
   export default {
     props: {
@@ -27,7 +28,8 @@
     data(){
       return{
         stageStore: useStageStore(),
-        timeSlotStore: useTimeSlotStore()
+        timeSlotStore: useTimeSlotStore(),
+        sponsorStore: useSponsorsStore()
       }
     },
     mounted() {
@@ -37,6 +39,7 @@
       clearSuccess(){
         this.stageStore.success = '';
         this.timeSlotStore.success = '';
+        this.sponsorStore.success = '';
       }
     }
   }

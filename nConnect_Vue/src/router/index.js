@@ -11,6 +11,7 @@ import AdminView from "@/views/admin/AdminView.vue";
 import AdminStagesView from "@/views/admin/AdminStagesView.vue";
 import AdminTimeSlots from "@/views/admin/AdminTimeSlots.vue";
 import AdminGalleryView from "@/views/admin/AdminGalleryView.vue";
+import AdminSponsorsView from "@/views/admin/AdminSponsorsView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -74,6 +75,11 @@ const router = createRouter({
       path: '/admin-gallery',
       name: 'admin-gallery',
       component: AdminGalleryView
+    },
+    {
+      path: '/admin-sponsors',
+      name: 'admin-sponsors',
+      component: AdminSponsorsView
     }
 
   ]
