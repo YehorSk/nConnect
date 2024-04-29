@@ -137,7 +137,7 @@ export default {
       this.name = '';
       this.link = '';
       this.file = null;
-      this.imageUrl = "",
+      this.imageUrl = "";
       this.stageStore.error_name = '';
       this.stageStore.error_link = '';
       this.stageStore.error_image = '';

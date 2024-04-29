@@ -27,15 +27,18 @@ export const UseGalleryStore = defineStore("gallery", {
             },
             async insertGallery(image, year) {
                 try {
-                    const response = await axios.post('gallery', {
-                        image: image,
-                        year: year,
+                    let formData = new FormData();
+                    formData.append('image', image);
+                    formData.append('year', year);
+                    const response = await axios.post('gallery', formData,{
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
                     });
                     this.gallery.push(response.data);
                     this.success = "Added successfully";
                     await this.fetchGallery();
                 } catch (error) {
-                    if (error.response.status === 422) {
                         if (error.response.data.errors.image) {
                             this.error_image = error.response.data.errors.image[0];
                         }
@@ -43,7 +46,6 @@ export const UseGalleryStore = defineStore("gallery", {
                             this.error_year = error.response.data.errors.year[0];
                         }
                     }
-                }
             },
             async destroyGallery(id) {
                 try {
@@ -56,22 +58,6 @@ export const UseGalleryStore = defineStore("gallery", {
                     }
                 }
             },
-            async updateGallery(gallery) {
-                try {
-                    const response = await axios.put("gallery/" + gallery.id, {
-                        image: gallery.image,
-                        year: gallery.year,
-                    });
-                    const index = this.gallery.findIndex(g => g.id === gallery.id);
-                    if (index !== -1) {
-                        this.gallery[index] = gallery;
-                    }
-                    this.success = "Updated successfully";
-                } catch (error){
-
-                }
-
-                }
 
         }
     }

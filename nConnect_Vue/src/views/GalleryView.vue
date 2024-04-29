@@ -21,81 +21,63 @@
       <div class="row">
         <div class="col-12">
           <div class="controls">
-            <button type="button" class="control mixitup-control-active" data-filter="all">All</button>
-            <button type="button" class="control" data-filter=".conference">2025</button>
-            <button type="button" class="control" data-filter=".meeting">2024</button>
+            <button type="button" class="control mixitup-control-active" @click="filterByYear('all')">All</button>
+            <button type="button" class="control" @click="filterByYear(2025)">2025</button>
+            <button type="button" class="control" @click="filterByYear(2024)">2024</button>
           </div>
           <div class="gallery-wrapper">
-            <div class="gallery-item mix meeting">
+            <div v-for="gallery in filteredGallery" :key="gallery.id" class="gallery-item mix {{ gallery.year }}">
               <div class="image-block">
                 <div class="image">
-                  <img src="/images/gallery/gallery-one.jpg" alt="gallery-image" class="img-fluid">
+                  <img :src="gallery.image" :alt="`gallery-image-${gallery.id}`" class="img-fluid">
                   <div class="primary-overlay">
                     <a class="image-popup" data-effect="mfp-with-zoom" href="/images/gallery/gallery-popup-one.jpg"><i class="fa fa-picture-o"></i></a>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="gallery-item mix party events">
-              <div class="image-block">
-                <div class="image">
-                  <img src="/images/gallery/gallery-two.jpg" alt="gallery-image" class="img-fluid">
-                  <div class="primary-overlay">
-                    <a class="image-popup" data-effect="mfp-with-zoom" href="/images/gallery/gallery-popup-two.jpg"><i class="fa fa-picture-o"></i></a>
-                  </div>
-                </div>
-              </div>
             </div>
-            <div class="gallery-item mix meeting party">
-              <div class="image-block">
-                <div class="image">
-                  <img src="/images/gallery/gallery-three.jpg" alt="gallery-image" class="img-fluid">
-                  <div class="primary-overlay">
-                    <a class="image-popup" data-effect="mfp-with-zoom" href="/images/gallery/gallery-popup-three.jpg"><i class="fa fa-picture-o"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="gallery-item mix meeting concert">
-              <div class="image-block">
-                <div class="image">
-                  <img src="/images/gallery/gallery-four.jpg" alt="gallery-image" class="img-fluid">
-                  <div class="primary-overlay">
-                    <a class="image-popup" data-effect="mfp-with-zoom" href="/images/gallery/gallery-popup-four.jpg"><i class="fa fa-picture-o"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="gallery-item mix concert party">
-              <div class="image-block">
-                <div class="image">
-                  <img src="/images/gallery/gallery-five.jpg" alt="gallery-image" class="img-fluid">
-                  <div class="primary-overlay">
-                    <a class="image-popup" data-effect="mfp-with-zoom" href="/images/gallery/gallery-popup-five.jpg"><i class="fa fa-picture-o"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="gallery-item mix events conference">
-              <div class="image-block">
-                <div class="image">
-                  <img src="/images/gallery/gallery-six.jpg" alt="gallery-image" class="img-fluid">
-                  <div class="primary-overlay">
-                    <a class="image-popup" data-effect="mfp-with-zoom" href="/images/gallery/gallery-popup-six.jpg"><i class="fa fa-picture-o"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
+    </div>
     </div>
   </section>
   <MapComponent/>
   <FooterComponent/>
 </template>
-<script setup lang="ts">
+<script>
+import ErrorAlertComponent from "@/components/alerts/ErrorAlertComponent.vue";
+import SuccessAlertComponent from "@/components/alerts/SuccessAlertComponent.vue";
+import {initFlowbite} from "flowbite";
+import {UseGalleryStore} from "@/stores/GalleryStore.js";
+import { onMounted } from 'vue';
 import NavigationComponent from "@/components/NavigationComponent.vue";
 import FooterComponent from "@/components/FooterComponent.vue";
 import MapComponent from "@/components/MapComponent.vue";
+export default {
+  components: {
+    NavigationComponent,
+    MapComponent, FooterComponent, ErrorAlertComponent, SuccessAlertComponent},
+  data(){
+    return {
+      galleryStore: UseGalleryStore(),
+      filteredGallery: [],
+    };
+  },
+  created(){
+    this.galleryStore.fetchGallery();
+    this.filterByYear('all');
+  },
+  mounted() {
+    initFlowbite();
+  },
+  methods:{
+    filterByYear(year) {
+      if (year === 'all') {
+        this.filteredGallery = this.galleryStore.gallery;
+      } else {
+        this.filteredGallery = this.galleryStore.gallery.filter(gallery => gallery.year === year);
+      }
+    },
+  },
+}
 </script>

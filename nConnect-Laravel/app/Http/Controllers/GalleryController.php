@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Gallery;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\File;
 
 class GalleryController extends Controller
 {
@@ -14,32 +15,23 @@ class GalleryController extends Controller
         return response()->json($gallery);
     }
     public function store(Request $request){
-        $data = $request->validate([
+        $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'year' => 'required|unique:galleries',
+            'year' => 'required',
         ]);
-        Gallery::create($data);
+        $imageName = time().'.'.$request->image->extension();
+        $request->image->move('C:\xampp\htdocs\nConnect\nConnect_Vue\public\images\gallery', $imageName);
+        $gallery = new Gallery();
+        $gallery->image = 'images/gallery/'.$imageName;
+        $gallery->year = $request->input('year');
+        $gallery->save();
         return response()->json("Image Added");
     }
-    public function update(Request $request, $id)
-    {
-        $gallery= Gallery::find($id);
 
-        $data = $request->validate([
-            'image' => [
-                'required',
-            ],
-            'year' => [
-                'required',
-            ],
-        ]);
-
-        $gallery->update($data);
-
-        return response()->json("Image Updated");
-    }
     public function destroy($id){
         $gallery = Gallery::find($id);
+        $fileName = 'C:/xampp/htdocs/nConnect/nConnect_Vue/public/'.$gallery->image;
+        File::delete($fileName);
         $gallery->delete();
         return response()->json("Image Deleted");
     }
