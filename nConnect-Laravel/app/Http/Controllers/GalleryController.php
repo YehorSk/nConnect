@@ -19,10 +19,12 @@ class GalleryController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'year' => 'required',
         ]);
+
         $imageName = time().'.'.$request->image->extension();
-        $request->image->move('C:\xampp\htdocs\nConnect\nConnect_Vue\public\images\gallery', $imageName);
+        $path = $request->file('image')->storeAs('public/images/gallery/', $imageName);
+        $relativePath = str_replace('public/', '', $path);
         $gallery = new Gallery();
-        $gallery->image = 'images/gallery/'.$imageName;
+        $gallery->image = $relativePath;
         $gallery->year = $request->input('year');
         $gallery->save();
         return response()->json("Image Added");
@@ -30,8 +32,8 @@ class GalleryController extends Controller
 
     public function destroy($id){
         $gallery = Gallery::find($id);
-        $fileName = 'C:/xampp/htdocs/nConnect/nConnect_Vue/public/'.$gallery->image;
-        File::delete($fileName);
+        $filePath = storage_path('app/public/' . $gallery->image);
+        File::delete($filePath);
         $gallery->delete();
         return response()->json("Image Deleted");
     }

@@ -21,7 +21,7 @@
       <div class="row">
         <div class="col-12">
           <div class="controls">
-            <button type="button" class="control mixitup-control-active" @click="filterByYear('all')">All</button>
+            <button type="button"  class="control mixitup-control-active" @click="filterByYear('all')">All</button>
             <button type="button" class="control" @click="filterByYear(2025)">2025</button>
             <button type="button" class="control" @click="filterByYear(2024)">2024</button>
           </div>
@@ -29,7 +29,7 @@
             <div v-for="gallery in filteredGallery" :key="gallery.id" class="gallery-item mix {{ gallery.year }}">
               <div class="image-block">
                 <div class="image">
-                  <img :src="gallery.image" :alt="`gallery-image-${gallery.id}`" class="img-fluid">
+                  <img :src="'http://127.0.0.1:8000/storage/' + gallery.image" :alt="`gallery-image-${gallery.id}`" class="img-fluid">
                   <div class="primary-overlay">
                     <a class="image-popup" data-effect="mfp-with-zoom" href="/images/gallery/gallery-popup-one.jpg"><i class="fa fa-picture-o"></i></a>
                   </div>

@@ -14,6 +14,10 @@
       <sourceFolder url="file://$MODULE_DIR$/nConnect_Laravel/tests" isTestSource="true" packagePrefix="Tests\" />
       <sourceFolder url="file://$MODULE_DIR$/nConnect_Laravel/tests/Feature" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/nConnect_Laravel/tests/Unit" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/nConnect-Laravel/app" isTestSource="false" packagePrefix="App\" />
+      <sourceFolder url="file://$MODULE_DIR$/nConnect-Laravel/database/factories" isTestSource="false" packagePrefix="Database\Factories\" />
+      <sourceFolder url="file://$MODULE_DIR$/nConnect-Laravel/database/seeders" isTestSource="false" packagePrefix="Database\Seeders\" />
+      <sourceFolder url="file://$MODULE_DIR$/nConnect-Laravel/tests" isTestSource="true" packagePrefix="Tests\" />
       <excludeFolder url="file://$MODULE_DIR$/nConnect-Laravel/vendor/brick/math" />
       <excludeFolder url="file://$MODULE_DIR$/nConnect-Laravel/vendor/carbonphp/carbon-doctrine-types" />
       <excludeFolder url="file://$MODULE_DIR$/nConnect-Laravel/vendor/composer" />
