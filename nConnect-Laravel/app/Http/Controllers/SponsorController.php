@@ -23,7 +23,7 @@ class SponsorController extends Controller
 
         $imageName = $request->name.'.'.$request->image->extension();
 
-        $path = $request->file('image')->storeAs('public/images/sponsors', $imageName);
+        $path = $request->file('image')->storeAs('public/images/sponsors/', $imageName);
 
         $relativePath = str_replace('public/', '', $path);
 
@@ -38,8 +38,8 @@ class SponsorController extends Controller
 
     public function destroy($id){
         $sponsor = Sponsor::find($id);
-        $fileName = 'C:/xampp/htdocs/nConnect/nConnect_Vue/public/'.$sponsor->image;
-        File::delete($fileName);
+        $filePath = storage_path('app/public/' . $sponsor->image);
+        File::delete($filePath);
         $sponsor->delete();
         return response()->json("Sponsor Deleted");
     }

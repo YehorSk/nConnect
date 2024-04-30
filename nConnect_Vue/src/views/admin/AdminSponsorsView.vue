@@ -138,9 +138,9 @@ export default {
       this.link = '';
       this.file = null;
       this.imageUrl = "";
-      this.stageStore.error_name = '';
-      this.stageStore.error_link = '';
-      this.stageStore.error_image = '';
+      this.sponsorsStore.error_name = '';
+      this.sponsorsStore.error_link = '';
+      this.sponsorsStore.error_image = '';
     },
     createImage(file) {
       const reader = new FileReader();
