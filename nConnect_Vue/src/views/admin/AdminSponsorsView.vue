@@ -71,7 +71,7 @@
             <tbody v-for="sponsor in sponsorsStore.getSponsors" :key="sponsor.id">
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <td class="p-4">
-                <img :src="sponsor.image" class="w-32 md:w-64 max-w-full max-h-full" alt="Apple Watch">
+                <img :src="'http://127.0.0.1:8000/storage/' + sponsor.image" class="w-32 md:w-64 max-w-full max-h-full" alt="Apple Watch">
               </td>
               <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                 {{sponsor.name}}

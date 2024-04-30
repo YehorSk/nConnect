@@ -20,15 +20,22 @@ class SponsorController extends Controller
             'link' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
         $imageName = $request->name.'.'.$request->image->extension();
-        $request->image->move('C:\xampp\htdocs\nConnect\nConnect_Vue\public\images\sponsors', $imageName);
+
+        $path = $request->file('image')->storeAs('public/images/sponsors', $imageName);
+
+        $relativePath = str_replace('public/', '', $path);
+
         $sponsor = new Sponsor();
         $sponsor->name = $request->input('name');
         $sponsor->link = $request->input('link');
-        $sponsor->image = 'images/sponsors/'.$imageName;
+        $sponsor->image = $relativePath;
         $sponsor->save();
+
         return response()->json("Sponsor Created");
     }
+
     public function destroy($id){
         $sponsor = Sponsor::find($id);
         $fileName = 'C:/xampp/htdocs/nConnect/nConnect_Vue/public/'.$sponsor->image;
