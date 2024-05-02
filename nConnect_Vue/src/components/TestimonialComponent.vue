@@ -9,73 +9,41 @@
         </div>
       </div>
       <div class="row mt-20">
-        <div class="col-lg-4 col-md-6 mb-20">
+        <div v-for="(review, index) in reviewStore.getReviews" :key="index" class="col-lg-4 col-md-6 mb-20">
           <!-- Testimonial -->
           <div class="testimonial-item">
             <!-- Given Comment -->
             <div class="comment">
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis voluptate modi sunt placeat in vel illo dolorem, atque maxime voluptates optio fugit iure cum ipsa quo quaerat! Veritatis, modi. Laudantium provident deleniti earum voluptas delectus, labore dolor dolorem amet expedita.</p>
+              <p>{{ review.text }}</p> <!-- Use the 'text' property from the store -->
             </div>
             <div class="person">
               <div class="media">
                 <!-- Person Image -->
-                <img src="/images/speakers/speaker-thumb-three.jpg" alt="person-image">
+                <img :src="'http://127.0.0.1:8000/storage/' + review.photo" alt="person-image"> <!-- Use the 'photo' property from the store -->
                 <div class="media-body">
                   <!-- Person Name -->
-                  <div class="name"><p>Espen Brunberg</p></div>
-                  <!-- Profession -->
-                  <div class="profession"><p>Web Developer</p></div>
+                  <div class="name"><p>{{ review.name }}</p></div> <!-- Use the 'name' property from the store -->
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-lg-4 col-md-6">
-          <!-- Testimonial -->
-          <div class="testimonial-item">
-            <!-- Given Comment -->
-            <div class="comment">
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis voluptate modi sunt placeat in vel illo dolorem, atque maxime voluptates optio fugit iure cum ipsa quo quaerat! Veritatis, modi. Laudantium provident deleniti earum voluptas delectus, labore dolor dolorem amet expedita.</p>
-            </div>
-            <div class="person">
-              <div class="media">
-                <!-- Person Image -->
-                <img src="/images/speakers/speaker-thumb-one.jpg" alt="person-image">
-                <div class="media-body">
-                  <!-- Person Name -->
-                  <div class="name"><p>Kaite Stricker</p></div>
-                  <!-- Profession -->
-                  <div class="profession"><p>Designer</p></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-          <!-- Testimonial -->
-          <div class="testimonial-item">
-            <!-- Given Comment -->
-            <div class="comment">
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis voluptate modi sunt placeat in vel illo dolorem, atque maxime voluptates optio fugit iure cum ipsa quo quaerat! Veritatis, modi. Laudantium provident deleniti earum voluptas delectus, labore dolor dolorem amet expedita.</p>
-            </div>
-            <div class="person">
-              <div class="media">
-                <!-- Person Image -->
-                <img src="/images/speakers/speaker-thumb-five.jpg" alt="person-image">
-                <div class="media-body">
-                  <!-- Person Name -->
-                  <div class="name"><p>Adam Smith</p></div>
-                  <!-- Profession -->
-                  <div class="profession"><p>Web Developer</p></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-
       </div>
     </div>
   </section>
 </template>
+
+<script>
+import { UseReviewStore } from "@/stores/ReviewStore.js";
+
+export default {
+  data() {
+    return {
+      reviewStore: UseReviewStore(),
+    };
+  },
+  created() {
+    this.reviewStore.fetchReviews();
+  }
+};
+</script>

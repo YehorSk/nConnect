@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\StageController;
 use \App\Http\Controllers\TimeSlotController;
 use \App\Http\Controllers\GalleryController;
@@ -32,4 +33,6 @@ Route::apiResource('slots', TimeSlotController::class);
 Route::apiResource('gallery', GalleryController::class);
 
 Route::apiResource('sponsors',SponsorController::class);
+
+Route::apiResource('reviews',ReviewController::class);
 
