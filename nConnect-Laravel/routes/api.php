@@ -24,7 +24,24 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//----------------------------Stages Routes---------------------------------
 Route::apiResource('stages',StageController::class);
+Route::get('/get-current-conference-stages',[StageController::class,'get_current_conference_stages']);
+Route::get('/get-available-stages',[StageController::class,'get_available_stages']);
+Route::post('/add-stages-to-conference',[StageController::class,'addStageToConference']);
+Route::delete('/delete-stage-from-conference/{id}',[StageController::class,'deleteStageFromConference']);
+//----------------------------End Stages Routes ----------------------------
+
+//----------------------------Sponsors Routes---------------------------------
+
+Route::apiResource('sponsors',SponsorController::class);
+Route::get('/get-current-conference-sponsors',[SponsorController::class,'get_current_conference_sponsors']);
+Route::get('/get-available-sponsors',[SponsorController::class,'get_available_sponsors']);
+Route::post('/add-sponsor-to-conference',[SponsorController::class,'addSponsorsToConference']);
+Route::delete('/delete-sponsor-from-conference/{id}',[SponsorController::class,'deleteSponsorFromConference']);
+
+//----------------------------End Sponsors Routes ----------------------------
+
 
 Route::apiResource('conferences',ConferenceController::class);
 Route::get('/get-active-conference',[ConferenceController::class,'get_active_conference']);
@@ -36,7 +53,6 @@ Route::apiResource('slots', TimeSlotController::class);
 
 Route::apiResource('gallery', GalleryController::class);
 
-Route::apiResource('sponsors',SponsorController::class);
 
 Route::apiResource('reviews',ReviewController::class);
 

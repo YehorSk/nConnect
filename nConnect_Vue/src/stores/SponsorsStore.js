@@ -5,8 +5,11 @@ axios.defaults.baseURL = "http://localhost/nConnect/nConnect-Laravel/public/api/
 export const useSponsorsStore = defineStore("sponsors",{
     state:()=>({
        sponsors: [],
+        available_sponsors: [],
+        current_sponsors: [],
        error_name: '',
        error_link: '',
+        error_id:'',
        error_image: '',
         update_error_name:'',
         update_error_date:'',
@@ -15,6 +18,12 @@ export const useSponsorsStore = defineStore("sponsors",{
     getters:{
         getSponsors(){
             return this.sponsors;
+        },
+        getAvailableSponsors(){
+            return this.available_sponsors;
+        },
+        getCurrentSponsors(){
+            return this.current_sponsors;
         }
     },
     actions:{
@@ -22,6 +31,54 @@ export const useSponsorsStore = defineStore("sponsors",{
             try {
                 const response = await axios.get('sponsors');
                 this.sponsors = response.data;
+            } catch (error) {
+                if(error.response.status === 422){
+                    this.errors.value = error.response.data.errors;
+                }
+            }
+        },
+        async fetchCurrentConferenceSponsors(){
+            try {
+                const response = await axios.get('get-current-conference-sponsors');
+                this.current_sponsors = response.data;
+            } catch (error) {
+                if(error.response.status === 422){
+                    this.errors.value = error.response.data.errors;
+                }
+            }
+        },
+        async fetchAvailableSponsors(){
+            try {
+                const response = await axios.get('get-available-sponsors');
+                this.available_sponsors = response.data;
+            } catch (error) {
+                if(error.response.status === 422){
+                    this.errors.value = error.response.data.errors;
+                }
+            }
+        },
+        async addSponsorToConference(id){
+            try {
+                const response = await axios.post('add-sponsor-to-conference', {
+                    id: id,
+                });
+                this.success = "Added successfully";
+                await this.fetchCurrentConferenceSponsors();
+                await this.fetchAvailableSponsors();
+            } catch (error) {
+                if(error.response.status === 422){
+                    if(error.response.data.errors.id){
+                        this.error_id = error.response.data.errors.id[0];
+                    }
+                }
+            }
+        },
+        async deleteSponsorFromConference(id){
+            try {
+                const response = await axios.delete('delete-sponsor-from-conference/'+id);
+                await this.fetchCurrentConferenceSponsors();
+                await this.fetchAvailableSponsors();
+                this.success = "Deleted successfully";
             } catch (error) {
                 if(error.response.status === 422){
                     this.errors.value = error.response.data.errors;

@@ -8,11 +8,13 @@ import GalleryView from "@/views/GalleryView.vue";
 import ContactView from "@/views/ContactView.vue";
 import RegisterView from "@/views/RegisterView.vue";
 import AdminView from "@/views/admin/AdminView.vue";
-import AdminStagesView from "@/views/admin/AdminStagesView.vue";
+import AdminStagesView from "@/views/admin/Stages/AdminStagesView.vue";
 import AdminTimeSlots from "@/views/admin/AdminTimeSlots.vue";
 import AdminGalleryView from "@/views/admin/AdminGalleryView.vue";
-import AdminSponsorsView from "@/views/admin/AdminSponsorsView.vue";
+import AdminSponsorsView from "@/views/admin/Sponsors/AdminSponsorsView.vue";
 import AdminReviewView from "@/views/admin/AdminReviewView.vue";
+import AdminCurConStagesView from "@/views/admin/Stages/AdminCurConStagesView.vue";
+import AdminCurConSponsorsView from "@/views/admin/Sponsors/AdminCurConSponsorsView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -68,6 +70,11 @@ const router = createRouter({
       component: AdminStagesView
     },
     {
+      path: '/admin-current-conference-stages',
+      name: 'admin-current-conference-stages',
+      component: AdminCurConStagesView
+    },
+    {
       path: '/admin-time-slots/:id',
       name: 'admin-time-slots',
       component: AdminTimeSlots
@@ -81,6 +88,11 @@ const router = createRouter({
       path: '/admin-sponsors',
       name: 'admin-sponsors',
       component: AdminSponsorsView
+    },
+    {
+      path: '/admin-current-conference-sponsors',
+      name: 'admin-current-conference-sponsors',
+      component: AdminCurConSponsorsView
     },
     {
       path: '/admin-reviews',

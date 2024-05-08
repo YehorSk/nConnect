@@ -5,6 +5,9 @@ axios.defaults.baseURL = "http://localhost/nConnect/nConnect-Laravel/public/api/
 export const useStageStore = defineStore("stages",{
     state:()=>({
         stages: [],
+        available_stages: [],
+        current_stages: [],
+        error_id:'',
         error_name:'',
         error_date:'',
         update_error_name:'',
@@ -14,6 +17,12 @@ export const useStageStore = defineStore("stages",{
     getters:{
         getStages(){
             return this.stages;
+        },
+        getAvailableStages(){
+            return this.available_stages;
+        },
+        getCurrentStages(){
+            return this.current_stages;
         }
     },
     actions:{
@@ -26,6 +35,26 @@ export const useStageStore = defineStore("stages",{
                      this.errors.value = error.response.data.errors;
                  }
              }
+        },
+        async fetchCurrentConferenceStages(){
+            try {
+                const response = await axios.get('get-current-conference-stages');
+                this.current_stages = response.data;
+            } catch (error) {
+                if(error.response.status === 422){
+                    this.errors.value = error.response.data.errors;
+                }
+            }
+        },
+        async fetchAvailableStages(){
+            try {
+                const response = await axios.get('get-available-stages');
+                this.available_stages = response.data;
+            } catch (error) {
+                if(error.response.status === 422){
+                    this.errors.value = error.response.data.errors;
+                }
+            }
         },
         async insertStage(name,date){
             try {
@@ -47,10 +76,38 @@ export const useStageStore = defineStore("stages",{
                 }
             }
         },
+    async addStageToConference(id){
+        try {
+            const response = await axios.post('add-stages-to-conference', {
+                id: id,
+            });
+            this.success = "Added successfully";
+            await this.fetchCurrentConferenceStages();
+            await this.fetchAvailableStages();
+        } catch (error) {
+            if(error.response.status === 422){
+                if(error.response.data.errors.id){
+                    this.error_id = error.response.data.errors.id[0];
+                }
+            }
+        }
+    },
         async destroyStage(id){
             try {
                 const response = await axios.delete('stages/'+id);
                 this.stages = this.stages.filter(stage => stage.id !== id);
+                this.success = "Deleted successfully";
+            } catch (error) {
+                if(error.response.status === 422){
+                    this.errors.value = error.response.data.errors;
+                }
+            }
+        },
+        async deleteStageFromConference(id){
+            try {
+                const response = await axios.delete('delete-stage-from-conference/'+id);
+                await this.fetchCurrentConferenceStages();
+                await this.fetchAvailableStages();
                 this.success = "Deleted successfully";
             } catch (error) {
                 if(error.response.status === 422){

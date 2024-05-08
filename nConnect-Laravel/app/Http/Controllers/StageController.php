@@ -11,9 +11,21 @@ class StageController extends Controller
 {
     //
     public function index(){
+        $stages = Stage::all();
+        return response()->json($stages);
+    }
+    public function get_current_conference_stages(){
         $conference = Conference::query()->where("is_current",true)->first();
         $stages = $conference->stages;
         return response()->json($stages);
+    }
+
+    public function get_available_stages(){
+        $conference = Conference::query()->where("is_current", true)->first();
+        $allStages = Stage::all();
+        $currentConferenceStages = $conference->stages;
+        $availableStages = $allStages->diff($currentConferenceStages);
+        return response()->json($availableStages);
     }
 
     public function store(Request $request){
@@ -23,9 +35,26 @@ class StageController extends Controller
         ]);
         $stage = new Stage($data);
         $stage->save();
+
+        return response()->json("Stage Created");
+    }
+
+    public function addStageToConference(Request $request)
+    {
+        $data = $request->validate([
+            'id' => 'required',
+        ]);
+        $stage = Stage::find($data['id']);
         $conference = Conference::query()->where("is_current",true)->first();
         $conference->stages()->attach($stage);
-        return response()->json("Stage Created");
+        return response()->json("Stage Added");
+    }
+
+    public function deleteStageFromConference($id){
+        $stage = Stage::find($id);
+        $conference = Conference::query()->where("is_current",true)->first();
+        $conference->stages()->detach($stage);
+        return response()->json("Stage Deleted");
     }
 
     public function update(Request $request, $id)

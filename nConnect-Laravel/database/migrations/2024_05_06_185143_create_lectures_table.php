@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('lectures', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('stage_id')->constrained()->onDelete('cascade');
+            $table->foreignId('speaker_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->integer('capacity');
             $table->dateTime('start_time');

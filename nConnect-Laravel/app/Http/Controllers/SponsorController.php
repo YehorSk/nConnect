@@ -11,10 +11,42 @@ use Illuminate\Support\Facades\File;
 class SponsorController extends Controller
 {
     public function index(){
+        $sponsors = Sponsor::all();
+        return response()->json($sponsors);
+    }
+
+    public function get_current_conference_sponsors(){
         $conference = Conference::query()->where("is_current",true)->first();
         $sponsors = $conference->sponsors;
         return response()->json($sponsors);
     }
+
+    public function get_available_sponsors(){
+        $conference = Conference::query()->where("is_current", true)->first();
+        $allSponsors = Sponsor::all();
+        $currentConferenceSponsors = $conference->sponsors;
+        $availableSponsors = $allSponsors->diff($currentConferenceSponsors);
+        return response()->json($availableSponsors);
+    }
+
+    public function addSponsorsToConference(Request $request)
+    {
+        $data = $request->validate([
+            'id' => 'required',
+        ]);
+        $sponsor = Sponsor::find($data['id']);
+        $conference = Conference::query()->where("is_current",true)->first();
+        $conference->sponsors()->attach($sponsor);
+        return response()->json("Sponsor Added");
+    }
+
+    public function deleteSponsorFromConference($id){
+        $sponsor = Sponsor::find($id);
+        $conference = Conference::query()->where("is_current", true)->first();
+        $conference->sponsors()->detach($sponsor);
+        return response()->json("Sponsor Deleted");
+    }
+
 
     public function store(Request $request){
         $request->validate([
