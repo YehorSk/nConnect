@@ -52,6 +52,8 @@ Route::get('/get-time-slots/{id}',[TimeSlotController::class,'index']);
 Route::apiResource('slots', TimeSlotController::class);
 
 Route::apiResource('gallery', GalleryController::class);
+Route::post('/add-gallery-to-conference',[GalleryController::class,'addGalleryToConference']);
+
 
 
 Route::apiResource('reviews',ReviewController::class);

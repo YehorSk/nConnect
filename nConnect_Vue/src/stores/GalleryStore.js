@@ -30,7 +30,7 @@ export const UseGalleryStore = defineStore("gallery", {
                     let formData = new FormData();
                     formData.append('image', image);
                     formData.append('year', year);
-                    const response = await axios.post('gallery', formData,{
+                    const response = await axios.post('add-gallery-to-conference', formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
@@ -39,14 +39,22 @@ export const UseGalleryStore = defineStore("gallery", {
                     this.success = "Added successfully";
                     await this.fetchGallery();
                 } catch (error) {
+                    if (error.response && error.response.data && error.response.data.errors) {
                         if (error.response.data.errors.image) {
                             this.error_image = error.response.data.errors.image[0];
                         }
                         if (error.response.data.errors.year) {
                             this.error_year = error.response.data.errors.year[0];
                         }
-                    }
+                    }  else {
+                    this.error_image = "Unexpected error occurred";
+                    console.error("Unexpected error:", error);
+                }
+
+            }
             },
+
+
             async destroyGallery(id) {
                 try {
                     const response = await axios.delete('gallery/' + id);

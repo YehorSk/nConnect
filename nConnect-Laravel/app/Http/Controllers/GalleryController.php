@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Conference;
 use Illuminate\Http\Request;
 use App\Models\Gallery;
 use Illuminate\Support\Facades\File;
@@ -22,13 +23,39 @@ class GalleryController extends Controller
         $imageName = time().'.'.$request->image->extension();
         $path = $request->file('image')->storeAs('public/images/gallery/', $imageName);
         $relativePath = str_replace('public/', '', $path);
+
         $gallery = new Gallery();
         $gallery->image = $relativePath;
         $gallery->year = $request->input('year');
+        $gallery->conference_id = 1;
         $gallery->save();
 
         return response()->json("Image Added");
     }
+    public function addGalleryToConference(Request $request)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'year' => 'required',
+        ]);
+
+        $imageName = time().'.'.$request->image->extension();
+        $path = $request->file('image')->storeAs('public/images/gallery/', $imageName);
+        $relativePath = str_replace('public/', '', $path);
+        $gallery = new Gallery();
+        $gallery->image = $relativePath;
+        $gallery->year = $request->input('year');
+
+        $currentConferenceId = Conference::where('is_current', true)->value('id');
+        $gallery->conference_id = $currentConferenceId;
+
+        $gallery->save();
+
+        return response()->json("Image Added");
+    }
+
+
+
 
     public function destroy($id){
         $gallery = Gallery::find($id);
