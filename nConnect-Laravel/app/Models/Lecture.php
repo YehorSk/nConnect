@@ -6,17 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class TimeSlot extends Model
+class Lecture extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'stage_id',
+        'speaker_id',
+        'name',
+        'capacity',
         'start_time',
-        'end_time'
+        'end_time',
     ];
 
-    public function stage():BelongsTo{
-        return $this->belongsTo(Stage::class);
+    public function speaker():BelongsTo{
+        return $this->belongsTo(Speaker::class);
     }
 }

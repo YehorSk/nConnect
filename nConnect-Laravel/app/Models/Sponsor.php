@@ -13,4 +13,9 @@ class Sponsor extends Model
         'link',
         'image'
     ];
+
+    public function conferences()
+    {
+        return $this->belongsToMany(Conference::class);
+    }
 }

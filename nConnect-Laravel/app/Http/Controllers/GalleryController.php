@@ -26,6 +26,7 @@ class GalleryController extends Controller
         $gallery->image = $relativePath;
         $gallery->year = $request->input('year');
         $gallery->save();
+
         return response()->json("Image Added");
     }
 

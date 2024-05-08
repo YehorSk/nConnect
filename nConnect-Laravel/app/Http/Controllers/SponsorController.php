@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Conference;
 use App\Models\Sponsor;
 use App\Models\Stage;
 use Illuminate\Http\Request;
@@ -10,7 +11,8 @@ use Illuminate\Support\Facades\File;
 class SponsorController extends Controller
 {
     public function index(){
-        $sponsors = Sponsor::all();
+        $conference = Conference::query()->where("is_current",true)->first();
+        $sponsors = $conference->sponsors;
         return response()->json($sponsors);
     }
 
@@ -32,6 +34,9 @@ class SponsorController extends Controller
         $sponsor->link = $request->input('link');
         $sponsor->image = $relativePath;
         $sponsor->save();
+
+        $conference = Conference::query()->where("is_current",true)->first();
+        $conference->sponsors()->attach($sponsor);
 
         return response()->json("Sponsor Created");
     }

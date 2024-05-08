@@ -20,6 +20,7 @@
   import {initFlowbite} from "flowbite";
   import {useTimeSlotStore} from "@/stores/TimeSlotStore.js";
   import {useSponsorsStore} from "@/stores/SponsorsStore.js";
+  import {UseConferenceStore} from "@/stores/ConferenceStore.js";
 
   export default {
     props: {
@@ -29,7 +30,8 @@
       return{
         stageStore: useStageStore(),
         timeSlotStore: useTimeSlotStore(),
-        sponsorStore: useSponsorsStore()
+        sponsorStore: useSponsorsStore(),
+        conferenceStore: UseConferenceStore()
       }
     },
     mounted() {
@@ -40,6 +42,7 @@
         this.stageStore.success = '';
         this.timeSlotStore.success = '';
         this.sponsorStore.success = '';
+        this.conferenceStore.success = '';
       }
     }
   }

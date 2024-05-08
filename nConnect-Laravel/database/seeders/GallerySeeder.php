@@ -15,9 +15,6 @@ class GallerySeeder extends Seeder
      */
     public function run()
     {
-        $gallery = new Gallery();
-        $gallery->image= asset('public/images/galeria/g1.jpg');
-        $gallery->year=2024;
-        $gallery->save();
+
     }
 }

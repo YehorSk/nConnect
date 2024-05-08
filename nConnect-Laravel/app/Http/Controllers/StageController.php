@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Conference;
 use App\Models\Stage;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -10,7 +11,8 @@ class StageController extends Controller
 {
     //
     public function index(){
-        $stages = Stage::all();
+        $conference = Conference::query()->where("is_current",true)->first();
+        $stages = $conference->stages;
         return response()->json($stages);
     }
 
@@ -19,7 +21,10 @@ class StageController extends Controller
             'name' => 'required|unique:stages',
             'date' => 'required|unique:stages',
         ]);
-        Stage::create($data);
+        $stage = new Stage($data);
+        $stage->save();
+        $conference = Conference::query()->where("is_current",true)->first();
+        $conference->stages()->attach($stage);
         return response()->json("Stage Created");
     }
 

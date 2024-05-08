@@ -47,9 +47,6 @@
               <form @submit.prevent class="inline-block">
                 <button class="font-medium text-red-600 dark:text-red-500 hover:underline inline-block" type="submit" @click="stageStore.destroyStage(stage.id)">DELETE</button>
               </form>
-              <router-link
-                  :to="'/admin-time-slots/'+stage.id" class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block mr-2">Manage slots
-              </router-link>
             </div>
           </div>
         </div>

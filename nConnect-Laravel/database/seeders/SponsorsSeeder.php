@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Conference;
 use App\Models\Sponsor;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -44,6 +45,8 @@ class SponsorsSeeder extends Seeder
             $sponsor->name = $sponsorData['name'];
             $sponsor->image = $sponsorData['image'];
             $sponsor->save();
+            $conference = Conference::find(1);
+            $conference->sponsors()->attach($sponsor);
         }
     }
 }

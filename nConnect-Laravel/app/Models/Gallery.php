@@ -9,7 +9,13 @@ class Gallery extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'conference_id',
         'image',
         'year'
     ];
+
+    public function conferences()
+    {
+        return $this->belongsToMany(Conference::class);
+    }
 }

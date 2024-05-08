@@ -8,6 +8,8 @@ export const useSponsorsStore = defineStore("sponsors",{
        error_name: '',
        error_link: '',
        error_image: '',
+        update_error_name:'',
+        update_error_date:'',
        success: ''
     }),
     getters:{

@@ -9,81 +9,113 @@
 
 
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-
-
-        <form class="max-w-xl mx-auto">
-          <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-          <div class="relative">
-            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-              <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-              </svg>
+        <v-sheet class="max-w-sm ">
+          <v-form fast-fail @submit.prevent>
+            <v-text-field
+                v-model="name"
+                label="Name"
+            ></v-text-field>
+            <div v-if="conferenceStore.error_name">
+              <span class="text-sm text-red-400">
+                {{conferenceStore.error_name}}
+              </span>
             </div>
-            <input type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Mockups, Logos..." required />
-            <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+            <v-text-field
+                v-model="date"
+                label="Date"
+            ></v-text-field>
+            <div v-if="conferenceStore.error_year">
+              <span class="text-sm text-red-400">
+                {{conferenceStore.error_year}}
+              </span>
+            </div>
+            <v-btn class="mt-2" type="submit" @click="submitForm()" block>Save</v-btn>
+          </v-form>
+        </v-sheet>
+        <br>
+        <div class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <div v-for="conference in conferenceStore.getConferences" :key="conference.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 items-center">
+            <div>
+              <form @submit.prevent class="inline-block">
+                <input type="hidden" v-model="conference.id">
+                <input type="text" v-model="conference.name" placeholder="Name" class="inline-block mr-2">
+                <input type="text" v-model="conference.year" placeholder="Date" class="inline-block mr-2">
+                <div>
+                  <label class="inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer" @change="updateIsCurrent($event, conference)" :checked="conference.is_current === 1">
+                    <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Is current</span>
+                  </label>
+                </div>
+                <button class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block mr-2" @click="updateForm(conference)" type="submit">Update</button>
+              </form>
+              <form @submit.prevent class="inline-block">
+                <button class="font-medium text-red-600 dark:text-red-500 hover:underline inline-block" type="submit" @click="conferenceStore.destroyConference(conference.id)">DELETE</button>
+              </form>
+            </div>
           </div>
-        </form>
+        </div>
 
-
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            <th scope="col" class="px-6 py-3">
-              Product name
-            </th>
-            <th scope="col" class="px-6 py-3">
-              Color
-            </th>
-            <th scope="col" class="px-6 py-3">
-              Category
-            </th>
-            <th scope="col" class="px-6 py-3">
-              Price
-            </th>
-            <th scope="col" class="px-6 py-3">
-              <span class="sr-only">Edit</span>
-            </th>
-            <th scope="col" class="px-6 py-3">
-              <span class="sr-only">Delete</span>
-            </th>
-          </tr>
-          </thead>
-          <tbody v-for="n in 5">
-          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-              Apple MacBook Pro 17"
-            </th>
-            <td class="px-6 py-4">
-              Silver
-            </td>
-            <td class="px-6 py-4">
-              Laptop
-            </td>
-            <td class="px-6 py-4">
-              $2999
-            </td>
-            <td class="px-6 py-4 text-right">
-              <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-            </td>
-            <td class="px-6 py-4 text-right">
-              <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
-            </td>
-          </tr>
-          </tbody>
-        </table>
       </div>
 
+    </div>
+    <div v-if="conferenceStore.success" id="alert-3" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+      <SuccessAlertComponent :message="conferenceStore.success"/>
+    </div>
+    <div v-if="conferenceStore.update_error_name" id="alert-2" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+      <ErrorAlertComponent :message="conferenceStore.update_error_name"/>
+    </div>
+    <div v-if="conferenceStore.error" id="alert-2" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+      <ErrorAlertComponent :message="conferenceStore.error"/>
+    </div>
+    <div v-if="conferenceStore.update_error_year" id="alert-2" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+      <ErrorAlertComponent :message="conferenceStore.update_error_year"/>
+    </div>
+    <div v-if="conferenceStore.update_error_current" id="alert-2" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+      <ErrorAlertComponent :message="conferenceStore.update_error_current"/>
     </div>
   </div>
 
 </template>
-<script setup>
+<script>
 import { onMounted } from 'vue'
 import { initFlowbite } from 'flowbite'
+import {UseConferenceStore} from "@/stores/ConferenceStore.js"
 import AdminNavComponent from "@/components/AdminNavComponent.vue";
+import SuccessAlertComponent from "@/components/alerts/SuccessAlertComponent.vue";
+import ErrorAlertComponent from "@/components/alerts/ErrorAlertComponent.vue";
 
-// initialize components based on data attribute selectors
-onMounted(() => {
-  initFlowbite();
-})
+
+export default{
+  components: {ErrorAlertComponent, SuccessAlertComponent, AdminNavComponent},
+  data(){
+    return{
+      name: '',
+      date: '',
+      is_current: 0,
+      conferences:[],
+      conferenceStore: UseConferenceStore(),
+    };
+  },
+  created(){
+    this.conferenceStore.fetchConferences();
+  },
+  mounted() {
+    initFlowbite();
+  }
+  ,
+  methods:{
+    submitForm() {
+      this.conferenceStore.insertConference(this.name, this.date);
+      this.name = '';
+      this.date = '';
+    },
+    updateForm(conference) {
+      this.conferenceStore.updateConference(conference);
+    },
+    updateIsCurrent(event, conference) {
+      conference.is_current = event.target.checked ? 1 : 0;
+    }
+  }
+}
 </script>

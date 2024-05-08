@@ -13,11 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('time_slots', function (Blueprint $table) {
+        Schema::create('conference_sponsor', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('stage_id')->constrained()->onDelete('cascade');
-            $table->time('start_time');
-            $table->time('end_time');
+            $table->unsignedBigInteger("conference_id");
+            $table->unsignedBigInteger("sponsor_id");
+
+            $table->foreign("sponsor_id")->references("id")->on("sponsors")->onDelete("cascade");
+            $table->foreign("conference_id")->references("id")->on("conferences")->onDelete("cascade");
+
             $table->timestamps();
         });
     }
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('time_slots');
+        Schema::dropIfExists('conference_sponsor');
     }
 };
