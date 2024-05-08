@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Conference;
 use Illuminate\Http\Request;
 use App\Models\Review;
 use Illuminate\Support\Facades\File;
@@ -28,6 +29,8 @@ class ReviewController extends Controller
         $review->name = $request->input('name');
         $review->text = $request->input('text');
         $review->photo = $relativePath;
+        $currentConferenceId = Conference::where('is_current', true)->value('id');
+        $review->conference_id = $currentConferenceId;
         $review->save();
         return response()->json("Review Added");
     }

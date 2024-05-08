@@ -53,6 +53,11 @@ Route::apiResource('slots', TimeSlotController::class);
 
 Route::apiResource('gallery', GalleryController::class);
 Route::post('/add-gallery-to-conference',[GalleryController::class,'addGalleryToConference']);
+Route::get('/get-current-conference-gallery',[GalleryController::class,'get_current_conference_gallery']);
+Route::get('/get-available-gallery',[GalleryController::class,'get_available_gallery']);
+Route::delete('/delete-gallery-from-conference/{id}',[GalleryController::class,'deleteGalleryFromConference']);
+
+
 
 
 
