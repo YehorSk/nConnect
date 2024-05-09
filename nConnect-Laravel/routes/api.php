@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\StageController;
 use \App\Http\Controllers\TimeSlotController;
 use \App\Http\Controllers\GalleryController;
@@ -40,6 +41,14 @@ Route::get('/get-available-sponsors',[SponsorController::class,'get_available_sp
 Route::post('/add-sponsor-to-conference',[SponsorController::class,'addSponsorsToConference']);
 Route::delete('/delete-sponsor-from-conference/{id}',[SponsorController::class,'deleteSponsorFromConference']);
 
+//----------------------------Speakers Routes---------------------------------
+
+Route::apiResource('speakers',SpeakerController::class);
+Route::get('/get-current-conference-speakers',[SpeakerController::class,'get_current_conference_speakers']);
+Route::get('/get-available-speakers',[SpeakerController::class,'get_available_speakers']);
+Route::post('/add-speakers-to-conference',[SpeakerController::class,'addSpeakersToConference']);
+Route::delete('/delete-speakers-from-conference/{id}',[SpeakerController::class,'deleteSpeakerFromConference']);
+
 //----------------------------End Sponsors Routes ----------------------------
 
 
@@ -52,10 +61,6 @@ Route::get('/get-time-slots/{id}',[TimeSlotController::class,'index']);
 Route::apiResource('slots', TimeSlotController::class);
 
 Route::apiResource('gallery', GalleryController::class);
-Route::post('/add-gallery-to-conference',[GalleryController::class,'addGalleryToConference']);
-Route::get('/get-current-conference-gallery',[GalleryController::class,'get_current_conference_gallery']);
-Route::get('/get-available-gallery',[GalleryController::class,'get_available_gallery']);
-Route::delete('/delete-gallery-from-conference/{id}',[GalleryController::class,'deleteGalleryFromConference']);
 
 
 

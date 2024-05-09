@@ -15,6 +15,8 @@ import AdminSponsorsView from "@/views/admin/Sponsors/AdminSponsorsView.vue";
 import AdminReviewView from "@/views/admin/AdminReviewView.vue";
 import AdminCurConStagesView from "@/views/admin/Stages/AdminCurConStagesView.vue";
 import AdminCurConSponsorsView from "@/views/admin/Sponsors/AdminCurConSponsorsView.vue";
+import AdminSpeakersView from "@/views/admin/Speakers/AdminSpeakersView.vue";
+import AdminCurConSpeakersView from "@/views/admin/Speakers/AdminCurConSpeakersView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -98,7 +100,17 @@ const router = createRouter({
       path: '/admin-reviews',
       name: 'admin-reviews',
       component: AdminReviewView
-    }
+    },
+    {
+      path: '/admin-speakers',
+      name: 'admin-speakers',
+      component: AdminSpeakersView
+    },
+    {
+      path: '/admin-current-conference-speakers',
+      name: 'admin-current-conference-speakers',
+      component: AdminCurConSpeakersView
+    },
 
   ]
 })

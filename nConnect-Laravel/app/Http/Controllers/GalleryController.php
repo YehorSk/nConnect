@@ -34,7 +34,7 @@ class GalleryController extends Controller
 
         return response()->json("Image Added");
     }
-    
+
 
     public function destroy($id){
         $gallery = Gallery::find($id);
