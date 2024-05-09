@@ -15,12 +15,6 @@ export const UseGalleryStore = defineStore("gallery", {
         getters: {
             getGallery() {
                 return this.gallery;
-            },
-            getAvailableGallery(){
-                return this.available_gallery;
-            },
-            getCurrentGallery(){
-                return this.current_gallery;
             }
         },
         actions: {
@@ -30,26 +24,6 @@ export const UseGalleryStore = defineStore("gallery", {
                     this.gallery = response.data;
                 } catch (error) {
                     if (error.response.status === 422) {
-                        this.errors.value = error.response.data.errors;
-                    }
-                }
-            },
-            async fetchCurrentConferenceGallery(){
-                try {
-                    const response = await axios.get('get-current-conference-gallery');
-                    this.current_gallery = response.data;
-                } catch (error) {
-                    if(error.response.status === 422){
-                        this.errors.value = error.response.data.errors;
-                    }
-                }
-            },
-            async fetchAvailableGallery(){
-                try {
-                    const response = await axios.get('get-available-gallery');
-                    this.available_gallery = response.data;
-                } catch (error) {
-                    if(error.response.status === 422){
                         this.errors.value = error.response.data.errors;
                     }
                 }
@@ -81,34 +55,6 @@ export const UseGalleryStore = defineStore("gallery", {
                 }
 
             }
-            },
-            async addGalleryToConference(id){
-                try {
-                    const response = await axios.post('add-gallery-to-conference', {
-                        id: id,
-                    });
-                    this.success = "Added successfully";
-                    await this.fetchCurrentConferenceGallery();
-                    await this.fetchAvailableGallery();
-                } catch (error) {
-                    if(error.response.status === 422){
-                        if(error.response.data.errors.id){
-                            this.error_id = error.response.data.errors.id[0];
-                        }
-                    }
-                }
-            },
-            async deleteGalleryFromConference(id){
-                try {
-                    const response = await axios.delete('delete-gallery-from-conference/'+id);
-                    await this.fetchCurrentConferenceGallery();
-                    await this.fetchAvailableGallery();
-                    this.success = "Deleted successfully";
-                } catch (error) {
-                    if(error.response.status === 422){
-                        this.errors.value = error.response.data.errors;
-                    }
-                }
             },
 
             async destroyGallery(id) {

@@ -15,7 +15,6 @@ import AdminSponsorsView from "@/views/admin/Sponsors/AdminSponsorsView.vue";
 import AdminReviewView from "@/views/admin/AdminReviewView.vue";
 import AdminCurConStagesView from "@/views/admin/Stages/AdminCurConStagesView.vue";
 import AdminCurConSponsorsView from "@/views/admin/Sponsors/AdminCurConSponsorsView.vue";
-import AdminCurConGalleryView from "@/views/admin/AdminCurConGalleryView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -99,12 +98,7 @@ const router = createRouter({
       path: '/admin-reviews',
       name: 'admin-reviews',
       component: AdminReviewView
-    },
-    {
-      path: '/admin-current-conference-gallery',
-      name: 'admin-current-conference-gallery',
-      component: AdminCurConGalleryView
-    },
+    }
 
   ]
 })

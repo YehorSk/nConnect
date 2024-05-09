@@ -34,44 +34,7 @@ class GalleryController extends Controller
 
         return response()->json("Image Added");
     }
-    public function get_current_conference_gallery(){
-        $conference = Conference::query()->where("is_current",true)->first();
-        $gallery = $conference->gallery;
-        return response()->json($gallery);
-    }
-    public function get_available_gallery(){
-        $conference = Conference::query()->where("is_current", true)->first();
-        $allGallery = Gallery::all();
-        $currentConferenceGallery = $conference->gallery;
-        $availableGallery = $allGallery->diff($currentConferenceGallery);
-        return response()->json($availableGallery);
-    }
-    public function addGalleryToConference(Request $request)
-    {
-        $data = $request->validate([
-            'id' => 'required',
-        ]);
-        $gallery = Gallery::find($data['id']);
-        $currentConferenceId = Conference::where('is_current', true)->value('id');
-
-        $newGallery = new Gallery([
-            'conference_id' => $currentConferenceId,
-            'image' => $gallery->image,
-            'year' => $gallery->year
-        ]);
-        $newGallery->save();
-
-        return response()->json("Gallery Added");
-    }
-
-    public function deleteGalleryFromConference($id){
-        $gallery = Gallery::find($id);
-        $gallery->delete();
-        return response()->json("Gallery Deleted");
-    }
-
-
-
+    
 
     public function destroy($id){
         $gallery = Gallery::find($id);
