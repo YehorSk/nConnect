@@ -155,34 +155,42 @@
             <tbody v-for="speakers in speakersStore.getSpeakers" :key="speakers.id">
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <td class="p-4">
-                <img :src="'http://127.0.0.1:8000/storage/' + speakers.picture" class="w-32 md:w-64 max-w-full max-h-full" alt="Apple Watch">
+                <img :src="'http://127.0.0.1:8000/storage/' + speakers.picture" class="w-32 md:w-64 max-w-full max-h-full" alt="Speaker's Profile Picture">
+                <form @submit.prevent class="inline-block">
+                  <input type="hidden" v-model="speakers.id">
+                  <input type="file" accept="image/*" @change="onFileChange" class="inline-block">
+                </form>
               </td>
-              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                {{speakers.first_name}}
+
+              <td>
+                <input type="text" v-model="speakers.first_name" placeholder="First Name" class="inline-block">
               </td>
-              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                {{speakers.last_name}}
+              <td>
+                <input type="text" v-model="speakers.last_name" placeholder="Last Name" class="inline-block">
               </td>
-              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                {{speakers.short_desc}}
+              <td>
+                <input type="text" v-model="speakers.short_desc" placeholder="Short Description" class="inline-block">
               </td>
-              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                {{speakers.long_desc}}
+              <td>
+                <input type="text" v-model="speakers.long_desc" placeholder="Long Description" class="inline-block">
               </td>
-              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                {{speakers.company}}
+              <td>
+                <input type="text" v-model="speakers.company" placeholder="Company" class="inline-block">
               </td>
-              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                {{speakers.instagram}}
+              <td>
+                <input type="text" v-model="speakers.instagram" placeholder="Instagram" class="inline-block">
               </td>
-              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                {{speakers.linkedIn}}
+              <td>
+                <input type="text" v-model="speakers.linkedIn" placeholder="LinkedIn" class="inline-block">
               </td>
-              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                {{speakers.facebook}}
+              <td>
+                <input type="text" v-model="speakers.facebook" placeholder="Facebook" class="inline-block">
               </td>
-              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                {{speakers.twitter}}
+              <td>
+                <input type="text" v-model="speakers.twitter" placeholder="Twitter" class="inline-block">
+              </td>
+              <td>
+                <button class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block" @click="updateForm(speakers)" type="submit">Update</button>
               </td>
               <td>
                 <form @submit.prevent class="inline-block">
@@ -191,6 +199,7 @@
               </td>
             </tr>
             </tbody>
+
           </table>
 
         </div>
@@ -264,6 +273,29 @@ export default {
       this.speakersStore.error_link = '';
       this.speakersStore.error_image = '';
     },
+    updateForm(speakers) {
+      console.log("File:", this.file);
+      this.speakersStore.updateSpeakers(speakers, this.file);
+      this.first_name = '';
+      this.last_name = '';
+      this.short_desc = '';
+      this.long_desc = '';
+      this.company = '';
+      this.instagram = '';
+      this.linkedIn = '';
+      this.facebook = '';
+      this.twitter = '';
+      this.file = null;
+      this.imageUrl = "";
+      this.speakersStore.error_first_name = '';
+      this.speakersStore.error_last_name = '';
+      this.speakersStore.error_short_desc = '';
+      this.speakersStore.error_long_desc = '';
+      this.speakersStore.error_company = '';
+      this.speakersStore.error_link = '';
+      this.speakersStore.error_image = '';
+
+    },
     createImage(file) {
       const reader = new FileReader();
 
@@ -277,6 +309,8 @@ export default {
       if (!file) {
         return;
       }
+      console.log("File:", file);
+      this.file = file;
       this.createImage(file);
     }
   }

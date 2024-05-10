@@ -170,6 +170,48 @@ export const useSpeakersStore = defineStore("speakers",{
                 return null;
             }
         },
+        async updateSpeakers(speakers, file) {
+            try {
+                const response = await axios.put("speakers/" + speakers.id, {
+                    first_name: speakers.first_name,
+                    last_name: speakers.last_name,
+                    short_desc: speakers.short_desc,
+                    long_desc: speakers.long_desc,
+                    Company: speakers.company,
+                    Instagram: speakers.instagram,
+                    LinkedIn: speakers.linkedIn,
+                    Facebook: speakers.facebook,
+                    Twitter: speakers.twitter,
+                });
+
+                this.success = "Updated successfully";
+            } catch (error) {
+                if (error.response.status === 422) {
+                    const errors = error.response.data.errors;
+                    if (errors) {
+                        Object.keys(errors).forEach(key => {
+                            if (key === 'first_name') {
+                                this.error_first_name = errors[key][0];
+                            } else if (key === 'last_name') {
+                                this.error_last_name = errors[key][0];
+                            } else if (key === 'short_desc') {
+                                this.error_short_desc = errors[key][0];
+                            } else if (key === 'long_desc') {
+                                this.error_long_desc = errors[key][0];
+                            } else if (key === 'company') {
+                                this.error_company = errors[key][0];
+                            } else if (key === 'instagram' || key === 'linkedIn' || key === 'facebook' || key === 'twitter') {
+                                this.error_link = errors[key][0];
+                            } else if (key === 'file') {
+                                this.error_image = errors[key][0];
+                            }
+                        });
+                    }
+                }
+            }
+        }
+
+
 
 
     }

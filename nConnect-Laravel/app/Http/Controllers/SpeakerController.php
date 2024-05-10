@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Conference;
 use App\Models\Speaker;
-use App\Models\Lecture;
+use App\Models\Stage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Validation\Rule;
 
 class SpeakerController extends Controller
 {
@@ -94,4 +95,66 @@ class SpeakerController extends Controller
         $speaker->delete();
         return response()->json("Speaker Deleted");
     }
+    public function update(Request $request, $id)
+    {
+        $speaker = Speaker::find($id);
+
+        $data = $request->validate([
+            'first_name' => [
+                'required',
+                Rule::unique('speakers')->ignore($speaker->id),
+            ],
+            'last_name' => [
+                'required',
+                Rule::unique('speakers')->ignore($speaker->id),
+            ],
+            'short_desc' => [
+                'required',
+                Rule::unique('speakers')->ignore($speaker->id),
+            ],
+            'long_desc' => [
+                'required',
+                Rule::unique('speakers')->ignore($speaker->id),
+            ],
+            'Company' => [
+                'required',
+                Rule::unique('speakers')->ignore($speaker->id),
+            ],
+            'Instagram' => [
+                'nullable',
+                Rule::unique('speakers')->ignore($speaker->id),
+            ],
+            'LinkedIn' => [
+                'nullable',
+                Rule::unique('speakers')->ignore($speaker->id),
+            ],
+            'Facebook' => [
+                'nullable',
+                Rule::unique('speakers')->ignore($speaker->id),
+            ],
+            'Twitter' => [
+                'nullable',
+                Rule::unique('speakers')->ignore($speaker->id),
+            ],
+            'picture' => [
+                'nullable',
+                'image',
+                'mimes:jpeg,png,jpg,gif',
+                'max:2048',
+            ],
+        ]);
+
+        if ($request->hasFile('picture')) {
+            $imageName = $request->first_name . '_' . $request->last_name . '.' . $request->picture->extension();
+            $path = $request->file('picture')->storeAs('public/images/speakers/', $imageName);
+            $relativePath = str_replace('public/', '', $path);
+            $data['picture'] = $relativePath;
+        }
+
+        $speaker->update($data);
+
+        return response()->json($data);
+    }
+
+
 }
