@@ -38,5 +38,8 @@ class Conference extends Model
     public function gallery() :HasMany{
         return $this->hasMany(Gallery::class);
     }
+    public function lectures() :HasMany{
+        return $this->hasMany(Lecture::class);
+    }
 
 }

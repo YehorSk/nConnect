@@ -13,6 +13,7 @@ class Lecture extends Model
     protected $fillable = [
         'speaker_id',
         'stage_id',
+        'conference_id',
         'name',
         'capacity',
         'start_time',
@@ -22,4 +23,11 @@ class Lecture extends Model
     public function speaker():BelongsTo{
         return $this->belongsTo(Speaker::class);
     }
+    public function stage():BelongsTo{
+        return $this->belongsTo(Stage::class);
+    }
+    public function conference():BelongsTo{
+        return $this->belongsTo(Conference::class);
+    }
+
 }

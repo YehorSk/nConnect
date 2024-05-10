@@ -7,6 +7,7 @@ use \App\Http\Controllers\TimeSlotController;
 use \App\Http\Controllers\GalleryController;
 use \App\Http\Controllers\ConferenceController;
 use \App\Http\Controllers\SponsorController;
+use \App\Http\Controllers\LectureController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -51,6 +52,13 @@ Route::delete('/delete-speakers-from-conference/{id}',[SpeakerController::class,
 
 //----------------------------End Sponsors Routes ----------------------------
 
+//----------------------------Lectures Routes---------------------------------
+Route::apiResource('lectures',LectureController::class);
+Route::get('/get-current-conference-lectures',[LectureController::class,'get_current_conference_lectures']);
+Route::post('/add-speaker-to-lecture',[LectureController::class,'addSpeakerToLecture']);
+Route::post('/add-stage-to-lecture',[LectureController::class,'addStageToLecture']);
+
+//------------------------------------------------------------------------
 
 Route::apiResource('conferences',ConferenceController::class);
 Route::get('/get-active-conference',[ConferenceController::class,'get_active_conference']);
@@ -64,7 +72,6 @@ Route::apiResource('gallery', GalleryController::class);
 
 
 
-
-
 Route::apiResource('reviews',ReviewController::class);
+
 

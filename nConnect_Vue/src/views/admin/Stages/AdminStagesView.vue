@@ -195,7 +195,7 @@ import ErrorAlertComponent from "@/components/alerts/ErrorAlertComponent.vue";
     data(){
       return {
         name: '',
-        date: '',
+        date:'',
         stages:[],
         errors:[],
         stageStore: useStageStore(),

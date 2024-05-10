@@ -17,7 +17,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('stage_id')->constrained()->onDelete('cascade');
             $table->foreignId('speaker_id')->constrained()->onDelete('cascade');
+            $table->foreignId('conference_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('name');
+            $table->string('short_desc');
+            $table->string('long_desc');
             $table->integer('capacity');
             $table->dateTime('start_time');
             $table->dateTime('end_time');

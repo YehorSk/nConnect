@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Conference;
 use App\Models\Speaker;
+use App\Models\Lecture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 

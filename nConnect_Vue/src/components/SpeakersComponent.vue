@@ -14,7 +14,7 @@
           <!-- Speaker 1 -->
           <div class="speaker-item">
             <div class="image">
-              <img :src="'http://127.0.0.1:8000/storage/' + speaker.image" :alt="`${speaker.last_name}`" class="img-fluid">
+              <img :src="'http://127.0.0.1:8000/storage/' + speaker.picture" :alt="`${speaker.last_name}`" class="img-fluid">
               <div class="primary-overlay"></div>
               <div class="socials">
                 <ul class="list-inline">

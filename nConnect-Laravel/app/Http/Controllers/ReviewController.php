@@ -6,6 +6,7 @@ use App\Models\Conference;
 use Illuminate\Http\Request;
 use App\Models\Review;
 use Illuminate\Support\Facades\File;
+use Illuminate\Validation\Rule;
 
 class ReviewController extends Controller
 {
@@ -43,13 +44,13 @@ class ReviewController extends Controller
     }
     public function update(Request $request, $id)
     {
+        $review = Review::findOrFail($id);
         $data = $request->validate([
-            'name' => 'required',
-            'text' => 'required|string|min:5|max:255',
-            'photo' => 'sometimes|nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'name' => 'required', Rule::unique('reviews')->ignore($review),
+            'text' => 'required|string|min:5|max:255', Rule::unique('stages')->ignore($review),
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $review = Review::findOrFail($id);
 
         if ($request->hasFile('photo')) {
             $imageName = $request->name . '.' . $request->photo->extension();
@@ -64,4 +65,7 @@ class ReviewController extends Controller
     }
 
 
+
 }
+
+

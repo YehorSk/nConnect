@@ -46,7 +46,7 @@
                   <input type="hidden" v-model="review.id">
                   <input type="text" v-model="review.name" placeholder="Name" class="inline-block mr-2">
                   <input type="text" v-model="review.text" placeholder="Date" class="inline-block mr-2">
-                  <input type="file" @change="onFileChange($event, review)" class="inline-block mr-2"> <!-- File input for photo -->
+                  <input type="file" @change="onFileChange($event, review)" class="inline-block mr-2">
                   <img :src="'http://127.0.0.1:8000/storage/' + review.photo" class="inline-block mr-2" style="max-width: 100px;">
                   <button class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block mr-2" @click="updateForm(review)" type="submit">Update</button>
                 </form>

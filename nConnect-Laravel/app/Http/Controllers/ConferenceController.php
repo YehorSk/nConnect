@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Conference;
+
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 

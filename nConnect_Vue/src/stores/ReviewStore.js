@@ -69,7 +69,10 @@ export const UseReviewStore = defineStore("reviews", {
                     const formData = new FormData();
                     formData.append('name', review.name);
                     formData.append('text', review.text);
-                    formData.append('photo', review.photo);
+
+                    if (review.photo instanceof File) {
+                        formData.append('photo', review.photo);
+                    }
 
                     const response = await axios.put("reviews/" + review.id, formData, {
                         headers: {
@@ -77,9 +80,11 @@ export const UseReviewStore = defineStore("reviews", {
                         }
                     });
 
+                    // Update the review with the new data returned from the server
+                    const updatedReview = response.data;
                     const updatedReviewIndex = this.reviews.findIndex(r => r.id === review.id);
                     if (updatedReviewIndex !== -1) {
-                        this.reviews[updatedReviewIndex] = response.data;
+                        this.reviews.splice(updatedReviewIndex, 1, updatedReview);
                     }
 
                     this.success = "Updated successfully";
@@ -95,6 +100,7 @@ export const UseReviewStore = defineStore("reviews", {
                     }
                 }
             }
+
 
 
         }

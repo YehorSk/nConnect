@@ -19,4 +19,8 @@ class Stage extends Model
     {
         return $this->belongsToMany(Conference::class);
     }
+    public function lectures()
+    {
+        return $this->hasMany(Lecture::class);
+    }
 }
