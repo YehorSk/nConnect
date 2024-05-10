@@ -42,7 +42,7 @@ const router = createRouter({
       component: SponsorsView
     },
     {
-      path: '/single-speaker',
+      path: '/single-speaker/:id',
       name: 'single-speaker',
       component: SingleSpeakerView
     },

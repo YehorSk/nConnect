@@ -64,6 +64,38 @@ export const UseReviewStore = defineStore("reviews", {
                     }
                 }
             },
+            async updateReview(review) {
+                try {
+                    const formData = new FormData();
+                    formData.append('name', review.name);
+                    formData.append('text', review.text);
+                    formData.append('photo', review.photo);
+
+                    const response = await axios.put("reviews/" + review.id, formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    });
+
+                    const updatedReviewIndex = this.reviews.findIndex(r => r.id === review.id);
+                    if (updatedReviewIndex !== -1) {
+                        this.reviews[updatedReviewIndex] = response.data;
+                    }
+
+                    this.success = "Updated successfully";
+                } catch (error) {
+                    if (error.response.data.errors.name) {
+                        this.error_name = error.response.data.errors.name[0];
+                    }
+                    if (error.response.data.errors.text) {
+                        this.error_text = error.response.data.errors.text[0];
+                    }
+                    if (error.response.data.errors.photo) {
+                        this.error_photo = error.response.data.errors.photo[0];
+                    }
+                }
+            }
+
 
         }
     }

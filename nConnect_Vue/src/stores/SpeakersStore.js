@@ -13,7 +13,7 @@ export const useSpeakersStore = defineStore("speakers",{
        error_image: '',
         update_error_name:'',
         update_error_date:'',
-       success: ''
+       success: '',
     }),
     getters:{
         getSpeakers(){
@@ -24,7 +24,7 @@ export const useSpeakersStore = defineStore("speakers",{
         },
         getCurrentSpeakers(){
             return this.current_speakers;
-        }
+        },
     },
     actions:{
         async fetchSpeakers(){
@@ -37,6 +37,7 @@ export const useSpeakersStore = defineStore("speakers",{
                 }
             }
         },
+
         async fetchCurrentConferenceSpeakers(){
             try {
                 const response = await axios.get('get-current-conference-speakers');
@@ -158,6 +159,15 @@ export const useSpeakersStore = defineStore("speakers",{
                 } else {
                     console.error("Error deleting speaker:", error);
                 }
+            }
+        },
+        async fetchSpeakerById(id) {
+            try {
+                const response = await axios.get(`single-speaker/${id}`);
+                return response.data;
+            } catch (error) {
+                console.error("Error fetching single speaker:", error);
+                return null;
             }
         },
 

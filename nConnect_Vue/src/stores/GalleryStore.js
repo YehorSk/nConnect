@@ -5,8 +5,6 @@ axios.defaults.baseURL = "http://localhost/nConnect/nConnect-Laravel/public/api/
 export const UseGalleryStore = defineStore("gallery", {
         state: () => ({
             gallery: [],
-            current_gallery: [],
-            available_gallery: [],
             error_image: '',
             error_year: '',
             success: '',

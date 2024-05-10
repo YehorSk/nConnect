@@ -38,42 +38,24 @@
       </div>
       <br>
       <div class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            <th scope="col" class="px-6 py-3">
-              Name
-            </th>
-            <th scope="col" class="px-6 py-3">
-              Text
-            </th>
-            <th scope="col" class="px-16 py-3">
-              Photo
-            </th>
-            <th scope="col" class="px-6 py-3">
-              Delete
-            </th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="review in reviewStore.getReviews" :key="review.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-            <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-              {{review.name}}
-            </td>
-            <td class="px-6 py-4  text-xs text-gray-900 dark:text-white">
-              {{review.text}}
-            </td>
-            <td class="p-4">
-              <img :src="'http://127.0.0.1:8000/storage/' + review.photo" class="w-32 md:w-64 max-w-full max-h-full" alt="Review Photo">
-            </td>
-            <td>
-              <form @submit.prevent class="inline-block">
-                <button class="font-medium text-red-600 dark:text-red-500 hover:underline inline-block" type="submit" @click="reviewStore.destroyReviews(review.id)">DELETE</button>
-              </form>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+
+          <div class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <div v-for="review in reviewStore.getReviews" :key="review.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 items-center">
+              <div>
+                <form @submit.prevent class="inline-block">
+                  <input type="hidden" v-model="review.id">
+                  <input type="text" v-model="review.name" placeholder="Name" class="inline-block mr-2">
+                  <input type="text" v-model="review.text" placeholder="Date" class="inline-block mr-2">
+                  <input type="file" @change="onFileChange($event, review)" class="inline-block mr-2"> <!-- File input for photo -->
+                  <img :src="'http://127.0.0.1:8000/storage/' + review.photo" class="inline-block mr-2" style="max-width: 100px;">
+                  <button class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block mr-2" @click="updateForm(review)" type="submit">Update</button>
+                </form>
+                <form @submit.prevent class="inline-block">
+                  <button class="font-medium text-red-600 dark:text-red-500 hover:underline inline-block" type="submit" @click="reviewStore.destroyReviews(review.id)">DELETE</button>
+                </form>
+              </div>
+            </div>
+          </div>
       </div>
 
     </div>
@@ -140,7 +122,14 @@ export default {
         return;
       }
       this.createImage(file);
+    },
+    updateForm(review){
+      this.reviewStore.updateReview(review);
+      this.reviewStore.error_name = '';
+      this.reviewStore.error_text = '';
+      this.reviewStore.error_photo = '';
     }
+
 
   },
 }

@@ -67,81 +67,17 @@
           </div>
         </div>
       </div>
-      <div class="block-2">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="personal-info">
-              <h5>Personal Information</h5>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi explicabo suscipit deleniti voluptatum quos nostrum iure doloremque cupiditate voluptatem a enim eaque quod perspiciatis repudiandae, mollitia adipisci ea, quidem eveniet consequatur veniam error. Adipisci, suscipit corporis repellat, soluta vitae deserunt perspiciatis labore reprehenderit sapiente provident vel maxime.</p>
-              <ul class="m-0 p-0">
-                <li>Morbi fermentum felis nec</li>
-                <li>Fermentum felis nec gravida tempus.</li>
-                <li>Morbi fermentum felis nec</li>
-                <li>Fermentum felis nec gravida tempus.</li>
-                <li>Morbi fermentum felis nec</li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="skills">
-              <h5>Personal Skills</h5>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis repellat inventore at praesentium perspiciatis labore reprehenderit sapiente provident vel maxime.</p>
-              <div class="skill-bars">
-                <!-- SkillBar -->
-                <div class="skill-bar">
-                  <!-- Title -->
-                  <p>Wordpress</p>
-                  <!-- Progress Bar -->
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 90%;"><span>90%</span></div>
-                  </div>
-                </div>
-                <!-- SkillBar -->
-                <div class="skill-bar">
-                  <!-- Title -->
-                  <p>PHP</p>
-                  <!-- Progress Bar -->
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 75%;">
-                      <span>75%</span>
-                    </div>
-                  </div>
-                </div>
-                <!-- SkillBar -->
-                <div class="skill-bar">
-                  <!-- Title -->
-                  <p>Javascript</p>
-                  <!-- Progress Bar -->
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 60%;">
-                      <span>60%</span>
-                    </div>
-                  </div>
-                </div>
-                <!-- SkillBar -->
-                <div class="skill-bar">
-                  <!-- Title -->
-                  <p>HTML</p>
-                  <!-- Progress Bar -->
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 80%;">
-                      <span>80%</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+
       </div>
-    </div>
   </section>
   <MapComponent/>
   <FooterComponent/>
 </template>
 <script setup lang="ts">
 import NavigationComponent from "@/components/NavigationComponent.vue";
-import ScheduleComponent from "@/components/ScheduleComponent.vue";
 import FooterComponent from "@/components/FooterComponent.vue";
 import MapComponent from "@/components/MapComponent.vue";
+
+
+
 </script>
