@@ -16,38 +16,46 @@ class GallerySeeder extends Seeder
      */
     public function run()
     {
+        $conference = Conference::find(1);
         $gallery = [
             [
                 'image' => 'images\gallery\g1.jpg',
+
                 'year'=> 2024,
             ],
             [
                 'image' => 'images\gallery\g2.jpg',
+
                 'year'=> 2024,
             ],
             [
                 'image' => 'images\gallery\g3.jpg',
+
                 'year'=> 2024,
             ],
             [
                 'image' => 'images\gallery\g4.jpg',
+
                 'year'=> 2024,
             ],
             [
                 'image' => 'images\gallery\g5.jpg',
+
                 'year'=> 2024,
             ],
             [
                 'image' => 'images\gallery\g6.jpg',
-                'conference_id'=>1,
+
                 'year'=> 2024,
             ],
             [
                 'image' => 'images\gallery\g7.jpg',
+
                 'year'=> 2024,
             ],
             [
                 'image' => 'images\gallery\g8.jpg',
+
                 'year'=> 2024,
             ],
             [
@@ -59,6 +67,7 @@ class GallerySeeder extends Seeder
             $gallery = new Gallery();
             $gallery->image = $galleryData['image'];
             $gallery->year = $galleryData['year'];
+            $gallery->conferences()->associate($conference);
             $gallery->save();
         }
 
