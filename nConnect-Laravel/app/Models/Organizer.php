@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Organizer extends Model
 {
     use HasFactory;
+    protected $fillable =[
+        'name',
+        'image',
+        'phone_number',
+        'email'
+
+    ];
+    public function conferences()
+    {
+        return $this->belongsToMany(Conference::class);
+    }
 }

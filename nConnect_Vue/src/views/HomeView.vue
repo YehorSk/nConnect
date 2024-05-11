@@ -8,6 +8,7 @@ import ScheduleComponent from "@/components/ScheduleComponent.vue";
 import SponsorsComponent from "@/components/SponsorsComponent.vue";
 import MapComponent from "@/components/MapComponent.vue";
 import FooterComponent from "@/components/FooterComponent.vue";
+import OrganizersComponent from "@/components/OrganizersComponent.vue";
 import TestimonialComponent from "@/components/TestimonialComponent.vue";
 </script>
 
@@ -20,5 +21,6 @@ import TestimonialComponent from "@/components/TestimonialComponent.vue";
   <SponsorsComponent/>
   <TestimonialComponent/>
   <MapComponent/>
+  <OrganizersComponent/>
   <FooterComponent/>
 </template>

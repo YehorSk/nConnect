@@ -30,6 +30,10 @@ class Conference extends Model
     {
         return $this->belongsToMany(Speaker::class);
     }
+    public function organizers()
+    {
+        return $this->belongsToMany(Organizer::class);
+    }
 
     public function reviews() :HasMany{
         return $this->hasMany(Review::class);

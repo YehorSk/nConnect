@@ -8,6 +8,7 @@ use \App\Http\Controllers\GalleryController;
 use \App\Http\Controllers\ConferenceController;
 use \App\Http\Controllers\SponsorController;
 use \App\Http\Controllers\LectureController;
+use App\Http\Controllers\OrganizerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -62,18 +63,37 @@ Route::post('/add-stage-to-lecture',[LectureController::class,'addStageToLecture
 
 //------------------------------------------------------------------------
 
+//----------------------------Organizers Routes---------------------------------
+Route::apiResource('organizers',OrganizerController::class);
+Route::put('organizers/{id}', [OrganizerController::class, 'update']);
+Route::get('/get_current_conference_organizers',[OrganizerController::class,'get_current_conference_organizers']);
+Route::get('/get-available-organizers',[OrganizerController::class,'get_available_organizers']);
+Route::post('/add-organizers-to-conference',[OrganizerController::class,'addOrganizersToConference']);
+Route::delete('/delete-organizers-from-conference/{id}',[OrganizerController::class,'deleteOrganizerFromConference']);
+
+//------------------------------------------------------------------------
+
+//----------------------------Conference Routes---------------------------------
+
 Route::apiResource('conferences',ConferenceController::class);
 Route::get('/get-active-conference',[ConferenceController::class,'get_active_conference']);
+
+//-------------------------------------------------------------
+
+
+//----------------------------Gallery Routes---------------------------------
+
+Route::apiResource('gallery', GalleryController::class);
+
+//-------------------------------------------------------------
+
+//----------------------------Lecture Routes---------------------------------
+
+Route::apiResource('reviews',ReviewController::class);
+
+//------------------------------------------------------------
 
 //Get all time slots for the stage
 Route::get('/get-time-slots/{id}',[TimeSlotController::class,'index']);
 
 Route::apiResource('slots', TimeSlotController::class);
-
-Route::apiResource('gallery', GalleryController::class);
-
-
-
-Route::apiResource('reviews',ReviewController::class);
-
-
