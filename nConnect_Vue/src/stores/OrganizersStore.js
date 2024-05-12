@@ -12,7 +12,7 @@ export const UseOrganizersStore = defineStore("organizers",{
         error_phone_number: '',
         error_id: '',
         error_image: '',
-        success: '',
+        success: ''
     }),
     getters:{
         getOrganizers(){

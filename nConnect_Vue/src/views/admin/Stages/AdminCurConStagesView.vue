@@ -115,7 +115,7 @@ import ErrorAlertComponent from "@/components/alerts/ErrorAlertComponent.vue";
       itemProps (item) {
         return {
           title: item.name,
-          subtitle: item.year,
+          subtitle: item.date,
         }
       },
     }

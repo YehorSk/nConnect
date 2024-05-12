@@ -12,19 +12,12 @@
         <div class="col-12">
           <div class="schedule-tab">
             <ul class="nav nav-pills text-center">
-              <li class="nav-item">
-                <a class="nav-link active" href="#nov20" data-toggle="pill">
-                  Soft Dev Stage
-                  <span>14 marec</span>
+              <li v-for="(stage, index) in stageStore.getCurrentStages" class="nav-item">
+                <a class="nav-link" href="#nov20" @click="lectureStore.fetchLecturesByStage(stage.name)" data-toggle="pill" :class="{ 'active': index === 0 }">
+                  {{ stage.name }}
+                  <span>{{ stage.date }}</span>
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#nov21" data-toggle="pill">
-                  AI&Data Stage
-                  <span>14 marec</span>
-                </a>
-              </li>
-
             </ul>
           </div>
           <div class="schedule-contents bg-schedule">
@@ -39,373 +32,81 @@
                     <div class="venue">Miestnosť</div>
                   </li>
                   <!-- Schedule Details -->
-                  <li class="schedule-details">
-                    <div class="block">
-                      <!-- time -->
-                      <div class="time">
-                        <i class="fa fa-clock-o"></i>
-                        <span class="time">9.00 AM</span>
+                  <template v-for="lecture in lectureStore.getMainLectures">
+                    <li v-if="lecture.is_lecture === 1"  @click="showDetails(lecture)" class="schedule-details">
+                      <div class="block">
+                        <!-- time -->
+                        <div class="time">
+                          <i class="fa fa-clock-o"></i>
+                          <span class="time">{{ lecture.start_time +" - "+lecture.end_time }}</span>
+                        </div>
+                        <!-- Speaker -->
+                        <div class="speaker">
+                          <img v-if="lecture.speaker_image!==null" :src="'http://127.0.0.1:8000/storage/' + lecture.speaker_image" width="50px" height="50px" alt="speaker-thumb-one">
+                          <span v-if="lecture.speaker_name!==null" class="name">{{lecture.speaker_name + " " + lecture.speaker_lastname}}</span>
+                        </div>
+                        <!-- Subject -->
+                        <div class="subject">{{lecture.name}}</div>
+                        <!-- Venue -->
+                        <div class="venue">{{lecture.stage_name}}</div>
                       </div>
-                      <!-- Speaker -->
-                      <div class="speaker">
-                        <img src="/images/speakers/speaker-thumb-one.jpg" alt="speaker-thumb-one">
-                        <span class="name">Samanta Doe</span>
+                    </li>
+                    <li v-else class="schedule-details ">
+                      <div class="block">
+                        <!-- time -->
+                        <div class="time">
+                          <i class="fa fa-clock-o"></i>
+                          <span class="time">{{ lecture.start_time +" - "+lecture.end_time }}</span>
+                        </div>
+                        <!-- Speaker -->
+                        <div class="speaker">
+                          <img v-if="lecture.speaker_image!==null" :src="'http://127.0.0.1:8000/storage/' + lecture.speaker_image" width="50px" height="50px" alt="speaker-thumb-one">
+                          <span v-if="lecture.speaker_name!==null" class="name">{{lecture.speaker_name + " " + lecture.speaker_lastname}}</span>
+                        </div>
+                        <!-- Subject -->
+                        <div class="subject">{{lecture.name}}</div>
+                        <!-- Venue -->
+                        <div class="venue">{{lecture.stage_name}}</div>
                       </div>
-                      <!-- Subject -->
-                      <div class="subject">Introduction to Wp</div>
-                      <!-- Venue -->
-                      <div class="venue">Auditorium A</div>
-                    </div>
-                  </li>
-                  <!-- Schedule Details -->
-                  <li class="schedule-details">
-                    <div class="block">
-                      <!-- time -->
-                      <div class="time">
-                        <i class="fa fa-clock-o"></i>
-                        <span class="time">10.00 AM</span>
-                      </div>
-                      <!-- Speaker -->
-                      <div class="speaker">
-                        <img src="/images/speakers/speaker-thumb-two.jpg" alt="speaker-thumb-two">
-                        <span class="name">Zerad Pawel</span>
-                      </div>
-                      <!-- Subject -->
-                      <div class="subject">Principle of Wp</div>
-                      <!-- Venue -->
-                      <div class="venue">Auditorium B</div>
-                    </div>
-                  </li>
-                  <!-- Schedule Details -->
-                  <li class="schedule-details">
-                    <div class="block">
-                      <!-- time -->
-                      <div class="time">
-                        <i class="fa fa-clock-o"></i>
-                        <span class="time">12.00 AM</span>
-                      </div>
-                      <!-- Speaker -->
-                      <div class="speaker">
-                        <img src="/images/speakers/speaker-thumb-three.jpg" alt="speaker-thumb-three">
-                        <span class="name">Henry Mong</span>
-                      </div>
-                      <!-- Subject -->
-                      <div class="subject">Wp Requirements</div>
-                      <!-- Venue -->
-                      <div class="venue">Auditorium C</div>
-                    </div>
-                  </li>
-                  <!-- Schedule Details -->
-                  <li class="schedule-details">
-                    <div class="block">
-                      <!-- time -->
-                      <div class="time">
-                        <i class="fa fa-clock-o"></i>
-                        <span class="time">2.00 PM</span>
-                      </div>
-                      <!-- Speaker -->
-                      <div class="speaker">
-                        <img src="/images/speakers/speaker-thumb-four.jpg" alt="speaker-thumb-four">
-                        <span class="name">Baily Leo</span>
-                      </div>
-                      <!-- Subject -->
-                      <div class="subject">Introduction to Wp</div>
-                      <!-- Venue -->
-                      <div class="venue">Auditorium D</div>
-                    </div>
-                  </li>
-                  <!-- Schedule Details -->
-                  <li class="schedule-details">
-                    <div class="block">
-                      <!-- time -->
-                      <div class="time">
-                        <i class="fa fa-clock-o"></i>
-                        <span class="time">3.00 PM</span>
-                      </div>
-                      <!-- Speaker -->
-                      <div class="speaker">
-                        <img src="/images/speakers/speaker-thumb-five.jpg" alt="speaker-thumb-five">
-                        <span class="name">Lee Mun</span>
-                      </div>
-                      <!-- Subject -->
-                      <div class="subject">Useful tips for Wp</div>
-                      <!-- Venue -->
-                      <div class="venue">Auditorium E</div>
-                    </div>
-                  </li>
-                  <!-- Schedule Details -->
-                  <li class="schedule-details">
-                    <div class="block">
-                      <!-- time -->
-                      <div class="time">
-                        <i class="fa fa-clock-o"></i>
-                        <span class="time">3.00 PM</span>
-                      </div>
-                      <!-- Speaker -->
-                      <div class="speaker">
-                        <img src="/images/speakers/speaker-thumb-six.jpg" alt="speaker-thumb-six">
-                        <span class="name">Lee Mun</span>
-                      </div>
-                      <!-- Subject -->
-                      <div class="subject">Useful tips for Wp</div>
-                      <!-- Venue -->
-                      <div class="venue">Auditorium E</div>
-                    </div>
-                  </li>
+                    </li>
+                  </template>
                 </ul>
               </div>
-              <div class="tab-pane fade schedule-item" id="nov21">
-                <!-- Headings -->
-                <ul class="m-0 p-0">
-                  <li class="headings">
-                    <div class="time">Time</div>
-                    <div class="speaker">Speaker</div>
-                    <div class="subject">Subject</div>
-                    <div class="venue">Venue</div>
-                  </li>
-                  <!-- Schedule Details -->
-                  <li class="schedule-details">
-                    <div class="block">
-                      <!-- time -->
-                      <div class="time">
-                        <i class="fa fa-clock-o"></i>
-                        <span class="time">9.00 AM</span>
-                      </div>
-                      <!-- Speaker -->
-                      <div class="speaker">
-                        <img src="/images/speakers/speaker-thumb-one.jpg" alt="speaker-thumb-one">
-                        <span class="name">Samanta Doe</span>
-                      </div>
-                      <!-- Subject -->
-                      <div class="subject">Introduction to Wp</div>
-                      <!-- Venue -->
-                      <div class="venue">Auditorium A</div>
-                    </div>
-                  </li>
-                  <!-- Schedule Details -->
-                  <li class="schedule-details">
-                    <div class="block">
-                      <!-- time -->
-                      <div class="time">
-                        <i class="fa fa-clock-o"></i>
-                        <span class="time">10.00 AM</span>
-                      </div>
-                      <!-- Speaker -->
-                      <div class="speaker">
-                        <img src="/images/speakers/speaker-thumb-two.jpg" alt="speaker-thumb-two">
-                        <span class="name">Zerad Pawel</span>
-                      </div>
-                      <!-- Subject -->
-                      <div class="subject">Principle of Wp</div>
-                      <!-- Venue -->
-                      <div class="venue">Auditorium B</div>
-                    </div>
-                  </li>
-                  <!-- Schedule Details -->
-                  <li class="schedule-details">
-                    <div class="block">
-                      <!-- time -->
-                      <div class="time">
-                        <i class="fa fa-clock-o"></i>
-                        <span class="time">12.00 AM</span>
-                      </div>
-                      <!-- Speaker -->
-                      <div class="speaker">
-                        <img src="/images/speakers/speaker-thumb-three.jpg" alt="speaker-thumb-three">
-                        <span class="name">Henry Mong</span>
-                      </div>
-                      <!-- Subject -->
-                      <div class="subject">Wp Requirements</div>
-                      <!-- Venue -->
-                      <div class="venue">Auditorium C</div>
-                    </div>
-                  </li>
-                  <!-- Schedule Details -->
-                  <li class="schedule-details">
-                    <div class="block">
-                      <!-- time -->
-                      <div class="time">
-                        <i class="fa fa-clock-o"></i>
-                        <span class="time">2.00 PM</span>
-                      </div>
-                      <!-- Speaker -->
-                      <div class="speaker">
-                        <img src="/images/speakers/speaker-thumb-four.jpg" alt="speaker-thumb-four">
-                        <span class="name">Baily Leo</span>
-                      </div>
-                      <!-- Subject -->
-                      <div class="subject">Introduction to Wp</div>
-                      <!-- Venue -->
-                      <div class="venue">Auditorium D</div>
-                    </div>
-                  </li>
-                  <!-- Schedule Details -->
-                  <li class="schedule-details">
-                    <div class="block">
-                      <!-- time -->
-                      <div class="time">
-                        <i class="fa fa-clock-o"></i>
-                        <span class="time">3.00 PM</span>
-                      </div>
-                      <!-- Speaker -->
-                      <div class="speaker">
-                        <img src="/images/speakers/speaker-thumb-five.jpg" alt="speaker-thumb-five">
-                        <span class="name">Lee Mun</span>
-                      </div>
-                      <!-- Subject -->
-                      <div class="subject">Useful tips for Wp</div>
-                      <!-- Venue -->
-                      <div class="venue">Auditorium E</div>
-                    </div>
-                  </li>
-                  <!-- Schedule Details -->
-                  <li class="schedule-details">
-                    <div class="block">
-                      <!-- time -->
-                      <div class="time">
-                        <i class="fa fa-clock-o"></i>
-                        <span class="time">3.00 PM</span>
-                      </div>
-                      <!-- Speaker -->
-                      <div class="speaker">
-                        <img src="/images/speakers/speaker-thumb-six.jpg" alt="speaker-thumb-six">
-                        <span class="name">Lee Mun</span>
-                      </div>
-                      <!-- Subject -->
-                      <div class="subject">Useful tips for Wp</div>
-                      <!-- Venue -->
-                      <div class="venue">Auditorium E</div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <div class="tab-pane fade schedule-item" id="nov22">
-                <!-- Headings -->
-                <ul class="m-0 p-0">
-                  <li class="headings">
-                    <div class="time">Time</div>
-                    <div class="speaker">Speaker</div>
-                    <div class="subject">Subject</div>
-                    <div class="venue">Venue</div>
-                  </li>
-                  <!-- Schedule Details -->
-                  <li class="schedule-details">
-                    <div class="block">
-                      <!-- time -->
-                      <div class="time">
-                        <i class="fa fa-clock-o"></i>
-                        <span class="time">9.00 AM</span>
-                      </div>
-                      <!-- Speaker -->
-                      <div class="speaker">
-                        <img src="/images/speakers/speaker-thumb-one.jpg" alt="speaker-thumb-one">
-                        <span class="name">Samanta Doe</span>
-                      </div>
-                      <!-- Subject -->
-                      <div class="subject">Introduction to Wp</div>
-                      <!-- Venue -->
-                      <div class="venue">Auditorium A</div>
-                    </div>
-                  </li>
-                  <!-- Schedule Details -->
-                  <li class="schedule-details">
-                    <div class="block">
-                      <!-- time -->
-                      <div class="time">
-                        <i class="fa fa-clock-o"></i>
-                        <span class="time">10.00 AM</span>
-                      </div>
-                      <!-- Speaker -->
-                      <div class="speaker">
-                        <img src="/images/speakers/speaker-thumb-two.jpg" alt="speaker-thumb-two">
-                        <span class="name">Zerad Pawel</span>
-                      </div>
-                      <!-- Subject -->
-                      <div class="subject">Principle of Wp</div>
-                      <!-- Venue -->
-                      <div class="venue">Auditorium B</div>
-                    </div>
-                  </li>
-                  <!-- Schedule Details -->
-                  <li class="schedule-details">
-                    <div class="block">
-                      <!-- time -->
-                      <div class="time">
-                        <i class="fa fa-clock-o"></i>
-                        <span class="time">12.00 AM</span>
-                      </div>
-                      <!-- Speaker -->
-                      <div class="speaker">
-                        <img src="/images/speakers/speaker-thumb-three.jpg" alt="speaker-thumb-three">
-                        <span class="name">Henry Mong</span>
-                      </div>
-                      <!-- Subject -->
-                      <div class="subject">Wp Requirements</div>
-                      <!-- Venue -->
-                      <div class="venue">Auditorium C</div>
-                    </div>
-                  </li>
-                  <!-- Schedule Details -->
-                  <li class="schedule-details">
-                    <div class="block">
-                      <!-- time -->
-                      <div class="time">
-                        <i class="fa fa-clock-o"></i>
-                        <span class="time">2.00 PM</span>
-                      </div>
-                      <!-- Speaker -->
-                      <div class="speaker">
-                        <img src="/images/speakers/speaker-thumb-four.jpg" alt="speaker-thumb-four">
-                        <span class="name">Baily Leo</span>
-                      </div>
-                      <!-- Subject -->
-                      <div class="subject">Introduction to Wp</div>
-                      <!-- Venue -->
-                      <div class="venue">Auditorium D</div>
-                    </div>
-                  </li>
-                  <!-- Schedule Details -->
-                  <li class="schedule-details">
-                    <div class="block">
-                      <!-- time -->
-                      <div class="time">
-                        <i class="fa fa-clock-o"></i>
-                        <span class="time">3.00 PM</span>
-                      </div>
-                      <!-- Speaker -->
-                      <div class="speaker">
-                        <img src="/images/speakers/speaker-thumb-five.jpg" alt="speaker-thumb-five">
-                        <span class="name">Lee Mun</span>
-                      </div>
-                      <!-- Subject -->
-                      <div class="subject">Useful tips for Wp</div>
-                      <!-- Venue -->
-                      <div class="venue">Auditorium E</div>
-                    </div>
-                  </li>
-                  <!-- Schedule Details -->
-                  <li class="schedule-details">
-                    <div class="block">
-                      <!-- time -->
-                      <div class="time">
-                        <i class="fa fa-clock-o"></i>
-                        <span class="time">3.00 PM</span>
-                      </div>
-                      <!-- Speaker -->
-                      <div class="speaker">
-                        <img src="/images/speakers/speaker-thumb-six.jpg" alt="speaker-thumb-six">
-                        <span class="name">Lee Mun</span>
-                      </div>
-                      <!-- Subject -->
-                      <div class="subject">Useful tips for Wp</div>
-                      <!-- Venue -->
-                      <div class="venue">Auditorium E</div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
+
             </div>
           </div>
+          <v-dialog v-model="dialog" min-width="400px" min-height="400px" width="600px" height="600px">
+            <v-card
+                class="mx-auto text-black"
+                color="white"
+                max-width="800"
+                title="Details"
+            >
+              <v-card-text class="text-h5 py-2">
+                {{ show_lecture.short_desc }}
+              </v-card-text>
+
+              <v-card-actions>
+                <v-list-item class="w-200">
+                  <template v-slot:prepend>
+                    <v-avatar
+                        color="grey-darken-3"
+                        :image="'http://127.0.0.1:8000/storage/' + show_lecture.speaker_image"
+                    ></v-avatar>
+                  </template>
+
+                  <v-list-item-title>{{ show_lecture.speaker_name }} {{ show_lecture.speaker_lastname }}</v-list-item-title>
+
+                  <v-list-item-subtitle>{{ show_lecture.speaker_company }}</v-list-item-subtitle>
+
+                </v-list-item>
+                <v-divider :thickness="8" color="info"></v-divider>
+                <v-btn color="black" @click="dialog = false" text="Close"></v-btn>
+                <v-btn color="green" text="Register"></v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+
 
         </div>
       </div>
@@ -413,5 +114,29 @@
   </section>
 
 </template>
-<script setup>
+<script>
+import {useStageStore} from "@/stores/StageStore.js";
+import {useLectureStore} from "@/stores/LectureStore.js";
+
+export default {
+  data(){
+    return{
+      stageStore: useStageStore(),
+      lectureStore: useLectureStore(),
+      dialog: false,
+      show_lecture:[]
+    };
+  },
+created(){
+  this.stageStore.fetchCurrentConferenceStages();
+  this.lectureStore.fetchCurrentConferenceLectures();
+  this.lectureStore.fetchLecturesByStage("SOFT DEV STAGE");
+},
+  methods:{
+    showDetails(lecture){
+      this.show_lecture = lecture;
+      this.dialog=true;
+    }
+  }
+}
 </script>

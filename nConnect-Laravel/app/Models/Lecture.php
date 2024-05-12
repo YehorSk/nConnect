@@ -15,7 +15,10 @@ class Lecture extends Model
         'stage_id',
         'conference_id',
         'name',
+        'short_desc',
+        'long_desc',
         'capacity',
+        'is_lecture',
         'start_time',
         'end_time',
     ];

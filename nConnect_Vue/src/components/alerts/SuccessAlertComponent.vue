@@ -21,6 +21,7 @@
   import {useTimeSlotStore} from "@/stores/TimeSlotStore.js";
   import {useSponsorsStore} from "@/stores/SponsorsStore.js";
   import {UseConferenceStore} from "@/stores/ConferenceStore.js";
+  import {useLectureStore} from "@/stores/LectureStore.js";
 
   export default {
     props: {
@@ -31,7 +32,8 @@
         stageStore: useStageStore(),
         timeSlotStore: useTimeSlotStore(),
         sponsorStore: useSponsorsStore(),
-        conferenceStore: UseConferenceStore()
+        conferenceStore: UseConferenceStore(),
+        lectureStore: useLectureStore()
       }
     },
     mounted() {
@@ -43,6 +45,7 @@
         this.timeSlotStore.success = '';
         this.sponsorStore.success = '';
         this.conferenceStore.success = '';
+        this.lectureStore.success = '';
       }
     }
   }

@@ -16,14 +16,15 @@ return new class extends Migration
         Schema::create('lectures', function (Blueprint $table) {
             $table->id();
             $table->foreignId('stage_id')->constrained()->onDelete('cascade');
-            $table->foreignId('speaker_id')->constrained()->onDelete('cascade');
+            $table->foreignId('speaker_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('conference_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('name');
             $table->string('short_desc');
-            $table->string('long_desc');
-            $table->integer('capacity');
-            $table->dateTime('start_time');
-            $table->dateTime('end_time');
+            $table->string('long_desc')->nullable();
+            $table->integer('capacity')->nullable();
+            $table->boolean('is_lecture')->default(true);
+            $table->time('start_time');
+            $table->time('end_time');
             $table->timestamps();
         });
     }

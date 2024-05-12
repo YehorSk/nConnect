@@ -1,5 +1,6 @@
-import { defineStore } from "pinia";
+import {defineStore} from "pinia";
 import axios from "axios";
+
 axios.defaults.baseURL = "http://localhost/nConnect/nConnect-Laravel/public/api/";
 
 export const useLectureStore = defineStore("lectures", {
@@ -7,6 +8,10 @@ export const useLectureStore = defineStore("lectures", {
         lectures: [],
         success: '',
         error_id: '',
+        errors:[],
+        errors_update:[],
+        main_lectures:[],
+        current_lectures:[]
     }),
     getters: {
         getLectures() {
@@ -14,6 +19,12 @@ export const useLectureStore = defineStore("lectures", {
         },
         getCurrentLectures(){
             return this.current_lectures;
+        },
+        getErrorsUpdate(){
+            return this.errors_update !==[];
+        },
+        getMainLectures(){
+            return this.main_lectures;
         }
     },
     actions: {
@@ -37,80 +48,96 @@ export const useLectureStore = defineStore("lectures", {
                 }
             }
         },
+        async fetchLecturesByStage(name) {
+            await this.fetchCurrentConferenceLectures();
+            this.main_lectures = this.current_lectures.filter(lecture => lecture.stage_name === name);
+            console.log(this.main_lectures);
+            console.log(name);
+        },
         async destroyLecture(id) {
             try {
                 const response = await axios.delete('lectures/' + id);
                 this.lectures = this.lectures.filter(lecture => lecture.id !== id);
                 this.success = "Deleted successfully";
+                await this.fetchCurrentConferenceLectures();
             } catch (error) {
                 if (error.response.status === 422) {
                     this.errors.value = error.response.data.errors;
                 }
             }
         },
-        async addSpeakerToLecture(id) {
+        async insertLecture(name, capacity, start_time, end_time, short_desc, long_desc,is_lecture,stage,speaker) {
             try {
-                const response = await axios.post('add-speaker-to-lecture', {
-                    id: id,
-                });
-                this.success = "Added successfully";
-            } catch (error) {
-                if (error.response.status === 422) {
-                    if (error.response.data.errors.id) {
-                        this.error_id = error.response.data.errors.id[0];
-                    }
+                if(is_lecture){
+                    const response = await axios.post('lectures', {
+                        name: name,
+                        capacity: capacity,
+                        start_time: start_time,
+                        end_time: end_time,
+                        short_desc: short_desc,
+                        long_desc: long_desc,
+                        is_lecture:is_lecture,
+                        stage_id: stage.id,
+                        speaker_id: speaker.id
+                    });
+                }else{
+                    const response = await axios.post('lectures', {
+                        name: name,
+                        start_time: start_time,
+                        end_time: end_time,
+                        short_desc: short_desc,
+                        is_lecture:is_lecture,
+                        stage_id: stage.id,
+                    });
                 }
-            }
-        },
-        async addStageToLecture(id) {
-            try {
-                const response = await axios.post('add-stage-to-lecture', {
-                    id: id,
-                });
-                this.success = "Added successfully";
-            } catch (error) {
-                if (error.response.status === 422) {
-                    if (error.response.data.errors.id) {
-                        this.error_id = error.response.data.errors.id[0];
-                    }
-                }
-            }
-        },
-        async insertLecture(name, capacity, start_time, end_time, short_desc, long_desc) {
-            try {
-                const response = await axios.post('lectures', {
-                    name: name,
-                    capacity: capacity,
-                    start_time: start_time,
-                    end_time: end_time,
-                    short_desc: short_desc,
-                    long_desc: long_desc,
-                });
-                this.lectures.push(response.data);
+
                 this.success = "Added successfully";
                 await this.fetchCurrentConferenceLectures();
             } catch (error) {
-
+                if(error.response.status === 422){
+                    this.errors = error.response.data.errors;
+                }
             }
         },
         async updateLecture(lecture) {
             try {
-                const response = await axios.put("lectures/" + lecture.id, {
-                    name: lecture.name,
-                    capacity: lecture.capacity,
-                    start_time: lecture.start_time,
-                    end_time: lecture.end_time,
-                    short_desc: lecture.short_desc,
-                    long_desc: lecture.long_desc,
-                });
-                const index = this.lectures.findIndex(l => l.id === lecture.id);
-                if (index !== -1) {
-                    this.lectures[index] = lecture;
+                if(lecture.is_lecture===1){
+                    const response = await axios.put("lectures/" + lecture.id, {
+                        name: lecture.name,
+                        capacity: lecture.capacity,
+                        start_time: lecture.start_time,
+                        end_time: lecture.end_time,
+                        short_desc: lecture.short_desc,
+                        long_desc: lecture.long_desc,
+                        stage_id: lecture.stage_id,
+                        speaker_id: lecture.speaker_id
+                    });
+                }else{
+                    const response = await axios.put("lectures/" + lecture.id, {
+                        name: lecture.name,
+                        start_time: lecture.start_time,
+                        end_time: lecture.end_time,
+                        short_desc: lecture.short_desc,
+                        stage_id: lecture.stage_id,
+                    });
                 }
                 this.success = "Updated successfully";
+                await this.fetchCurrentConferenceLectures();
             } catch (error) {
-
+                if (error.response.status === 422) {
+                    this.errors_update = error.response.data.errors;
+                    console.log(this.errors_update);
+                }
             }
         },
+        async refreshLectures() {
+            try {
+                await this.fetchCurrentConferenceLectures();
+            } catch (error) {
+                if (error.response.status === 422) {
+                    this.errors.value = error.response.data.errors;
+                }
+            }
+        }
     }
 });
