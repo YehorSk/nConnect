@@ -27,7 +27,7 @@ class OrganizersSeeder extends Seeder
                 'email' => 'jreichel@ukf.sk',
                 'phone_number'=> '+421 904 687 757',
                 'name' => 'JAROSLAV REICHEL',
-                'image' => 'images\organizers\cp2.png',
+                'image' => 'images\organizers\cp2.jpg',
             ],
         ];
 

@@ -83,7 +83,7 @@
             <tbody v-for="organizers in organizersStore.getOrganizers" :key="organizers.id">
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <td class="p-4">
-                <img :src="'http://127.0.0.1:8000/storage/' + organizers.picture" class="w-32 md:w-64 max-w-full max-h-full" alt="Organizer's Profile Picture">
+                <img :src="'http://127.0.0.1:8000/storage/' + organizers.image" class="w-32 md:w-64 max-w-full max-h-full" alt="Organizer's Profile Picture">
                 <form @submit.prevent class="inline-block">
                   <input type="hidden" v-model="organizers.id">
                   <input type="file" accept="image/*" @change="onFileChange" class="inline-block">
@@ -157,7 +157,7 @@ export default {
   ,
   methods:{
     submitForm() {
-      this.organizersStore.insertOrganizers(this.name, this.phone_number, this.email,this.file);
+      this.organizersStore.insertOrganizers(this.name, this.file,this.phone_number, this.email);
       this.name = '';
       this.phone_number = '';
       this.email = '';

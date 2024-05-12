@@ -11,10 +11,10 @@
       </div>
       <div class="row justify-content-center">
         <div v-for="organizer in organizersStore.getCurrentOrganizers" :key="organizer.id" class="col-lg-3 col-md-4 col-sm-6 mx-auto">
-          <!-- Speaker 1 -->
+          <!-- Organizer 1 -->
           <div class="speaker-item">
             <div class="image">
-              <img :src="'http://127.0.0.1:8000/storage/' + organizer.picture" :alt="`${organizer.name}`" class="img-fluid">
+              <img :src="'http://127.0.0.1:8000/storage/' + organizer.image" :alt="`${organizer.name}`" class="img-fluid">
             </div>
             <div class="content text-center">
               <h5>{{ organizer.name }}</h5>
