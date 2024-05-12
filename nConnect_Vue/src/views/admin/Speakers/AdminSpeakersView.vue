@@ -39,10 +39,12 @@
                 {{speakersStore.error_short_desc}}
               </span>
             </div>
-            <v-text-field
-                v-model="long_desc	"
+            <v-textarea
+                v-model="long_desc"
                 label="Long Description"
-            ></v-text-field>
+                outlined
+                rows="5"
+            ></v-textarea>
             <div v-if="speakersStore.error_name">
               <span class="text-sm text-red-400">
                 {{speakersStore.error_long_desc}}
@@ -94,11 +96,11 @@
               </span>
             </div>
             <v-file-input
-                v-model="file"
+                v-model="addFile"
                 accept="image/png, image/jpeg, image/bmp"
                 :prepend-icon="null"
                 color="black"
-                @change="onFileChange"
+                @change="onFileChange($event, 'add')"
                 label="Choose Image">
             </v-file-input>
             <div v-if="speakersStore.error_image">
@@ -106,7 +108,7 @@
                 {{speakersStore.error_image}}
               </span>
             </div>
-            <v-img :src="imageUrl" />
+            <v-img :src="addImageUrl"/>
             <v-btn class="mt-2" type="submit" @click="submitForm()" block>Save</v-btn>
           </v-form>
         </v-sheet>
@@ -158,7 +160,7 @@
                 <img :src="'http://127.0.0.1:8000/storage/' + speakers.picture" class="w-32 md:w-64 max-w-full max-h-full" alt="Speaker's Profile Picture">
                 <form @submit.prevent class="inline-block">
                   <input type="hidden" v-model="speakers.id">
-                  <input type="file" accept="image/*" @change="onFileChange" class="inline-block">
+                  <input type="file" accept="image/*" @change="onFileChange($event, 'update')" class="inline-block">
                 </form>
               </td>
 
@@ -233,8 +235,10 @@ export default {
       short_desc: '',
       long_desc: '',
       company: '',
-      file: null,
-      imageUrl: "",
+      addFile: null,
+      updateFile: null,
+      addImageUrl: "",
+      updateImageUrl: "",
       instagram: '',
       linkedIn: '',
       facebook: '',
@@ -253,7 +257,7 @@ export default {
   ,
   methods:{
     submitForm() {
-      this.speakersStore.insertSpeakers(this.first_name,this.last_name, this.short_desc, this.long_desc, this.company, this.instagram, this.linkedIn, this.facebook, this.twitter, this.file);
+      this.speakersStore.insertSpeakers(this.first_name,this.last_name, this.short_desc, this.long_desc, this.company, this.instagram, this.linkedIn, this.facebook, this.twitter, this.addFile);
       this.first_name = '';
       this.last_name = '';
       this.short_desc = '';
@@ -263,8 +267,8 @@ export default {
       this.linkedIn = '';
       this.facebook = '';
       this.twitter = '';
-      this.file = null;
-      this.imageUrl = "";
+      this.addFile = null;
+      this.addImageUrl = "";
       this.speakersStore.error_first_name = '';
       this.speakersStore.error_last_name = '';
       this.speakersStore.error_short_desc = '';
@@ -275,44 +279,37 @@ export default {
     },
     updateForm(speakers) {
       console.log("File:", this.file);
-      this.speakersStore.updateSpeakers(speakers, this.file);
-      this.first_name = '';
-      this.last_name = '';
-      this.short_desc = '';
-      this.long_desc = '';
-      this.company = '';
-      this.instagram = '';
-      this.linkedIn = '';
-      this.facebook = '';
-      this.twitter = '';
-      this.file = null;
-      this.imageUrl = "";
-      this.speakersStore.error_first_name = '';
-      this.speakersStore.error_last_name = '';
-      this.speakersStore.error_short_desc = '';
-      this.speakersStore.error_long_desc = '';
-      this.speakersStore.error_company = '';
-      this.speakersStore.error_link = '';
-      this.speakersStore.error_image = '';
+      this.speakersStore.updateSpeakers(speakers, this.updateFile);
 
     },
-    createImage(file) {
+    createImage(file, form) {
       const reader = new FileReader();
 
       reader.onload = e => {
-        this.imageUrl = e.target.result;
+        if (form === 'update') {
+        } else {
+          this.addImageUrl = e.target.result;
+        }
       };
       reader.readAsDataURL(file);
     },
-    onFileChange(event) {
-      const file = event.target.files[0];
-      if (!file) {
+
+    onFileChange(event, form) {
+      const files = event.target.files;
+      if (!files || files.length === 0) {
+        console.log("No files selected.");
         return;
       }
-      console.log("File:", file);
-      this.file = file;
-      this.createImage(file);
+      const file = files[0];
+      if (form === 'update') {
+        this.updateFile = file;
+      } else {
+        this.addFile = file;
+      }
+      this.createImage(file, form);
     }
+
+
   }
 }
 </script>

@@ -172,7 +172,17 @@ export const useSpeakersStore = defineStore("speakers",{
         },
         async updateSpeakers(speakers, file) {
             try {
-                const response = await axios.put("speakers/" + speakers.id, {
+                let imagePath = null;
+                if (file) {
+                    const formData = new FormData();
+                    formData.append('image', file);
+
+                    const response = await axios.post("/upload-image", formData);
+
+                    imagePath = response.data.image_path;
+                }
+                console.log('Image Path:', imagePath);
+                const updatedResponse = await axios.put("/speakers/" + speakers.id, {
                     first_name: speakers.first_name,
                     last_name: speakers.last_name,
                     short_desc: speakers.short_desc,
@@ -182,11 +192,12 @@ export const useSpeakersStore = defineStore("speakers",{
                     LinkedIn: speakers.linkedIn,
                     Facebook: speakers.facebook,
                     Twitter: speakers.twitter,
+                    picture: imagePath,
                 });
 
                 this.success = "Updated successfully";
             } catch (error) {
-                if (error.response.status === 422) {
+                if (error.response && error.response.status === 422) {
                     const errors = error.response.data.errors;
                     if (errors) {
                         Object.keys(errors).forEach(key => {
@@ -210,6 +221,7 @@ export const useSpeakersStore = defineStore("speakers",{
                 }
             }
         }
+
 
 
 

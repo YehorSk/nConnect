@@ -63,8 +63,7 @@ class SpeakerController extends Controller
             'twitter' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
-        $imageName = $request->first_name . '_' . $request->last_name . '.' . $request->image->extension();
+        $imageName = time().'.'.$request->first_name . '_' . $request->last_name . '.' . $request->image->extension();
 
         $path = $request->file('image')->storeAs('public/images/speakers/', $imageName);
 
@@ -98,6 +97,10 @@ class SpeakerController extends Controller
     public function update(Request $request, $id)
     {
         $speaker = Speaker::find($id);
+        if ($request->has('picture') && !empty($request->picture)) {
+            $filePath = storage_path('app/public/' . $speaker->picture);
+            File::delete($filePath);
+        }
 
         $data = $request->validate([
             'first_name' => [
@@ -138,23 +141,28 @@ class SpeakerController extends Controller
             ],
             'picture' => [
                 'nullable',
-                'image',
-                'mimes:jpeg,png,jpg,gif',
-                'max:2048',
+                Rule::unique('speakers')->ignore($speaker->id),
             ],
         ]);
 
-        if ($request->hasFile('picture')) {
-            $imageName = $request->first_name . '_' . $request->last_name . '.' . $request->picture->extension();
-            $path = $request->file('picture')->storeAs('public/images/speakers/', $imageName);
-            $relativePath = str_replace('public/', '', $path);
-            $data['picture'] = $relativePath;
-        }
 
         $speaker->update($data);
 
         return response()->json($data);
     }
+    public function uploadImage(Request $request)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $imageName = time().'.'.$request->image->extension();
+        $request->image->storeAs('public/images/speakers/', $imageName);
+
+        return response()->json(['image_path' => 'images/speakers/'.$imageName]);
+    }
+
+
 
 
 }
