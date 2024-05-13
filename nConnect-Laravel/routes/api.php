@@ -47,7 +47,7 @@ Route::delete('/delete-sponsor-from-conference/{id}',[SponsorController::class,'
 
 Route::apiResource('speakers',SpeakerController::class);
 Route::post('/upload-image', [SpeakerController::class, 'uploadImage']);
-
+Route::get('/single-speaker/{id}', [SpeakerController::class, 'show']);
 Route::get('/get-current-conference-speakers',[SpeakerController::class,'get_current_conference_speakers']);
 Route::get('/get-available-speakers',[SpeakerController::class,'get_available_speakers']);
 Route::post('/add-speakers-to-conference',[SpeakerController::class,'addSpeakersToConference']);

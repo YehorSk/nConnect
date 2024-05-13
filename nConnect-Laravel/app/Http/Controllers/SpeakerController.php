@@ -15,6 +15,10 @@ class SpeakerController extends Controller
         $speakers = Speaker::all();
         return response()->json($speakers);
     }
+    public function show($id) {
+        $speaker = Speaker::findOrFail($id);
+        return response()->json($speaker);
+    }
 
     public function get_current_conference_speakers(){
         $conference = Conference::query()->where("is_current",true)->first();
