@@ -182,7 +182,7 @@ export const useSpeakersStore = defineStore("speakers",{
                     imagePath = response.data.image_path;
                 }
                 console.log('Image Path:', imagePath);
-                const updatedResponse = await axios.put("/speakers/" + speakers.id, {
+                const updatedData = {
                     first_name: speakers.first_name,
                     last_name: speakers.last_name,
                     short_desc: speakers.short_desc,
@@ -192,8 +192,13 @@ export const useSpeakersStore = defineStore("speakers",{
                     LinkedIn: speakers.linkedIn,
                     Facebook: speakers.facebook,
                     Twitter: speakers.twitter,
-                    picture: imagePath,
-                });
+                };
+
+                if (imagePath !== null) {
+                    updatedData.picture = imagePath;
+                }
+
+                const updatedResponse = await axios.put("/speakers/" + speakers.id, updatedData);
 
                 this.success = "Updated successfully";
             } catch (error) {
