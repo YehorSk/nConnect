@@ -5,21 +5,25 @@ use App\Models\Conference;
 use App\Models\Organizer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Validation\Rule;
 
 class OrganizerController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $organizers = Organizer::all();
         return response()->json($organizers);
     }
 
-    public function get_current_conference_organizers(){
-        $conference = Conference::query()->where("is_current",true)->first();
+    public function get_current_conference_organizers()
+    {
+        $conference = Conference::query()->where("is_current", true)->first();
         $organizers = $conference->organizers;
         return response()->json($organizers);
     }
 
-    public function get_available_organizers(){
+    public function get_available_organizers()
+    {
         $conference = Conference::query()->where("is_current", true)->first();
         $allOrganizers = Organizer::all();
         $currentConferenceOrganizers = $conference->organizers;
@@ -33,12 +37,13 @@ class OrganizerController extends Controller
             'id' => 'required',
         ]);
         $organizer = Organizer::find($data['id']);
-        $conference = Conference::query()->where("is_current",true)->first();
+        $conference = Conference::query()->where("is_current", true)->first();
         $conference->organizers()->attach($organizer);
         return response()->json("Organizer Added");
     }
 
-    public function deleteOrganizerFromConference($id){
+    public function deleteOrganizerFromConference($id)
+    {
         $organizer = Organizer::find($id);
         $conference = Conference::query()->where("is_current", true)->first();
         $conference->organizers()->detach($organizer);
@@ -55,7 +60,7 @@ class OrganizerController extends Controller
             'email' => 'required',
         ]);
 
-        $imageName = $request->name.'_'.$request->image->extension();
+        $imageName = $request->name . '_' . $request->image->extension();
 
         $path = $request->file('image')->storeAs('public/images/organizers/', $imageName);
 
@@ -73,50 +78,43 @@ class OrganizerController extends Controller
     }
 
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $organizer = Organizer::find($id);
         $filePath = storage_path('app/public/' . $organizer->image);
         File::delete($filePath);
         $organizer->delete();
         return response()->json("Organizer Deleted");
     }
-//    public function update(Request $request, $id)
-//    {
-//        $organizer = Organizer::find($id);
-//
-//        $data = $request->validate([
-//            'name' => [
-//                'required',
-//                Rule::unique('organizers')->ignore($organizer->id),
-//            ],
-//            'phone_number' => [
-//                'required',
-//                Rule::unique('organizers')->ignore($organizer->id),
-//            ],
-//            'email' => [
-//                'required',
-//                Rule::unique('organizers')->ignore($organizer->id),
-//            ],
-//            'image' => [
-//                'nullable',
-//                'image',
-//                'mimes:jpeg,png,jpg,gif',
-//                'max:2048',
-//            ],
-//        ]);
-//
-//        if ($request->hasFile('image')) {
-//            $imageName = $request->name . '_' .  $request->image->extension();
-//            $path = $request->file('image')->storeAs('public/images/organizers/', $imageName);
-//            $relativePath = str_replace('public/', '', $path);
-//            $data['image'] = $relativePath;
-//        }
-//
-//        $organizer->update($data);
-//
-//        return response()->json($data);
-//    }
 
+    public function update(Request $request, $id)
+    {
+        $organizer = Organizer::find($id);
+        if ($request->has('image') && !empty($request->image)) {
+            $filePath = storage_path('app/public/' . $organizer->image);
+            File::delete($filePath);
+        }
+//
+        $data = $request->validate([
+            'name' => ['required', Rule::unique('organizers')->ignore($organizer->id),],
+            'phone_number' => ['required', Rule::unique('organizers')->ignore($organizer->id),],
+            'email' => ['required', Rule::unique('organizers')->ignore($organizer->id),],
+            'image' => ['nullable', Rule::unique('organizers')->ignore($organizer->id),],]);
+
+        $organizer->update($data);
+        return response()->json($data);
+    }
+
+    public function uploadOrganizerImage(Request $request){
+        $request->validate([
+            'image'=> 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $imageName = time(). '.'.$request->image->extension();
+        $request->image->storeAs('public/images/organizers', $imageName);
+
+        return response()->json(['image_path'=> 'images/organizers/'. $imageName]);
+    }
 
 
 }

@@ -31,6 +31,9 @@
             <p>{{ speaker.company }}</p>
           </div>
           <div class="details">
+            <p>{{ speaker.short_desc }}</p>
+          </div>
+          <div class="details">
             <p>{{ speaker.long_desc }}</p>
           </div>
           <div class="social-profiles">

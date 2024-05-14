@@ -16,6 +16,6 @@ class Gallery extends Model
 
     public function conferences()
     {
-        return $this->belongsTo(Conference::class, 'conferences_id');
+        return $this->belongsTo(Conference::class, 'conference_id');
     }
 }

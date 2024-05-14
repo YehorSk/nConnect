@@ -40,11 +40,11 @@
               </span>
             </div>
             <v-file-input
-                v-model="file"
+                v-model="addFile"
                 accept="image/png, image/jpeg, image/jpg, image/gif"
                 :prepend-icon="null"
                 color="black"
-                @change="onFileChange"
+                @change="onFileChange($event, 'add')"
                 label="Choose Photo">
             </v-file-input>
             <div v-if="organizersStore.error_image">
@@ -52,7 +52,7 @@
                 {{organizersStore.error_image}}
               </span>
             </div>
-            <v-img :src="imageUrl" />
+            <v-img :src="addImageUrl" />
             <v-btn class="mt-2" type="submit" @click="submitForm()" block>Save</v-btn>
           </v-form>
         </v-sheet>
@@ -86,7 +86,7 @@
                 <img :src="'http://127.0.0.1:8000/storage/' + organizers.image" class="w-32 md:w-64 max-w-full max-h-full" alt="Organizer's Profile Picture">
                 <form @submit.prevent class="inline-block">
                   <input type="hidden" v-model="organizers.id">
-                  <input type="file" accept="image/*" @change="onFileChange" class="inline-block">
+                  <input type="file" accept="image/*" @change="onFileChange($event,'update')" class="inline-block">
                 </form>
               </td>
 
@@ -100,7 +100,7 @@
                 <input type="text" v-model="organizers.email" placeholder="Short Description" class="inline-block">
               </td>
               <td>
-                <button class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block" type="submit">Update</button>
+                <button class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block" @click="updateForm(organizers)" type="submit">Update</button>
               </td>
               <td>
                 <form @submit.prevent class="inline-block">
@@ -136,54 +136,74 @@ import {UseOrganizersStore} from "@/stores/OrganizersStore.js";
 
 export default {
   components: {ErrorAlertComponent, SuccessAlertComponent, AdminNavComponent},
-  data(){
+  data() {
     return {
       name: '',
       phone_number: '',
       email: '',
-      file: null,
-      imageUrl: "",
-      stages:[],
-      errors:[],
+      addFile: null,
+      updateFile: null,
+      addImageUrl: "",
+      updateImageUrl: "",
+      stages: [],
+      errors: [],
       organizersStore: UseOrganizersStore(),
     };
   },
-  created(){
+  created() {
     this.organizersStore.fetchOrganizers();
   },
   mounted() {
     initFlowbite();
   }
   ,
-  methods:{
+  methods: {
     submitForm() {
-      this.organizersStore.insertOrganizers(this.name, this.file,this.phone_number, this.email);
+      this.organizersStore.insertOrganizers(this.name, this.addFile, this.phone_number, this.email);
       this.name = '';
       this.phone_number = '';
       this.email = '';
-      this.file = null;
-      this.imageUrl = "";
+      this.addFile = null;
+      this.addImageUrl = "";
       this.organizersStore.error_name = '';
       this.organizersStore.error_email = '';
       this.organizersStore.error_phone_number = '';
-      this.organizersStore.error_image= '';
+      this.organizersStore.error_image = '';
     },
-    createImage(file) {
-      const reader = new FileReader();
+    updateForm(organizers) {
+      console.log("File", this.file);
+      this.organizersStore.updateOrganizer(organizers, this.updateFile);
+    },
+    createImage(file, form) {
+      if (!(file instanceof Blob)) {
+        console.error('blob error');
+        return;
+      }
 
+      const reader = new FileReader();
       reader.onload = e => {
-        this.imageUrl = e.target.result;
+        if (form === 'update') {
+          this.updateImageUrl = e.target.result;
+        } else {
+          this.addImageUrl = e.target.result;
+        }
       };
       reader.readAsDataURL(file);
     },
-    onFileChange(event) {
+    onFileChange(event, form) {
       const file = event.target.files[0];
       if (!file) {
+        console.log("No file selected.");
         return;
       }
-      console.log("File:", file);
-      this.file = file;
-      this.createImage(file);
+
+      if (form === 'update') {
+        this.updateFile = file;
+      } else {
+        this.addFile = file;
+      }
+
+      this.createImage(file, form);
     }
   }
 }

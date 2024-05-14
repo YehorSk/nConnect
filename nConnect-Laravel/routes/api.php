@@ -65,7 +65,7 @@ Route::post('/add-stage-to-lecture',[LectureController::class,'addStageToLecture
 
 //----------------------------Organizers Routes---------------------------------
 Route::apiResource('organizers',OrganizerController::class);
-Route::put('organizers/{id}', [OrganizerController::class, 'update']);
+Route::post('/upload-organizer-image', [OrganizerController::class, 'uploadOrganizerImage']);
 Route::get('/get_current_conference_organizers',[OrganizerController::class,'get_current_conference_organizers']);
 Route::get('/get-available-organizers',[OrganizerController::class,'get_available_organizers']);
 Route::post('/add-organizers-to-conference',[OrganizerController::class,'addOrganizersToConference']);
