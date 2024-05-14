@@ -47,12 +47,12 @@ export const UseGalleryStore = defineStore("gallery", {
                         if (error.response.data.errors.year) {
                             this.error_year = error.response.data.errors.year[0];
                         }
-                    }  else {
-                    this.error_image = "Unexpected error occurred";
-                    console.error("Unexpected error:", error);
-                }
+                    } else {
+                        this.error_image = "Unexpected error occurred";
+                        console.error(error.response.data);
+                    }
 
-            }
+                }
             },
 
             async destroyGallery(id) {
@@ -67,6 +67,41 @@ export const UseGalleryStore = defineStore("gallery", {
                 }
             },
 
+            async updateGallery(gallery, file) {
+                try {
+                    let imagePath = null;
+                    if (file) {
+                        const formData = new FormData();
+                        formData.append('image', file);
+                        const response = await axios.post("/upload-gallery-image", formData);
+                        imagePath = response.data.image_path;
+                    }
+                    console.log('Image path:', imagePath);
+                    const updatedData = {
+                        year: gallery.year,
+                    };
+                    if (imagePath !== null) {
+                        updatedData.image = imagePath;
+                    }
+                    const updatedResponse = await axios.put("/gallery/" + gallery.id, updatedData);
+
+                    this.success = "Updated successfully";
+                } catch (error) {
+                    if (error.response && error.response.status === 422) {
+                        const errors = error.response.data.errors;
+                        if (errors) {
+                            Object.keys(errors).forEach(key => {
+                                if (key === 'year') {
+                                    this.error_year = errors[key][0];
+                                } else if (key === 'file') {
+                                    this.error_image = errors[key][0];
+                                }
+                            });
+                        }
+                    }
+                }
+
+            }
         }
     }
 );

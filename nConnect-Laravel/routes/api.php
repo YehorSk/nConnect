@@ -84,7 +84,7 @@ Route::get('/get-active-conference',[ConferenceController::class,'get_active_con
 //----------------------------Gallery Routes---------------------------------
 
 Route::apiResource('gallery', GalleryController::class);
-
+Route::post('/upload-gallery-image', [GalleryController::class, 'uploadGalleryImage']);
 //-------------------------------------------------------------
 
 //----------------------------Lecture Routes---------------------------------

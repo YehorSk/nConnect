@@ -12,7 +12,7 @@
 
         <v-sheet class="max-w-sm">
           <v-form fast-fail @submit.prevent>
-            <v-file-input v-model="image" label="Image" :prepend-icon="null" accept="image/*" @change="onFileChange"></v-file-input>
+            <v-file-input v-model="addFile" label="Image" :prepend-icon="null" accept="image/*" @change="onFileChange($event, 'add')"></v-file-input>
             <div v-if="galleryStore.error_image">
               <span class="text-sm text-red-400">
                 {{galleryStore.error_image}}
@@ -24,7 +24,7 @@
                 {{galleryStore.error_year}}
               </span>
             </div>
-            <v-img :src="imageUrl" />
+            <v-img :src="addImageUrl" />
             <v-btn class="mt-2" type="submit" @click="submitForm()" block>Save</v-btn>
           </v-form>
         </v-sheet>
@@ -42,6 +42,9 @@
               Year
             </th>
             <th scope="col" class="px-6 py-3">
+              Update
+            </th>
+            <th scope="col" class="px-6 py-3">
               Delete
             </th>
           </tr>
@@ -49,10 +52,17 @@
           <tbody v-for="gallery in galleryStore.getGallery" :key="gallery.id">
           <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
             <td class="p-4">
-              <img :src="'http://127.0.0.1:8000/storage/' + gallery.image" class="w-32 md:w-64 max-w-full max-h-full" alt="Apple Watch">
+              <img :src="'http://127.0.0.1:8000/storage/' + gallery.image" class="w-32 md:w-64 max-w-full max-h-full" alt="Gallery image">
+              <form @submit.prevent class="inline-block">
+                <input type="hidden" v-model="gallery.id">
+                <input type="file" accept="image/*" @change="onFileChange($event,'update')" class="inline-block">
+              </form>
             </td>
-            <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-              {{gallery.year}}
+            <td >
+              <input type="number" v-model="gallery.year" placeholder="year" class="inline-block">
+            </td>
+            <td>
+              <button class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block" @click="updateForm(gallery)" type="submit">Update</button>
             </td>
             <td>
               <form @submit.prevent class="inline-block">
@@ -88,9 +98,10 @@ export default {
   },
   data() {
     return {
-      image: '',
-      file: null,
-      imageUrl: "",
+      addFile: null,
+      updateFile: null,
+      addImageUrl: "",
+      updateImageUrl:"",
       year: '',
       gallery: [],
       errors: [],
@@ -102,28 +113,48 @@ export default {
   },
   methods: {
     submitForm() {
-      this.galleryStore.insertGallery(this.image, this.year);
+      this.galleryStore.insertGallery(this.addFile, this.year);
       this.galleryStore.error_image = '';
       this.galleryStore.error_year = '';
-      this.image = '';
       this.year = '';
-      this.file = null;
+      this.addFile = null;
+      this.addImageUrl = "";
       this.imageUrl = "";
     },
-    createImage(file) {
-      const reader = new FileReader();
+    updateForm(gallery){
+      console.log("File", this.file);
+      this.galleryStore.updateGallery(gallery, this.updateFile);
+    },
+    createImage(file, form) {
+      if (!(file instanceof Blob)) {
+        console.error('blob error');
+        return;
+      }
 
+      const reader = new FileReader();
       reader.onload = e => {
-        this.imageUrl = e.target.result;
+        if (form === 'update') {
+          this.updateImageUrl = e.target.result;
+        } else {
+          this.addImageUrl = e.target.result;
+        }
       };
       reader.readAsDataURL(file);
     },
-    onFileChange(event) {
+    onFileChange(event,form) {
       const file = event.target.files[0];
       if (!file) {
+        console.log("No file selected.");
         return;
       }
-      this.createImage(file);
+
+      if (form === 'update') {
+        this.updateFile = file;
+      } else {
+        this.addFile = file;
+      }
+
+      this.createImage(file, form);
     }
 
   },

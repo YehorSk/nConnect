@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Conference;
-use App\Models\Sponsor;
 use Illuminate\Http\Request;
 use App\Models\Gallery;
 use Illuminate\Support\Facades\File;
+use Illuminate\Validation\Rule;
 
 class GalleryController extends Controller
 {
@@ -42,6 +42,31 @@ class GalleryController extends Controller
         File::delete($filePath);
         $gallery->delete();
         return response()->json("Image Deleted");
+    }
+
+    public function update(Request $request, $id){
+        $gallery = Gallery::find($id);
+        if ($request->has('image') && !empty($request->image)) {
+            $filePath = storage_path('app/public/' . $gallery->image);
+            File::delete($filePath);
+        }
+        $data = $request->validate([
+            'image'=> ['nullable', Rule::unique('galleries')->ignore($gallery->id),
+                ],
+            'year'=> ['required',
+            ],
+        ]);
+        $gallery->update($data);
+        return response()->json($data);
+    }
+    public function uploadGalleryImage(Request $request){
+        $request->validate([
+            'image'=> 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+        $imageName = time().'.'.$request->image->extension();
+        $request->image->storeAs('public/ímages/gallery', $imageName);
+
+        return response()->json(['image_path'=> 'images/gallery/'. $imageName]);
     }
 
 }

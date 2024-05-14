@@ -12,8 +12,6 @@ export const UseOrganizersStore = defineStore("organizers",{
         error_phone_number: '',
         error_id: '',
         error_image: '',
-        update_error_name:'',
-        update_error_date:'',
         success: ''
     }),
     getters:{
