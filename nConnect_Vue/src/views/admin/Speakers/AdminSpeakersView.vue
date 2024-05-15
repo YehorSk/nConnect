@@ -10,108 +10,115 @@
 
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
 
-        <v-sheet class="max-w-sm ">
-          <v-form fast-fail @submit.prevent >
-            <v-text-field
-                v-model="first_name"
-                label="First Name"
-            ></v-text-field>
-            <div v-if="speakersStore.error_first_name">
-              <span class="text-sm text-red-400">
-                {{speakersStore.error_first_name}}
-              </span>
+        <v-sheet class="max-w-full">
+          <v-form fast-fail @submit.prevent>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="col-span-1">
+                <v-text-field
+                    v-model="first_name"
+                    label="First Name"
+                ></v-text-field>
+                <div v-if="speakersStore.error_first_name">
+          <span class="text-sm text-red-400">
+            {{speakersStore.error_first_name}}
+          </span>
+                </div>
+                <v-text-field
+                    v-model="last_name"
+                    label="Last Name"
+                ></v-text-field>
+                <div v-if="speakersStore.error_name">
+          <span class="text-sm text-red-400">
+            {{speakersStore.error_last_name}}
+          </span>
+                </div>
+                <v-text-field
+                    v-model="short_desc"
+                    label="Short Description"
+                ></v-text-field>
+                <div v-if="speakersStore.error_name">
+          <span class="text-sm text-red-400">
+            {{speakersStore.error_short_desc}}
+          </span>
+                </div>
+                <v-textarea
+                    v-model="long_desc"
+                    label="Long Description"
+                    outlined
+                    rows="5"
+                ></v-textarea>
+                <div v-if="speakersStore.error_name">
+          <span class="text-sm text-red-400">
+            {{speakersStore.error_long_desc}}
+          </span>
+                </div>
+                <v-text-field
+                    v-model="company"
+                    label="Company"
+                ></v-text-field>
+                <div v-if="speakersStore.error_name">
+          <span class="text-sm text-red-400">
+            {{speakersStore.error_company}}
+          </span>
+                </div>
+              </div>
+              <div class="col-span-1">
+                <v-text-field
+                    v-model="instagram"
+                    label="Instagram"
+                ></v-text-field>
+                <div v-if="speakersStore.error_link">
+          <span class="text-sm text-red-400">
+            {{speakersStore.error_link}}
+          </span>
+                </div>
+                <v-text-field
+                    v-model="linkedIn"
+                    label="LinkedIn"
+                ></v-text-field>
+                <div v-if="speakersStore.error_link">
+          <span class="text-sm text-red-400">
+            {{speakersStore.error_link}}
+          </span>
+                </div>
+                <v-text-field
+                    v-model="facebook"
+                    label="Facebook"
+                ></v-text-field>
+                <div v-if="speakersStore.error_link">
+          <span class="text-sm text-red-400">
+            {{speakersStore.error_link}}
+          </span>
+                </div>
+                <v-text-field
+                    v-model="twitter"
+                    label="Twitter"
+                ></v-text-field>
+                <div v-if="speakersStore.error_link">
+          <span class="text-sm text-red-400">
+            {{speakersStore.error_link}}
+          </span>
+                </div>
+                <v-file-input
+                    v-model="addFile"
+                    accept="image/png, image/jpeg, image/bmp"
+                    :prepend-icon="null"
+                    color="black"
+                    @change="onFileChange($event, 'add')"
+                    label="Choose Image"
+                ></v-file-input>
+                <div v-if="speakersStore.error_image">
+          <span class="text-sm text-red-400">
+            {{speakersStore.error_image}}
+          </span>
+                </div>
+                <v-img :src="addImageUrl"></v-img>
+              </div>
             </div>
-            <v-text-field
-                v-model="last_name"
-                label="Last Name	"
-            ></v-text-field>
-            <div v-if="speakersStore.error_name">
-              <span class="text-sm text-red-400">
-                {{speakersStore.error_last_name}}
-              </span>
-            </div>
-            <v-text-field
-                v-model="short_desc"
-                label="Short Description"
-            ></v-text-field>
-            <div v-if="speakersStore.error_name">
-              <span class="text-sm text-red-400">
-                {{speakersStore.error_short_desc}}
-              </span>
-            </div>
-            <v-textarea
-                v-model="long_desc"
-                label="Long Description"
-                outlined
-                rows="5"
-            ></v-textarea>
-            <div v-if="speakersStore.error_name">
-              <span class="text-sm text-red-400">
-                {{speakersStore.error_long_desc}}
-              </span>
-            </div>
-            <v-text-field
-                v-model="company"
-                label="Company"
-            ></v-text-field>
-            <div v-if="speakersStore.error_name">
-              <span class="text-sm text-red-400">
-                {{speakersStore.error_company}}
-              </span>
-            </div>
-            <v-text-field
-                v-model="instagram"
-                label="Instagram"
-            ></v-text-field>
-            <div v-if="speakersStore.error_link">
-              <span class="text-sm text-red-400">
-                {{speakersStore.error_link}}
-              </span>
-            </div>
-            <v-text-field
-                v-model="linkedIn"
-                label="LinkedIn"
-            ></v-text-field>
-            <div v-if="speakersStore.error_link">
-              <span class="text-sm text-red-400">
-                {{speakersStore.error_link}}
-              </span>
-            </div>
-            <v-text-field
-                v-model="facebook"
-                label="Facebook"
-            ></v-text-field>
-            <div v-if="speakersStore.error_link">
-              <span class="text-sm text-red-400">
-                {{speakersStore.error_link}}
-              </span>
-            </div>
-            <v-text-field
-                v-model="twitter"
-                label="Twitter"
-            ></v-text-field>
-            <div v-if="speakersStore.error_link">
-              <span class="text-sm text-red-400">
-                {{speakersStore.error_link}}
-              </span>
-            </div>
-            <v-file-input
-                v-model="addFile"
-                accept="image/png, image/jpeg, image/bmp"
-                :prepend-icon="null"
-                color="black"
-                @change="onFileChange($event, 'add')"
-                label="Choose Image">
-            </v-file-input>
-            <div v-if="speakersStore.error_image">
-              <span class="text-sm text-red-400">
-                {{speakersStore.error_image}}
-              </span>
-            </div>
-            <v-img :src="addImageUrl"/>
             <v-btn class="mt-2" type="submit" @click="submitForm()" block>Save</v-btn>
           </v-form>
         </v-sheet>
+
 
         <br>
         <div class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -129,25 +136,7 @@
                 Last Name
               </th>
               <th scope="col" class="px-6 py-3">
-                Short Description
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Long Description
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Company
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Instagram
-              </th>
-              <th scope="col" class="px-6 py-3">
-                LinkedIn
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Facebook
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Twitter
+                Show
               </th>
               <th scope="col" class="px-6 py-3">
                 Delete
@@ -158,41 +147,68 @@
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <td class="p-4">
                 <img :src="'http://127.0.0.1:8000/storage/' + speakers.picture" class="w-32 md:w-64 max-w-full max-h-full" alt="Speaker's Profile Picture">
-                <form @submit.prevent class="inline-block">
-                  <input type="hidden" v-model="speakers.id">
-                  <input type="file" accept="image/*" @change="onFileChange($event, 'update')" class="inline-block">
-                </form>
-              </td>
-
-              <td>
-                <input type="text" v-model="speakers.first_name" placeholder="First Name" class="inline-block">
               </td>
               <td>
-                <input type="text" v-model="speakers.last_name" placeholder="Last Name" class="inline-block">
+                {{ speakers.first_name }}
               </td>
               <td>
-                <input type="text" v-model="speakers.short_desc" placeholder="Short Description" class="inline-block">
+                {{ speakers.last_name }}
               </td>
               <td>
-                <input type="text" v-model="speakers.long_desc" placeholder="Long Description" class="inline-block">
-              </td>
-              <td>
-                <input type="text" v-model="speakers.company" placeholder="Company" class="inline-block">
-              </td>
-              <td>
-                <input type="text" v-model="speakers.instagram" placeholder="Instagram" class="inline-block">
-              </td>
-              <td>
-                <input type="text" v-model="speakers.linkedIn" placeholder="LinkedIn" class="inline-block">
-              </td>
-              <td>
-                <input type="text" v-model="speakers.facebook" placeholder="Facebook" class="inline-block">
-              </td>
-              <td>
-                <input type="text" v-model="speakers.twitter" placeholder="Twitter" class="inline-block">
-              </td>
-              <td>
-                <button class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block" @click="updateForm(speakers)" type="submit">Update</button>
+                <v-btn class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block" @click="dialog = true,editSpeakers(speakers)">
+                  Show
+                </v-btn>
+                <v-dialog v-model="dialog" width="auto" persistent>
+                  <v-card min-width="600" prepend-icon="mdi-update" title="Update Lecture">
+                    <v-card-text>
+                      <img :src="'http://127.0.0.1:8000/storage/' + edit_speakers.picture" class="w-32 md:w-64 max-w-full max-h-full mb-4" alt="Speaker's Profile Picture">
+                      <input type="file" accept="image/*" @change="onFileChange($event, 'update')" class="mb-4">
+                      <v-text-field
+                          v-model="edit_speakers.first_name"
+                          label="First Name"
+                      ></v-text-field>
+                      <v-text-field
+                          v-model="edit_speakers.last_name"
+                          label="Last Name"
+                      ></v-text-field>
+                      <v-text-field
+                          v-model="edit_speakers.short_desc"
+                          label="Short Description"
+                      ></v-text-field>
+                      <v-textarea
+                          v-model="edit_speakers.long_desc"
+                          label="Long Description"
+                          row-height="25"
+                          rows="4"
+                          auto-grow
+                      ></v-textarea>
+                      <v-text-field
+                          v-model="edit_speakers.company"
+                          label="Company"
+                      ></v-text-field>
+                      <v-text-field
+                          v-model="edit_speakers.instagram"
+                          label="Instagram"
+                      ></v-text-field>
+                      <v-text-field
+                          v-model="edit_speakers.linkedIn"
+                          label="LinkedIn"
+                      ></v-text-field>
+                      <v-text-field
+                          v-model="edit_speakers.facebook"
+                          label="Facebook"
+                      ></v-text-field>
+                      <v-text-field
+                          v-model="edit_speakers.twitter"
+                          label="Twitter"
+                      ></v-text-field>
+                    </v-card-text>
+                    <template v-slot:actions>
+                      <v-btn class="ms-auto" text="Close" @click="dialog = false, speakersStore.refreshSpeakers()"></v-btn>
+                      <v-btn class="font-medium text-green-600 dark:text-green-500 hover:underline" text="Update" @click="dialog = false,updateForm(edit_speakers)"></v-btn>
+                    </template>
+                  </v-card>
+                </v-dialog>
               </td>
               <td>
                 <form @submit.prevent class="inline-block">
@@ -201,6 +217,7 @@
               </td>
             </tr>
             </tbody>
+
 
           </table>
 
@@ -245,6 +262,9 @@ export default {
       twitter: '',
       stages:[],
       errors:[],
+      edit_speakers:[],
+      dialog:false,
+      error_dialog:false,
       speakersStore: useSpeakersStore(),
     };
   },
@@ -256,6 +276,9 @@ export default {
   }
   ,
   methods:{
+    editSpeakers(speakers){
+      this.edit_speakers = speakers;
+    },
     submitForm() {
       this.speakersStore.insertSpeakers(this.first_name,this.last_name, this.short_desc, this.long_desc, this.company, this.instagram, this.linkedIn, this.facebook, this.twitter, this.addFile);
       this.first_name = '';

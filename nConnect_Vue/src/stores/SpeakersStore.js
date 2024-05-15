@@ -201,32 +201,22 @@ export const useSpeakersStore = defineStore("speakers",{
                 const updatedResponse = await axios.put("/speakers/" + speakers.id, updatedData);
 
                 this.success = "Updated successfully";
+                await this.fetchSpeakers();
             } catch (error) {
                 if (error.response && error.response.status === 422) {
                     const errors = error.response.data.errors;
-                    if (errors) {
-                        Object.keys(errors).forEach(key => {
-                            if (key === 'first_name') {
-                                this.error_first_name = errors[key][0];
-                            } else if (key === 'last_name') {
-                                this.error_last_name = errors[key][0];
-                            } else if (key === 'short_desc') {
-                                this.error_short_desc = errors[key][0];
-                            } else if (key === 'long_desc') {
-                                this.error_long_desc = errors[key][0];
-                            } else if (key === 'company') {
-                                this.error_company = errors[key][0];
-                            } else if (key === 'instagram' || key === 'linkedIn' || key === 'facebook' || key === 'twitter') {
-                                this.error_link = errors[key][0];
-                            } else if (key === 'file') {
-                                this.error_image = errors[key][0];
-                            }
-                        });
-                    }
+                }
+            }
+        },
+        async refreshSpeakers() {
+            try {
+                await this.fetchSpeakers();
+            } catch (error) {
+                if (error.response.status === 422) {
+                    this.errors.value = error.response.data.errors;
                 }
             }
         }
-
 
 
 
