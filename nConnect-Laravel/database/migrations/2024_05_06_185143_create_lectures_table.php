@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('conference_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('name');
             $table->string('short_desc');
-            $table->string('long_desc')->nullable();
+            $table->longText('long_desc')->nullable();
             $table->integer('capacity')->nullable();
             $table->boolean('is_lecture')->default(true);
             $table->time('start_time');

@@ -6,6 +6,7 @@ use App\Models\Conference;
 use App\Models\Lecture;
 use App\Models\Speaker;
 use App\Models\Stage;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -102,6 +103,7 @@ class LectureController extends Controller
                 'short_desc' => 'required',
             ]);
         }
+
         $lecture ->update($data);
         return response()->json("Lecture Updated");
 

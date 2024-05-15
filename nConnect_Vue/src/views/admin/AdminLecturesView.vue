@@ -238,13 +238,29 @@
     <div v-if="lectureStore.success" id="alert-3" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
       <SuccessAlertComponent :message="lectureStore.success"/>
     </div>
+    <v-dialog v-model="error_dialog" width="auto" persistent>
+      <v-card min-width="600" prepend-icon="mdi-update" title="We couldn't perform the update. Please check the data you've entered and try again.">
+        <v-card-text>
+          <ul>
+            <li v-for="(errors, fieldName) in lectureStore.errors_update" :key="fieldName">
+              <ul>
+                <li v-for="error in errors" :key="error">{{ error }}</li>
+              </ul>
+            </li>
+          </ul>
+        </v-card-text>
+        <template v-slot:actions>
+          <v-btn class="ms-auto" text="Close" @click="closeErrorDialog"></v-btn>
+        </template>
+      </v-card>
+    </v-dialog>
   </div>
 
 
 
 </template>
 <script>
-import { onMounted } from 'vue'
+import {onMounted, watch} from 'vue'
 import { initFlowbite } from 'flowbite'
 import {useLectureStore} from "@/stores/LectureStore.js";
 import {useStageStore} from "@/stores/StageStore.js";
@@ -284,6 +300,11 @@ export default {
   },
   mounted() {
     initFlowbite();
+    watch(() => this.lectureStore.errors_update, (newValue, oldValue) => {
+      if (newValue && newValue.length !== 0) {
+        this.callErrorDialog();
+      }
+    });
   },
   methods:{
     editLecture(lecture){
@@ -315,6 +336,14 @@ export default {
         title: item.first_name,
         subtitle: item.short_desc,
       }
+    },
+    callErrorDialog(){
+      this.error_dialog = true;
+    },
+    closeErrorDialog(){
+      this.error_dialog = false;
+      this.lectureStore.errors_update=[];
+      this.lectureStore.fetchCurrentConferenceLectures();
     }
   }
 }

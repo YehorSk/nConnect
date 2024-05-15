@@ -101,12 +101,21 @@ export const useLectureStore = defineStore("lectures", {
         },
         async updateLecture(lecture) {
             try {
+
+                let startTime = lecture.start_time;
+                let endTime = lecture.end_time;
+                if (startTime !== '' && startTime.split(':').length !== 3) {
+                    startTime = startTime + ':00';
+                }
+                if (endTime !== '' && endTime.split(':').length !== 3) {
+                    endTime = endTime + ':00';
+                }
                 if(lecture.is_lecture===1){
                     const response = await axios.put("lectures/" + lecture.id, {
                         name: lecture.name,
                         capacity: lecture.capacity,
-                        start_time: lecture.start_time,
-                        end_time: lecture.end_time,
+                        start_time: startTime,
+                        end_time: endTime,
                         short_desc: lecture.short_desc,
                         long_desc: lecture.long_desc,
                         stage_id: lecture.stage_id,
@@ -115,8 +124,8 @@ export const useLectureStore = defineStore("lectures", {
                 }else{
                     const response = await axios.put("lectures/" + lecture.id, {
                         name: lecture.name,
-                        start_time: lecture.start_time,
-                        end_time: lecture.end_time,
+                        start_time: startTime,
+                        end_time: endTime,
                         short_desc: lecture.short_desc,
                         stage_id: lecture.stage_id,
                     });
