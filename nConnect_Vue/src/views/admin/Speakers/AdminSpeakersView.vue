@@ -159,7 +159,7 @@
                   Show
                 </v-btn>
                 <v-dialog v-model="dialog" width="auto" persistent>
-                  <v-card min-width="600" prepend-icon="mdi-update" title="Update Lecture">
+                  <v-card min-width="600" prepend-icon="mdi-update" title="Update Speaker">
                     <v-card-text>
                       <img :src="'http://127.0.0.1:8000/storage/' + edit_speakers.picture" class="w-32 md:w-64 max-w-full max-h-full mb-4" alt="Speaker's Profile Picture">
                       <input type="file" accept="image/*" @change="onFileChange($event, 'update')" class="mb-4">
