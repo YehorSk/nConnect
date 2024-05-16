@@ -64,7 +64,7 @@ class GalleryController extends Controller
             'image'=> 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         $imageName = time().'.'.$request->image->extension();
-        $request->image->storeAs('public/ímages/gallery', $imageName);
+        $request->image->storeAs('public/images/gallery', $imageName);
 
         return response()->json(['image_path'=> 'images/gallery/'. $imageName]);
     }

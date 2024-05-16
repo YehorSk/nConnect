@@ -32,11 +32,7 @@ export const UseReviewStore = defineStore("reviews", {
                     formData.append('name', name);
                     formData.append('text', text);
                     formData.append('photo', photo);
-                    const response = await axios.post('reviews', formData,{
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    });
+                    const response = await axios.post('reviews', formData);
                     this.reviews.push(response.data);
                     this.success = "Added successfully";
                     await this.fetchReviews();
@@ -49,6 +45,8 @@ export const UseReviewStore = defineStore("reviews", {
                     }
                     if (error.response.data.errors.photo) {
                         this.error_photo = error.response.data.errors.photo[0];
+                    } else {
+                        console.error(error.response.data);
                     }
 
                 }
@@ -64,29 +62,25 @@ export const UseReviewStore = defineStore("reviews", {
                     }
                 }
             },
-            async updateReview(review) {
+            async updateReview(review, file) {
                 try {
-                    const formData = new FormData();
-                    formData.append('name', review.name);
-                    formData.append('text', review.text);
+                    let imagePath = null;
+                    if(file){
+                        const formData = new FormData();
+                        formData.append('photo', file);
+                        const response = await axios.post("/upload-review-image" ,formData);
+                        imagePath = response.data.image_path;
 
-                    if (review.photo instanceof File) {
-                        formData.append('photo', review.photo);
                     }
-
-                    const response = await axios.put("reviews/" + review.id, formData, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    });
-
-                    // Update the review with the new data returned from the server
-                    const updatedReview = response.data;
-                    const updatedReviewIndex = this.reviews.findIndex(r => r.id === review.id);
-                    if (updatedReviewIndex !== -1) {
-                        this.reviews.splice(updatedReviewIndex, 1, updatedReview);
+                    console.log('Image path:', imagePath);
+                    const updatedData={
+                        name: review.name,
+                        text: review.text,
+                    };
+                    if (imagePath !== null) {
+                        updatedData.photo = imagePath;
                     }
-
+                    const response = await axios.put("reviews/" + review.id, updatedData);
                     this.success = "Updated successfully";
                 } catch (error) {
                     if (error.response.data.errors.name) {

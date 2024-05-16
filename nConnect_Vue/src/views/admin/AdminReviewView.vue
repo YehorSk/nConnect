@@ -24,13 +24,13 @@
         {{reviewStore.error_text}}
       </span>
             </div>
-            <v-file-input v-model="photo" label="Choose Photo" :prepend-icon="null" accept="image/*" @change="onFileChange"></v-file-input>
+            <v-file-input v-model="addPhoto" label="Choose Photo" :prepend-icon="null" accept="image/*" @change="onFileChange($event, 'add')"></v-file-input>
             <div v-if="reviewStore.error_photo">
       <span class="text-sm text-red-400">
         {{reviewStore.error_photo}}
       </span>
             </div>
-            <v-img :src="imageUrl" />
+            <v-img :src="addImageUrl" />
             <v-btn class="mt-2" type="submit" @click="submitForm()" block>Save</v-btn>
           </v-form>
         </v-sheet>
@@ -42,12 +42,12 @@
           <div class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <div v-for="review in reviewStore.getReviews" :key="review.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 items-center">
               <div>
+                <img :src="'http://127.0.0.1:8000/storage/' + review.photo" class="inline-block mr-2" style="max-width: 100px;">
                 <form @submit.prevent class="inline-block">
                   <input type="hidden" v-model="review.id">
                   <input type="text" v-model="review.name" placeholder="Name" class="inline-block mr-2">
                   <input type="text" v-model="review.text" placeholder="Date" class="inline-block mr-2">
-                  <input type="file" @change="onFileChange($event, review)" class="inline-block mr-2">
-                  <img :src="'http://127.0.0.1:8000/storage/' + review.photo" class="inline-block mr-2" style="max-width: 100px;">
+                  <input type="file" @change="onFileChange($event, 'update')" class="inline-block mr-2">
                   <button class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block mr-2" @click="updateForm(review)" type="submit">Update</button>
                 </form>
                 <form @submit.prevent class="inline-block">
@@ -85,9 +85,10 @@ export default {
 
       name: '',
       text: '',
-      photo: '',
-      file: null,
-      imageUrl: "",
+      addPhoto: null,
+      updatePhoto: null,
+      addImageUrl: "",
+      updateImageUrl: "",
       reviews: [],
       errors: [],
       reviewStore: UseReviewStore(),
@@ -98,37 +99,47 @@ export default {
   },
   methods: {
     submitForm() {
-      this.reviewStore.insertReviews(this.name, this.text, this.photo);
+      this.reviewStore.insertReviews(this.name, this.text, this.addPhoto);
       this.reviewStore.error_name = '';
       this.reviewStore.error_text = '';
       this.reviewStore.error_photo = '';
       this.name = '';
       this.text = '';
-      this.photo = '';
-      this.file = null;
-      this.imageUrl = "";
+      this.addFile = null;
+      this.addImageUrl = "";
     },
-    createImage(file) {
+    updateForm(review){
+      this.reviewStore.updateReview(review, this.updateFile);
+    },
+    createImage(file,form) {
+      if (!(file instanceof Blob)) {
+        console.error('blob error');
+        return;
+      }
       const reader = new FileReader();
 
       reader.onload = e => {
-        this.imageUrl = e.target.result;
+        if (form === 'update') {
+          this.updateImageUrl = e.target.result;
+        } else {
+          this.addImageUrl = e.target.result;
+        }
       };
       reader.readAsDataURL(file);
     },
-    onFileChange(event) {
+    onFileChange(event, form) {
       const file = event.target.files[0];
       if (!file) {
+        console.log("No file selected.");
         return;
       }
-      this.createImage(file);
+      if (form === 'update') {
+        this.updatePhoto = file;
+      } else {
+        this.addPhoto = file;
+      }
+      this.createImage(file,form);
     },
-    updateForm(review){
-      this.reviewStore.updateReview(review);
-      this.reviewStore.error_name = '';
-      this.reviewStore.error_text = '';
-      this.reviewStore.error_photo = '';
-    }
 
 
   },
