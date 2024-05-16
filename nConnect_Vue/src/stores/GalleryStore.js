@@ -48,7 +48,6 @@ export const UseGalleryStore = defineStore("gallery", {
                             this.error_year = error.response.data.errors.year[0];
                         }
                     } else {
-                        this.error_image = "Unexpected error occurred";
                         console.error(error.response.data);
                     }
 
@@ -89,19 +88,10 @@ export const UseGalleryStore = defineStore("gallery", {
                 } catch (error) {
                     if (error.response && error.response.status === 422) {
                         const errors = error.response.data.errors;
-                        if (errors) {
-                            Object.keys(errors).forEach(key => {
-                                if (key === 'year') {
-                                    this.error_year = errors[key][0];
-                                } else if (key === 'file') {
-                                    this.error_image = errors[key][0];
-                                }
-                            });
+
                         }
                     }
                 }
-
-            }
         }
     }
 );

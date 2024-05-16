@@ -35,37 +35,44 @@ class ReviewController extends Controller
         $review->save();
         return response()->json("Review Added");
     }
-    public function destroy($id){
+
+    public function destroy($id)
+    {
         $review = Review::find($id);
         $filePath = storage_path('app/public/' . $review->photo);
         File::delete($filePath);
         $review->delete();
         return response()->json("Review Deleted");
     }
+
     public function update(Request $request, $id)
     {
-        $review = Review::findOrFail($id);
+        $review = Review::find($id);
+        if ($request->has('photo') && !empty($request->photo)) {
+            $filePath = storage_path('app/public/' . $review->photo);
+            File::delete($filePath);
+        }
         $data = $request->validate([
             'name' => 'required', Rule::unique('reviews')->ignore($review),
-            'text' => 'required|string|min:5|max:255', Rule::unique('stages')->ignore($review),
+            'text' => 'required|string|min:5|max:255', Rule::unique('reviews')->ignore($review),
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-
-        if ($request->hasFile('photo')) {
-            $imageName = $request->name . '.' . $request->photo->extension();
-            $path = $request->file('photo')->storeAs('public/images/reviews/', $imageName);
-            $relativePath = str_replace('public/', '', $path);
-            $review->photo = $relativePath;
-        }
-
         $review->update($data);
-
-        return response()->json("Review Updated");
+        return response()->json($data);
     }
 
+        public function uploadReviewImage(Request $request)
+        {
+            $request->validate([
+                'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+            $imageName = time() . '.' . $request->photo->extension();
+            $request->photo->storeAs('public/images/reviews', $imageName);
 
+            return response()->json(['image_path' => 'images/reviews/' . $imageName]);
+        }
+    }
 
-}
 
 

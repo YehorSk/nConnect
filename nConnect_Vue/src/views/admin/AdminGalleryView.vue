@@ -119,7 +119,6 @@ export default {
       this.year = '';
       this.addFile = null;
       this.addImageUrl = "";
-      this.imageUrl = "";
     },
     updateForm(gallery){
       console.log("File", this.file);

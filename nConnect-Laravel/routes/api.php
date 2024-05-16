@@ -90,7 +90,7 @@ Route::post('/upload-gallery-image', [GalleryController::class, 'uploadGalleryIm
 //----------------------------Lecture Routes---------------------------------
 
 Route::apiResource('reviews',ReviewController::class);
-
+Route::post('/upload-review-image', [ReviewController::class,'uploadReviewImage']);
 //------------------------------------------------------------
 
 //Get all time slots for the stage
