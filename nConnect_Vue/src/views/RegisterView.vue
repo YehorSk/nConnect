@@ -1,7 +1,6 @@
 <script setup>
 import NavigationComponent from "@/components/NavigationComponent.vue";
 import FooterComponent from "@/components/FooterComponent.vue";
-
 </script>
 <template>
   <NavigationComponent/>
@@ -42,23 +41,34 @@ import FooterComponent from "@/components/FooterComponent.vue";
                   <div class="center-wrap">
                     <div class="section text-center">
                       <h4 style="color: #FF6600" class="mb-3 pb-3">Sign Up</h4>
-                      <div class="form-group">
-                        <input type="text" class="form-style" placeholder="Full Name">
+                      <form @submit.prevent>
+                      <div class="form-group ">
+                        <input type="text" v-model="name" class="form-style" :class="{'is-invalid':authStore.errors['name']}" placeholder="Full Name">
                         <i style="color: #FF6600" class="input-icon uil uil-user"></i>
+                        <div v-if="authStore.errors['name']" class="invalid-feedback">
+                          {{authStore.errors['name'][0]}}
+                        </div>
                       </div>
                       <div class="form-group mt-2">
-                        <input type="tel" class="form-style" placeholder="Phone Number">
-                        <i style="color: #FF6600" class="input-icon uil uil-phone"></i>
-                      </div>
-                      <div class="form-group mt-2">
-                        <input type="email" class="form-style" placeholder="Email">
+                        <input type="email" v-model="email" class="form-style" :class="{'is-invalid':authStore.errors['email']}" placeholder="Email">
                         <i style="color: #FF6600" class="input-icon uil uil-at"></i>
+                        <div v-if="authStore.errors['email']" class="invalid-feedback">
+                          {{authStore.errors['email'][0]}}
+                        </div>
                       </div>
                       <div class="form-group mt-2">
-                        <input type="password" class="form-style" placeholder="Password">
+                        <input type="password" v-model="password" class="form-style" :class="{'is-invalid':authStore.errors['password']}" placeholder="Password">
+                        <i style="color: #FF6600" class="input-icon uil uil-lock-alt"></i>
+                        <div v-if="authStore.errors['password']" class="invalid-feedback">
+                          {{authStore.errors['password'][0]}}
+                        </div>
+                      </div>
+                      <div class="form-group mt-2">
+                        <input type="password" v-model="password_confirmation" class="form-style" placeholder="Confirm password">
                         <i style="color: #FF6600" class="input-icon uil uil-lock-alt"></i>
                       </div>
-                      <a href="#" class="btn mt-4">Register</a>
+                      <a href="#" class="btn mt-4" @click="submitRegForm">Register</a>
+                      </form>
                     </div>
                   </div>
                 </div>
@@ -71,6 +81,32 @@ import FooterComponent from "@/components/FooterComponent.vue";
   </div>
   <FooterComponent/>
 </template>
+<script>
+
+import {UseAuthStore} from "@/stores/AuthStore.js";
+
+export default{
+  data(){
+    return{
+      name:'',
+      email:'',
+      password:'',
+      password_confirmation:'',
+      authStore: UseAuthStore()
+    };
+  },
+  methods:{
+    submitRegForm(){
+      this.authStore.register(this.name,this.email,this.password,this.password_confirmation);
+      this.name = '';
+      this.email = '';
+      this.password = '';
+      this.password_confirmation = '';
+    }
+
+  }
+}
+</script>
 <style>
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900');
 
@@ -150,7 +186,7 @@ h6 span{
   position: relative;
   width: 440px;
   max-width: 100%;
-  height: 400px;
+  height: 500px;
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
   perspective: 800px;

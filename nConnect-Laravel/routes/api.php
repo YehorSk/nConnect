@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\StageController;
@@ -23,12 +24,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//Auth routes
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/fetchuser', [AuthController::class, 'fetchUser']);
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+});
+
 //----------------------------Stages Routes---------------------------------
 Route::apiResource('stages',StageController::class);
+//Route::get('/stages', [StageController::class, 'index']);
+//Route::post('/stages', [StageController::class, 'store']);
+//Route::put('/stages/{id}', [StageController::class, 'update']);
+//Route::delete('/stages/{id}', [StageController::class, 'destroy']);
+//Route::group(['middleware' => ['auth:sanctum']], function () {
+//
+//});
+
 Route::get('/get-current-conference-stages',[StageController::class,'get_current_conference_stages']);
 Route::get('/get-available-stages',[StageController::class,'get_available_stages']);
 Route::post('/add-stages-to-conference',[StageController::class,'addStageToConference']);
