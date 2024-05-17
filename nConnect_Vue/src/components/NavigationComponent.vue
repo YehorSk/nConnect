@@ -41,12 +41,26 @@
             </router-link>
           </li>
         </ul>
-        <a href="#" class="ticket">
-          <span>REGISTRÁCIA</span>
-        </a>
+        <div v-if="!user.id">
+          <router-link to="/register" class="ticket"><span>REGISTRÁCIA</span></router-link>
+        </div>
       </div>
     </div>
   </nav>
 </template>
-<script setup lang="ts">
+
+<script>
+import {UseAuthStore} from "@/stores/AuthStore.js";
+
+export default {
+  data(){
+    return{
+      authStore: UseAuthStore(),
+      user: []
+    };
+  },
+  created() {
+    this.user = this.authStore.getUser
+  }
+}
 </script>

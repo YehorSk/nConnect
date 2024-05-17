@@ -20,6 +20,28 @@ import AdminCurConSpeakersView from "@/views/admin/Speakers/AdminCurConSpeakersV
 import AdminLecturesView from "@/views/admin/AdminLecturesView.vue";
 import AdminCurConOrganizersView from "@/views/admin/Organizers/AdminCurConOrganizersView.vue";
 import AdminOrganizersView from "@/views/admin/Organizers/AdminOrganizersView.vue";
+import {UseAuthStore} from "@/stores/AuthStore.js";
+import NotFoundView from "@/views/NotFoundView.vue";
+
+async function adminGuard(ro,from,next){
+  const authStore = UseAuthStore();
+  await authStore.fetchUser();
+  if(authStore.user.is_admin !== 1){
+    next({ name: 'home' });
+  }else{
+    next();
+  }
+}
+
+async function userGuard(ro,from,next){
+  const authStore = UseAuthStore();
+  await authStore.fetchUser();
+  if(authStore.user.id){
+    next({ name: 'home' });
+  }else{
+    next();
+  }
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -62,72 +84,91 @@ const router = createRouter({
     {
       path: '/register',
       name: 'register',
-      component: RegisterView
+      component: RegisterView,
+      beforeEnter: userGuard
     },
+      {
+          path: '/notfound',
+          name: 'NotFoundView',
+          component: NotFoundView
+      },
     {
       path: '/admin',
       name: 'admin',
-      component: AdminView
+      component: AdminView,
+      beforeEnter: adminGuard
     },
     {
       path: '/admin-stages',
       name: 'admin-stages',
-      component: AdminStagesView
+      component: AdminStagesView,
+      beforeEnter: adminGuard
     },
     {
       path: '/admin-current-conference-stages',
       name: 'admin-current-conference-stages',
-      component: AdminCurConStagesView
+      component: AdminCurConStagesView,
+      beforeEnter: adminGuard
     },
     {
       path: '/admin-time-slots/:id',
       name: 'admin-time-slots',
-      component: AdminTimeSlots
+      component: AdminTimeSlots,
+      beforeEnter: adminGuard
     },
     {
       path: '/admin-gallery',
       name: 'admin-gallery',
-      component: AdminGalleryView
+      component: AdminGalleryView,
+      beforeEnter: adminGuard
     },
     {
       path: '/admin-sponsors',
       name: 'admin-sponsors',
-      component: AdminSponsorsView
+      component: AdminSponsorsView,
+      beforeEnter: adminGuard
     },
     {
       path: '/admin-current-conference-sponsors',
       name: 'admin-current-conference-sponsors',
-      component: AdminCurConSponsorsView
+      component: AdminCurConSponsorsView,
+      beforeEnter: adminGuard
     },
     {
       path: '/admin-reviews',
       name: 'admin-reviews',
-      component: AdminReviewView
+      component: AdminReviewView,
+      beforeEnter: adminGuard
     },
     {
       path: '/admin-speakers',
       name: 'admin-speakers',
-      component: AdminSpeakersView
+      component: AdminSpeakersView,
+      beforeEnter: adminGuard
     },
     {
       path: '/admin-lectures',
       name: 'admin-lectures',
-      component: AdminLecturesView
+      component: AdminLecturesView,
+      beforeEnter: adminGuard
     },
     {
       path: '/admin-current-conference-speakers',
       name: 'admin-current-conference-speakers',
-      component: AdminCurConSpeakersView
+      component: AdminCurConSpeakersView,
+      beforeEnter: adminGuard
     },
     {
       path: '/admin-organizers',
       name: 'admin-organizers',
-      component: AdminOrganizersView
+      component: AdminOrganizersView,
+      beforeEnter: adminGuard
     },
     {
       path: '/admin-current-conference-organizers',
       name: 'admin-current-conference-organizers',
-      component: AdminCurConOrganizersView
+      component: AdminCurConOrganizersView,
+      beforeEnter: adminGuard
     },
 
   ]

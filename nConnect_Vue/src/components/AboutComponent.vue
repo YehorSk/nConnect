@@ -19,9 +19,11 @@
 <!--              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmtempor incididunt ut labore et dolore magna aliq enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.</p>-->
 <!--            </div>-->
             <ul class="list-inline">
-              <li class="list-inline-item">
-                <a href="#" class="btn btn-main-md">REGISTRÁCIA</a>
-              </li>
+              <div v-if="!user.id">
+                <li class="list-inline-item">
+                  <router-link to="/register" class="btn btn-main-md">REGISTRÁCIA</router-link>
+                </li>
+              </div>
 <!--              <li class="list-inline-item">-->
 <!--                <a href="#" class="btn btn-transparent-md">Read more</a>-->
 <!--              </li>-->
@@ -33,3 +35,19 @@
   </section>
 
 </template>
+
+<script>
+import {UseAuthStore} from "@/stores/AuthStore.js";
+
+export default {
+  data(){
+    return{
+      authStore: UseAuthStore(),
+      user: {}
+    };
+  },
+  created() {
+    this.user = this.authStore.getUser;
+  }
+}
+</script>

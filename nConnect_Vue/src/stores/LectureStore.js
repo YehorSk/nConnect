@@ -51,8 +51,6 @@ export const useLectureStore = defineStore("lectures", {
         async fetchLecturesByStage(name) {
             await this.fetchCurrentConferenceLectures();
             this.main_lectures = this.current_lectures.filter(lecture => lecture.stage_name === name);
-            console.log(this.main_lectures);
-            console.log(name);
         },
         async destroyLecture(id) {
             try {

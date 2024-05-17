@@ -12,6 +12,7 @@ use \App\Http\Controllers\LectureController;
 use App\Http\Controllers\OrganizerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //Auth routes
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/sanctum/csrf-cookie', [CsrfCookieController::class, 'show']);
 Route::get('/fetchuser', [AuthController::class, 'fetchUser']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {

@@ -102,7 +102,7 @@
                 </v-list-item>
                 <v-divider :thickness="8" color="info"></v-divider>
                 <v-btn color="black" @click="dialog = false" text="Close"></v-btn>
-                <v-btn color="green" text="Register"></v-btn>
+                <v-btn v-if="user.id" color="green" text="Register"></v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -117,6 +117,7 @@
 <script>
 import {useStageStore} from "@/stores/StageStore.js";
 import {useLectureStore} from "@/stores/LectureStore.js";
+import {UseAuthStore} from "@/stores/AuthStore.js";
 
 export default {
   data(){
@@ -124,13 +125,16 @@ export default {
       stageStore: useStageStore(),
       lectureStore: useLectureStore(),
       dialog: false,
-      show_lecture:[]
+      show_lecture:[],
+      authStore: UseAuthStore(),
+      user: {}
     };
   },
 created(){
   this.stageStore.fetchCurrentConferenceStages();
   this.lectureStore.fetchCurrentConferenceLectures();
   this.lectureStore.fetchLecturesByStage("SOFT DEV STAGE");
+  this.user = this.authStore.getUser;
 },
   methods:{
     showDetails(lecture){

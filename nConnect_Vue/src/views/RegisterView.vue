@@ -24,15 +24,21 @@ import FooterComponent from "@/components/FooterComponent.vue";
                   <div class="center-wrap">
                     <div class="section text-center">
                       <h4 style="color: #FF6600" class="mb-4 pb-3">Log In</h4>
-                      <div class="form-group">
-                        <input type="email" class="form-style" placeholder="Email">
+                      <div class="form-group mt-2">
+                        <input type="email" v-model="email" class="form-style" :class="{'is-invalid':authStore.errors['email']}" placeholder="Email">
                         <i style="color: #FF6600" class="input-icon uil uil-at"></i>
+                        <div v-if="authStore.errors['email']" class="invalid-feedback">
+                          {{authStore.errors['email'][0]}}
+                        </div>
                       </div>
                       <div class="form-group mt-2">
-                        <input type="password" class="form-style" placeholder="Password">
+                        <input type="password" v-model="password" class="form-style" :class="{'is-invalid':authStore.errors['password']}" placeholder="Password">
                         <i style="color: #FF6600" class="input-icon uil uil-lock-alt"></i>
+                        <div v-if="authStore.errors['password']" class="invalid-feedback">
+                          {{authStore.errors['password'][0]}}
+                        </div>
                       </div>
-                      <a href="#" class="btn mt-4">Login</a>
+                      <a href="#" @click="submitLogInForm" class="btn mt-4">Login</a>
                       <p class="mb-0 mt-4 text-center"><a href="#" class="link">Forgot your password?</a></p>
                     </div>
                   </div>
@@ -102,6 +108,11 @@ export default{
       this.email = '';
       this.password = '';
       this.password_confirmation = '';
+    },
+    submitLogInForm(){
+      this.authStore.login(this.email,this.password);
+      this.email = '';
+      this.password = '';
     }
 
   }
