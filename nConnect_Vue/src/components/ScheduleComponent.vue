@@ -102,7 +102,7 @@
                 </v-list-item>
                 <v-divider :thickness="8" color="info"></v-divider>
                 <v-btn color="black" @click="dialog = false" text="Close"></v-btn>
-                <v-btn v-if="user.id" color="green" text="Register"></v-btn>
+                <v-btn v-if="user.email_verified_at" color="green" text="Register"></v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>

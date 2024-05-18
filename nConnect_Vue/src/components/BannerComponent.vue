@@ -12,7 +12,13 @@
             <h6>{{ conferenceStore.getCurrentConference.year }}</h6>
             <!-- Action Button -->
             <div v-if="user.id">
-              <router-link to="#" class="btn btn-white-md">Moje konferencie</router-link>
+              <div v-if="user.email_verified_at">
+                <router-link  to="#" class="btn btn-white-md">Moje konferencie</router-link>
+              </div>
+              <div v-else-if="!user.email_verified_at">
+                <h2>Please verify your email</h2>
+              </div>
+
               <div v-if="user.is_admin===1">
                 <router-link to="/admin" class="btn btn-white-md">Admin</router-link>
               </div>

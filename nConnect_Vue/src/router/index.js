@@ -22,6 +22,8 @@ import AdminCurConOrganizersView from "@/views/admin/Organizers/AdminCurConOrgan
 import AdminOrganizersView from "@/views/admin/Organizers/AdminOrganizersView.vue";
 import {UseAuthStore} from "@/stores/AuthStore.js";
 import NotFoundView from "@/views/NotFoundView.vue";
+import AdminManageAdmins from "@/views/admin/AdminManageAdmins.vue";
+import AdminManageUsers from "@/views/admin/AdminManageUsers.vue";
 
 async function adminGuard(ro,from,next){
   const authStore = UseAuthStore();
@@ -168,6 +170,18 @@ const router = createRouter({
       path: '/admin-current-conference-organizers',
       name: 'admin-current-conference-organizers',
       component: AdminCurConOrganizersView,
+      beforeEnter: adminGuard
+    },
+    {
+      path: '/admin-manage-admins',
+      name: 'admin-manage-admins',
+      component: AdminManageAdmins,
+      beforeEnter: adminGuard
+    },
+    {
+      path: '/admin-manage-users',
+      name: 'admin-manage-users',
+      component: AdminManageUsers,
       beforeEnter: adminGuard
     },
 

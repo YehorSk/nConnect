@@ -33,6 +33,7 @@ class AuthController extends Controller
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
         ]);
+        $user->sendEmailVerificationNotification();
 
         return $this->success([
             'user' => $user,
