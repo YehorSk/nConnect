@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Conference;
 use App\Models\Sponsor;
-use App\Models\Stage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Validation\Rule;
 
 class SponsorController extends Controller
 {
@@ -79,5 +79,32 @@ class SponsorController extends Controller
         File::delete($filePath);
         $sponsor->delete();
         return response()->json("Sponsor Deleted");
+    }
+
+    public function update(Request $request, $id)
+    {
+        $sponsor = Sponsor::find($id);
+        if ($request->has('image')&& !empty($request->image)){
+            $filePath = storage_path('app/public/'. $sponsor->image);
+            File::delete($filePath);
+        }
+        $data = $request->validate([
+            'name'=>[ 'required', Rule::unique('sponsors')->ignore($sponsor->id),],
+            'link'=>[ 'required', Rule::unique('sponsors')->ignore($sponsor->id),],
+            'image'=>[ 'nullable', Rule::unique('sponsors')->ignore($sponsor->id),]
+
+        ]);
+        $sponsor->update($data);
+        return response()->json($data);
+
+    }
+    public function uploadSponsorImage(Request $request){
+        $request->validate([
+            'image'=>'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+        $imageName = time().'.'.$request->image->extension();
+        $request->image->storeAs('public/images/sponsors', $imageName);
+
+        return response()->json(['image_path' => 'images/sponsors/'.$imageName]);
     }
 }

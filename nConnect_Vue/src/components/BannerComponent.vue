@@ -7,9 +7,9 @@
           <div class="block">
             <!-- Coundown Timer -->
 <!--            <div class="timer"></div>-->
-            <h1>nCONNECT24</h1>
+            <h1>{{ conferenceStore.getCurrentConference.name }}</h1>
             <h2>TECH KONFERENCIA PRE ŠTUDENTOV V NITRE</h2>
-            <h6>14 MAREC 2024 , NITRA</h6>
+            <h6>{{ conferenceStore.getCurrentConference.year }}</h6>
             <!-- Action Button -->
             <div v-if="user.id">
               <router-link to="#" class="btn btn-white-md">Moje konferencie</router-link>
@@ -31,16 +31,22 @@
 </template>
 <script>
 import {UseAuthStore} from "@/stores/AuthStore.js";
-
+import { initFlowbite } from 'flowbite';
+import {UseConferenceStore} from "@/stores/ConferenceStore.js";
 export default {
   data(){
     return{
       authStore: UseAuthStore(),
-      user: {}
+      user: {},
+      conferenceStore: UseConferenceStore(),
     };
   },
   created() {
     this.user = this.authStore.getUser;
-  }
+    this.conferenceStore.fetchCurrentConference();
+  },
+  mounted() {
+    initFlowbite();
+  },
 }
 </script>

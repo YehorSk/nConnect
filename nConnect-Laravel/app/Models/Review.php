@@ -13,7 +13,7 @@ class Review extends Model
         'conference_id',
         'name',
         'text',
-        'photo'
+        'image'
     ];
 
     public function conference():BelongsTo{

@@ -124,5 +124,33 @@ export const useSponsorsStore = defineStore("sponsors",{
                 }
             }
         },
+        async updateSponsors(sponsors, file){
+            try {
+                let imagePath = null;
+                if (file) {
+                    const formData = new FormData();
+                    formData.append('image', file);
+                    const response = await axios.post("/upload-sponsor-image", formData);
+
+                    imagePath = response.data.image_path;
+                }
+                console.log('Image path:', imagePath);
+                const updatedData = {
+                    name: sponsors.name,
+                    link: sponsors.link,
+                };
+
+                if (imagePath !== null) {
+                    updatedData.image = imagePath;
+                }
+                const updatedResponse = await axios.put("/sponsors/" + sponsors.id, updatedData);
+                this.success = "Updated successfully";
+            }catch (error) {
+                if (error.response && error.response.status === 422) {
+                    const errors = error.response.data.errors;
+                }
+
+            }
+        }
     }
 });

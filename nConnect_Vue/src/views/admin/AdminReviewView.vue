@@ -40,18 +40,18 @@
       <div class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
 
           <div class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <div v-for="review in reviewStore.getReviews" :key="review.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 items-center">
+            <div v-for="reviews in reviewStore.getReviews" :key="reviews.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 items-center">
               <div>
-                <img :src="'http://127.0.0.1:8000/storage/' + review.photo" class="inline-block mr-2" style="max-width: 100px;">
+                <img :src="'http://127.0.0.1:8000/storage/' + reviews.image" class="inline-block mr-2" style="max-width: 100px;" alt="Review Image">
                 <form @submit.prevent class="inline-block">
-                  <input type="hidden" v-model="review.id">
-                  <input type="text" v-model="review.name" placeholder="Name" class="inline-block mr-2">
-                  <input type="text" v-model="review.text" placeholder="Date" class="inline-block mr-2">
-                  <input type="file" @change="onFileChange($event, 'update')" class="inline-block mr-2">
-                  <button class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block mr-2" @click="updateForm(review)" type="submit">Update</button>
+                  <input type="hidden" v-model="reviews.id">
+                  <input type="text" v-model="reviews.name" placeholder="Name" class="inline-block mr-2">
+                  <input type="text" v-model="reviews.text" placeholder="Date" class="inline-block mr-2">
+                  <input type="file" accept="image/*" @change="onFileChange($event, 'update')" class="inline-block mr-2">
+                  <button class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block mr-2" @click="updateForm(reviews)" type="submit">Update</button>
                 </form>
                 <form @submit.prevent class="inline-block">
-                  <button class="font-medium text-red-600 dark:text-red-500 hover:underline inline-block" type="submit" @click="reviewStore.destroyReviews(review.id)">DELETE</button>
+                  <button class="font-medium text-red-600 dark:text-red-500 hover:underline inline-block" type="submit" @click="reviewStore.destroyReviews(reviews.id)">DELETE</button>
                 </form>
               </div>
             </div>
@@ -83,12 +83,12 @@ export default {
   data() {
     return {
 
-      name: '',
-      text: '',
       addPhoto: null,
       updatePhoto: null,
       addImageUrl: "",
       updateImageUrl: "",
+      name: '',
+      text: '',
       reviews: [],
       errors: [],
       reviewStore: UseReviewStore(),
@@ -108,8 +108,9 @@ export default {
       this.addFile = null;
       this.addImageUrl = "";
     },
-    updateForm(review){
-      this.reviewStore.updateReview(review, this.updateFile);
+    updateForm(reviews){
+      console.log("File", this.file);
+      this.reviewStore.updateReview(reviews, this.updatePhoto);
     },
     createImage(file,form) {
       if (!(file instanceof Blob)) {
@@ -120,7 +121,6 @@ export default {
 
       reader.onload = e => {
         if (form === 'update') {
-          this.updateImageUrl = e.target.result;
         } else {
           this.addImageUrl = e.target.result;
         }

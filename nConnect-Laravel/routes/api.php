@@ -61,6 +61,7 @@ Route::delete('/delete-stage-from-conference/{id}',[StageController::class,'dele
 
 Route::apiResource('sponsors',SponsorController::class);
 Route::get('/get-current-conference-sponsors',[SponsorController::class,'get_current_conference_sponsors']);
+Route::post('/upload-sponsor-image', [SponsorController::class, 'uploadSponsorImage']);
 Route::get('/get-available-sponsors',[SponsorController::class,'get_available_sponsors']);
 Route::post('/add-sponsor-to-conference',[SponsorController::class,'addSponsorsToConference']);
 Route::delete('/delete-sponsor-from-conference/{id}',[SponsorController::class,'deleteSponsorFromConference']);
@@ -109,7 +110,7 @@ Route::apiResource('gallery', GalleryController::class);
 Route::post('/upload-gallery-image', [GalleryController::class, 'uploadGalleryImage']);
 //-------------------------------------------------------------
 
-//----------------------------Lecture Routes---------------------------------
+//----------------------------Review Routes---------------------------------
 
 Route::apiResource('reviews',ReviewController::class);
 Route::post('/upload-review-image', [ReviewController::class,'uploadReviewImage']);

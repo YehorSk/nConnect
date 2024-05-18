@@ -85,6 +85,7 @@ export const UseGalleryStore = defineStore("gallery", {
                     const updatedResponse = await axios.put("/gallery/" + gallery.id, updatedData);
 
                     this.success = "Updated successfully";
+
                 } catch (error) {
                     if (error.response && error.response.status === 422) {
                         const errors = error.response.data.errors;

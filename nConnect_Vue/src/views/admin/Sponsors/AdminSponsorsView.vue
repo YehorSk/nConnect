@@ -31,11 +31,11 @@
               </span>
             </div>
             <v-file-input
-                v-model="file"
+                v-model="addFile"
                 accept="image/png, image/jpeg, image/bmp"
                 :prepend-icon="null"
                 color="black"
-                @change="onFileChange"
+                @change="onFileChange($event, 'add')"
                 label="Choose Image">
             </v-file-input>
             <div v-if="sponsorsStore.error_image">
@@ -43,7 +43,7 @@
                 {{sponsorsStore.error_image}}
               </span>
             </div>
-            <v-img :src="imageUrl" />
+            <v-img :src="addImageUrl" />
             <v-btn class="mt-2" type="submit" @click="submitForm()" block>Save</v-btn>
           </v-form>
         </v-sheet>
@@ -64,24 +64,34 @@
                 Link
               </th>
               <th scope="col" class="px-6 py-3">
+                Update
+              </th>
+              <th scope="col" class="px-6 py-3">
                 Delete
               </th>
             </tr>
             </thead>
-            <tbody v-for="sponsor in sponsorsStore.getSponsors" :key="sponsor.id">
+            <tbody v-for="sponsors in sponsorsStore.getSponsors" :key="sponsors.id">
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <td class="p-4">
-                <img :src="'http://127.0.0.1:8000/storage/' + sponsor.image" class="w-32 md:w-64 max-w-full max-h-full" alt="Apple Watch">
+                <img :src="'http://127.0.0.1:8000/storage/' + sponsors.image" class="w-32 md:w-64 max-w-full max-h-full" alt="Sponsor Image">
+                <form @submit.prevent class="inline-block">
+                  <input type="hidden" v-model="sponsors.id">
+                  <input type="file" accept="image/*" @change="onFileChange($event,'update')" class="inline-block">
+                </form>
               </td>
-              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                {{sponsor.name}}
+              <td >
+                <input type="text" v-model="sponsors.name" placeholder="name" class="inline-block">
               </td>
-              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                {{sponsor.link}}
+              <td >
+                <input type="text" v-model="sponsors.link" placeholder="link" class="inline-block">
+              </td>
+              <td>
+                <button class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block" @click="updateForm(sponsors)" type="submit">Update</button>
               </td>
               <td>
                 <form @submit.prevent class="inline-block">
-                  <button class="font-medium text-red-600 dark:text-red-500 hover:underline inline-block" type="submit" @click="sponsorsStore.destroySponsor(sponsor.id)">DELETE</button>
+                  <button class="font-medium text-red-600 dark:text-red-500 hover:underline inline-block" type="submit" @click="sponsorsStore.destroySponsor(sponsors.id)">DELETE</button>
                 </form>
               </td>
             </tr>
@@ -104,7 +114,6 @@
 <script>
 import { onMounted } from 'vue'
 import { initFlowbite } from 'flowbite'
-import {useStageStore} from "@/stores/StageStore.js";
 import AdminNavComponent from "@/components/AdminNavComponent.vue";
 import SuccessAlertComponent from "@/components/alerts/SuccessAlertComponent.vue";
 import ErrorAlertComponent from "@/components/alerts/ErrorAlertComponent.vue";
@@ -115,11 +124,13 @@ export default {
   components: {ErrorAlertComponent, SuccessAlertComponent, AdminNavComponent},
   data(){
     return {
+      addFile: null,
+      updateFile: null,
+      addImageUrl: "",
+      updateImageUrl: "",
       name: '',
-      file: null,
-      imageUrl: "",
       link: '',
-      stages:[],
+      sponsors:[],
       errors:[],
       sponsorsStore: useSponsorsStore(),
     };
@@ -133,29 +144,47 @@ export default {
   ,
   methods:{
     submitForm() {
-      this.sponsorsStore.insertSponsor(this.name,this.link,this.file);
+      this.sponsorsStore.insertSponsor(this.name,this.link,this.addFile);
       this.name = '';
       this.link = '';
-      this.file = null;
-      this.imageUrl = "";
+      this.addFile = null;
+      this.addImageUrl = "";
       this.sponsorsStore.error_name = '';
       this.sponsorsStore.error_link = '';
       this.sponsorsStore.error_image = '';
     },
-    createImage(file) {
+    updateForm(sponsors){
+      console.log("File", this.file);
+      this.sponsorsStore.updateSponsors(sponsors, this.updateFile);
+    },
+    createImage(file, form) {
+      if (!(file instanceof Blob)) {
+        console.error('blob error');
+        return;
+      }
       const reader = new FileReader();
 
       reader.onload = e => {
-        this.imageUrl = e.target.result;
+        if (form === 'update') {
+          this.updateImageUrl = e.target.result;
+        } else {
+          this.addImageUrl = e.target.result;
+        }
       };
       reader.readAsDataURL(file);
     },
-    onFileChange(event) {
+    onFileChange(event,form) {
       const file = event.target.files[0];
       if (!file) {
+        console.log("No file selected.");
         return;
       }
-      this.createImage(file);
+      if (form === 'update') {
+        this.updateFile = file;
+      } else {
+        this.addFile = file;
+      }
+      this.createImage(file,form);
     }
   }
 }

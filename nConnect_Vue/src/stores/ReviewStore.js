@@ -26,27 +26,33 @@ export const UseReviewStore = defineStore("reviews", {
                     }
                 }
             },
-            async insertReviews(name, text, photo) {
+            async insertReviews(name, text, image) {
                 try {
                     let formData = new FormData();
                     formData.append('name', name);
                     formData.append('text', text);
-                    formData.append('photo', photo);
-                    const response = await axios.post('reviews', formData);
+                    formData.append('image', image);
+                    const response = await axios.post('reviews', formData,{
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                        });
                     this.reviews.push(response.data);
                     this.success = "Added successfully";
                     await this.fetchReviews();
                 } catch (error) {
-                    if (error.response.data.errors.name) {
-                        this.error_name = error.response.data.errors.name[0];
-                    }
-                    if (error.response.data.errors.text) {
-                        this.error_text = error.response.data.errors.text[0];
-                    }
-                    if (error.response.data.errors.photo) {
-                        this.error_photo = error.response.data.errors.photo[0];
-                    } else {
-                        console.error(error.response.data);
+                    if (error.response && error.response.data && error.response.data.errors) {
+                        if (error.response.data.errors.name) {
+                            this.error_name = error.response.data.errors.name[0];
+                        }
+                        if (error.response.data.errors.text) {
+                            this.error_text = error.response.data.errors.text[0];
+                        }
+                        if (error.response.data.errors.photo) {
+                            this.error_photo = error.response.data.errors.photo[0];
+                        } else {
+                            console.error(error.response.data);
+                        }
                     }
 
                 }
@@ -62,35 +68,30 @@ export const UseReviewStore = defineStore("reviews", {
                     }
                 }
             },
-            async updateReview(review, file) {
+            async updateReview(reviews, file) {
                 try {
                     let imagePath = null;
                     if(file){
                         const formData = new FormData();
-                        formData.append('photo', file);
+                        formData.append('image', file);
                         const response = await axios.post("/upload-review-image" ,formData);
                         imagePath = response.data.image_path;
 
                     }
                     console.log('Image path:', imagePath);
                     const updatedData={
-                        name: review.name,
-                        text: review.text,
+                        name: reviews.name,
+                        text: reviews.text,
                     };
                     if (imagePath !== null) {
-                        updatedData.photo = imagePath;
+                        updatedData.image = imagePath;
                     }
-                    const response = await axios.put("reviews/" + review.id, updatedData);
+                    const updatedResponse = await axios.put("/reviews/" + reviews.id, updatedData);
                     this.success = "Updated successfully";
                 } catch (error) {
-                    if (error.response.data.errors.name) {
-                        this.error_name = error.response.data.errors.name[0];
-                    }
-                    if (error.response.data.errors.text) {
-                        this.error_text = error.response.data.errors.text[0];
-                    }
-                    if (error.response.data.errors.photo) {
-                        this.error_photo = error.response.data.errors.photo[0];
+                    if (error.response && error.response.status === 422) {
+                        const errors = error.response.data.errors;
+
                     }
                 }
             }
