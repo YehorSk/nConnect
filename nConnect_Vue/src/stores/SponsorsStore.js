@@ -145,12 +145,14 @@ export const useSponsorsStore = defineStore("sponsors",{
                 }
                 const updatedResponse = await axios.put("/sponsors/" + sponsors.id, updatedData);
                 this.success = "Updated successfully";
+                await this.fetchSponsors();
             }catch (error) {
                 if (error.response && error.response.status === 422) {
                     const errors = error.response.data.errors;
                 }
 
             }
-        }
+        },
+
     }
 });

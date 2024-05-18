@@ -88,6 +88,7 @@ export const UseReviewStore = defineStore("reviews", {
                     }
                     const updatedResponse = await axios.put("/reviews/" + reviews.id, updatedData);
                     this.success = "Updated successfully";
+                    await this.fetchReviews();
                 } catch (error) {
                     if (error.response && error.response.status === 422) {
                         const errors = error.response.data.errors;
