@@ -9,12 +9,21 @@ export const UseAuthStore = defineStore("auth",{
     state:() =>({
         user: useStorage('user', {}),
         token: useStorage('token',null),
-        errors:[]
+        errors:[],
+        regular_users: [],
+        admin_users:[],
+        success: '',
     }),
     getters:{
         getUser(){
             return this.user;
-        }
+        },
+        getRegularUsers(){
+            return this.regular_users;
+        },
+        getAdminUsers(){
+            return this.admin_users;
+        },
     },
     actions:{
         async register(name,email,password,password_confirmation){
@@ -93,7 +102,29 @@ export const UseAuthStore = defineStore("auth",{
         },
         async getToken(){
             await axios.get('/sanctum/csrf-cookie');
-        }
+        },
+        async fetchRegularUsers(){
+            try {
+                const response = await axios.get('users-regular');
+                this.regular_users = response.data;
+            } catch (error) {
+                if (error.response.status === 422) {
+                    this.errors.value = error.response.data.errors;
+                }
+            }
+
+        },
+        async fetchAdminUsers(){
+            try {
+                const response = await axios.get('users-admin');
+                this.admin_users = response.data;
+            } catch (error) {
+                if (error.response.status === 422) {
+                    this.errors.value = error.response.data.errors;
+                }
+            }
+
+        },
 
     }
 });

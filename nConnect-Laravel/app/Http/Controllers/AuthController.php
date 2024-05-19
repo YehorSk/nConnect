@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\StoreUserRequest;
+use App\Models\Gallery;
 use App\Traits\HttpResponses;
 use App\models\User;
 use Illuminate\Http\Request;
@@ -53,5 +54,16 @@ class AuthController extends Controller
         }
         return $this->error('','No user',401);
 
+    }
+    public function getRegularUsers()
+    {
+        $users = User::where('is_admin', 0)->get();
+        return response()->json($users);
+    }
+
+    public function getAdminUsers()
+    {
+        $users = User::where('is_admin', 1)->get();
+        return response()->json($users);
     }
 }
