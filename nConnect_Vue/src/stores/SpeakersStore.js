@@ -7,13 +7,21 @@ export const useSpeakersStore = defineStore("speakers",{
         speakers: [],
         available_speakers: [],
         current_speakers: [],
-       error_name: '',
-       error_link: '',
+        error_first_name: '',
+        error_last_name: '',
+        error_short_desc: '',
+        error_long_desc: '',
+        error_company: '',
+        error_instagram: '',
+        error_linkedIn: '',
+        error_facebook: '',
+        error_twitter: '',
         error_id:'',
-       error_image: '',
+        error_image: '',
         update_error_name:'',
         update_error_date:'',
-       success: '',
+        success: '',
+        errors_update:[],
     }),
     getters:{
         getSpeakers(){
@@ -100,53 +108,32 @@ export const useSpeakersStore = defineStore("speakers",{
                 formData.append('twitter', twitter);
                 formData.append('image', image);
 
-                const response = await axios.post('speakers', formData, {
+                const response = await axios.post('/speakers', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
                 });
+
                 this.speakers.push(response.data);
                 this.success = "Added successfully";
                 await this.fetchSpeakers();
             } catch (error) {
                 if (error.response && error.response.data && error.response.data.errors) {
                     const errors = error.response.data.errors;
-                    if (errors.first_name) {
-                        this.error_first_name = errors.first_name[0];
-                    }
-                    if (errors.last_name) {
-                        this.error_last_name = errors.last_name[0];
-                    }
-                    if (errors.short_desc) {
-                        this.error_short_desc = errors.short_desc[0];
-                    }
-                    if (errors.long_desc) {
-                        this.error_long_desc = errors.long_desc[0];
-                    }
-                    if (errors.company) {
-                        this.error_company = errors.company[0];
-                    }
-                    if (errors.instagram) {
-                        this.error_link = errors.instagram[0];
-                    }
-                    if (errors.linkedIn) {
-                        this.error_link = errors.linkedIn[0];
-                    }
-                    if (errors.facebook) {
-                        this.error_link = errors.facebook[0];
-                    }
-                    if (errors.twitter) {
-                        this.error_link = errors.twitter[0];
-                    }
-                    if (errors.image) {
-                        this.error_image = errors.image[0];
-                    }
-                } else if (error.response && error.response.status === 422) {
-                } else {
+                    this.error_first_name = errors.first_name ? errors.first_name[0] : '';
+                    this.error_last_name = errors.last_name ? errors.last_name[0] : '';
+                    this.error_short_desc = errors.short_desc ? errors.short_desc[0] : '';
+                    this.error_long_desc = errors.long_desc ? errors.long_desc[0] : '';
+                    this.error_company = errors.company ? errors.company[0] : '';
+                    this.error_instagram = errors.instagram ? errors.instagram[0] : '';
+                    this.error_linkedIn = errors.linkedIn ? errors.linkedIn[0] : '';
+                    this.error_facebook = errors.facebook ? errors.facebook[0] : '';
+                    this.error_twitter = errors.twitter ? errors.twitter[0] : '';
+                    this.error_image = errors.image ? errors.image[0] : '';
                 }
             }
-
         },
+
 
         async destroySpeakers(id){
             try {
@@ -203,8 +190,10 @@ export const useSpeakersStore = defineStore("speakers",{
                 this.success = "Updated successfully";
                 await this.fetchSpeakers();
             } catch (error) {
-                if (error.response && error.response.status === 422) {
-                    const errors = error.response.data.errors;
+                if (error.response.status === 422) {
+                    this.errors_update = error.response.data.errors;
+                    console.log(this.errors_update);
+                    await this.fetchSpeakers();
                 }
             }
         },

@@ -61,10 +61,10 @@ class SpeakerController extends Controller
             'short_desc' => 'required',
             'long_desc' => 'required',
             'company' => 'required',
-            'instagram' => 'required',
-            'linkedIn' => 'required',
-            'facebook' => 'required',
-            'twitter' => 'required',
+            'instagram' => 'nullable|url',
+            'linkedIn' => 'nullable|url',
+            'facebook' => 'nullable|url',
+            'twitter' => 'nullable|url',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         $imageName = time().'.'.$request->first_name . '_' . $request->last_name . '.' . $request->image->extension();

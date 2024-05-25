@@ -27,7 +27,7 @@
                     v-model="last_name"
                     label="Last Name"
                 ></v-text-field>
-                <div v-if="speakersStore.error_name">
+                <div v-if="speakersStore.error_last_name">
           <span class="text-sm text-red-400">
             {{speakersStore.error_last_name}}
           </span>
@@ -36,7 +36,7 @@
                     v-model="short_desc"
                     label="Short Description"
                 ></v-text-field>
-                <div v-if="speakersStore.error_name">
+                <div v-if="speakersStore.error_short_desc">
           <span class="text-sm text-red-400">
             {{speakersStore.error_short_desc}}
           </span>
@@ -47,7 +47,7 @@
                     outlined
                     rows="5"
                 ></v-textarea>
-                <div v-if="speakersStore.error_name">
+                <div v-if="speakersStore.error_long_desc">
           <span class="text-sm text-red-400">
             {{speakersStore.error_long_desc}}
           </span>
@@ -56,7 +56,7 @@
                     v-model="company"
                     label="Company"
                 ></v-text-field>
-                <div v-if="speakersStore.error_name">
+                <div v-if="speakersStore.error_company">
           <span class="text-sm text-red-400">
             {{speakersStore.error_company}}
           </span>
@@ -67,36 +67,36 @@
                     v-model="instagram"
                     label="Instagram"
                 ></v-text-field>
-                <div v-if="speakersStore.error_link">
+                <div v-if="speakersStore.error_instagram">
           <span class="text-sm text-red-400">
-            {{speakersStore.error_link}}
+            {{speakersStore.error_instagram}}
           </span>
                 </div>
                 <v-text-field
                     v-model="linkedIn"
                     label="LinkedIn"
                 ></v-text-field>
-                <div v-if="speakersStore.error_link">
+                <div v-if="speakersStore.error_linkedIn">
           <span class="text-sm text-red-400">
-            {{speakersStore.error_link}}
+            {{speakersStore.error_linkedIn}}
           </span>
                 </div>
                 <v-text-field
                     v-model="facebook"
                     label="Facebook"
                 ></v-text-field>
-                <div v-if="speakersStore.error_link">
+                <div v-if="speakersStore.error_facebook">
           <span class="text-sm text-red-400">
-            {{speakersStore.error_link}}
+            {{speakersStore.error_facebook}}
           </span>
                 </div>
                 <v-text-field
                     v-model="twitter"
                     label="Twitter"
                 ></v-text-field>
-                <div v-if="speakersStore.error_link">
+                <div v-if="speakersStore.error_twitter">
           <span class="text-sm text-red-400">
-            {{speakersStore.error_link}}
+            {{speakersStore.error_twitter}}
           </span>
                 </div>
                 <v-file-input
@@ -136,7 +136,7 @@
                 Last Name
               </th>
               <th scope="col" class="px-6 py-3">
-                Show
+                Show/Update
               </th>
               <th scope="col" class="px-6 py-3">
                 Delete
@@ -156,7 +156,7 @@
               </td>
               <td>
                 <v-btn class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block" @click="dialog = true,editSpeakers(speakers)">
-                  Show
+                  Show/Update
                 </v-btn>
                 <v-dialog v-model="dialog" width="auto" persistent>
                   <v-card min-width="600" prepend-icon="mdi-update" title="Update Speaker">
@@ -228,6 +228,22 @@
     <div v-if="speakersStore.success" id="alert-3" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
       <SuccessAlertComponent :message="speakersStore.success"/>
     </div>
+    <v-dialog v-model="error_dialog" width="auto" persistent>
+      <v-card min-width="600" prepend-icon="mdi-update" title="We couldn't perform the update. Please check the data you've entered and try again.">
+        <v-card-text>
+          <ul>
+            <li v-for="(errors, fieldName) in speakersStore.errors_update" :key="fieldName">
+              <ul>
+                <li v-for="error in errors" :key="error">{{ error }}</li>
+              </ul>
+            </li>
+          </ul>
+        </v-card-text>
+        <template v-slot:actions>
+          <v-btn class="ms-auto" text="Close" @click="closeErrorDialog"></v-btn>
+        </template>
+      </v-card>
+    </v-dialog>
 
   </div>
 
@@ -235,7 +251,7 @@
 
 </template>
 <script>
-import { onMounted } from 'vue'
+import {onMounted, watch} from 'vue'
 import { initFlowbite } from 'flowbite'
 import AdminNavComponent from "@/components/AdminNavComponent.vue";
 import SuccessAlertComponent from "@/components/alerts/SuccessAlertComponent.vue";
@@ -265,6 +281,7 @@ export default {
       edit_speakers:[],
       dialog:false,
       error_dialog:false,
+
       speakersStore: useSpeakersStore(),
     };
   },
@@ -273,6 +290,11 @@ export default {
   },
   mounted() {
     initFlowbite();
+    watch(() => this.speakersStore.errors_update, (newValue, oldValue) => {
+      if (newValue && newValue.length !== 0) {
+        this.callErrorDialog();
+      }
+    });
   }
   ,
   methods:{
@@ -280,7 +302,22 @@ export default {
       this.edit_speakers = speakers;
     },
     submitForm() {
-      this.speakersStore.insertSpeakers(this.first_name,this.last_name, this.short_desc, this.long_desc, this.company, this.instagram, this.linkedIn, this.facebook, this.twitter, this.addFile);
+      this.speakersStore.error_first_name = '';
+      this.speakersStore.error_last_name = '';
+      this.speakersStore.error_short_desc = '';
+      this.speakersStore.error_long_desc = '';
+      this.speakersStore.error_company = '';
+      this.speakersStore.error_instagram = '';
+      this.speakersStore.error_linkedIn = '';
+      this.speakersStore.error_facebook = '';
+      this.speakersStore.error_twitter = '';
+      this.speakersStore.error_image = '';
+
+      this.speakersStore.insertSpeakers(
+          this.first_name, this.last_name, this.short_desc, this.long_desc, this.company,
+          this.instagram, this.linkedIn, this.facebook, this.twitter, this.addFile
+      );
+
       this.first_name = '';
       this.last_name = '';
       this.short_desc = '';
@@ -291,14 +328,9 @@ export default {
       this.facebook = '';
       this.twitter = '';
       this.addFile = null;
-      this.addImageUrl = "";
-      this.speakersStore.error_first_name = '';
-      this.speakersStore.error_last_name = '';
-      this.speakersStore.error_short_desc = '';
-      this.speakersStore.error_long_desc = '';
-      this.speakersStore.error_company = '';
-      this.speakersStore.error_link = '';
-      this.speakersStore.error_image = '';
+      this.addImageUrl = '';
+      this.$refs.addFileInput.value = '';
+      this.$refs.addImageUrl.value = '';
     },
     updateForm(speakers) {
       console.log("File:", this.file);
@@ -330,7 +362,16 @@ export default {
         this.addFile = file;
       }
       this.createImage(file, form);
+    },
+    callErrorDialog(){
+      this.error_dialog = true;
+    },
+    closeErrorDialog(){
+      this.error_dialog = false;
+      this.speakersStore.errors_update=[];
+      this.speakersStore.fetchSpeakers();
     }
+
 
 
   }

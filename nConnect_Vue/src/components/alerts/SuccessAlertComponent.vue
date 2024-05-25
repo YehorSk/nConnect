@@ -22,6 +22,7 @@
   import {useSponsorsStore} from "@/stores/SponsorsStore.js";
   import {UseConferenceStore} from "@/stores/ConferenceStore.js";
   import {useLectureStore} from "@/stores/LectureStore.js";
+  import {useSpeakersStore} from "@/stores/SpeakersStore.js";
 
   export default {
     props: {
@@ -32,6 +33,7 @@
         stageStore: useStageStore(),
         timeSlotStore: useTimeSlotStore(),
         sponsorStore: useSponsorsStore(),
+        speakersStore: useSpeakersStore(),
         conferenceStore: UseConferenceStore(),
         lectureStore: useLectureStore()
       }
@@ -44,6 +46,7 @@
         this.stageStore.success = '';
         this.timeSlotStore.success = '';
         this.sponsorStore.success = '';
+        this.speakersStore.success = '';
         this.conferenceStore.success = '';
         this.lectureStore.success = '';
       }
