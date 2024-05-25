@@ -95,14 +95,15 @@
                     ></v-avatar>
                   </template>
 
-                  <v-list-item-title>{{ show_lecture.speaker_name }} {{ show_lecture.speaker_lastname }}</v-list-item-title>
+                  <v-list-item-title>{{ show_lecture.speaker_name }} {{ show_lecture.speaker_lastname }}  {{ show_lecture.overlapping}}</v-list-item-title>
 
                   <v-list-item-subtitle>{{ show_lecture.speaker_company }}</v-list-item-subtitle>
 
                 </v-list-item>
                 <v-divider :thickness="8" color="info"></v-divider>
                 <v-btn color="black" @click="dialog = false" text="Close"></v-btn>
-                <v-btn v-if="user.email_verified_at" color="green" text="Register"></v-btn>
+                <v-btn v-if="user.email_verified_at && !authStore.lectures.some(lecture => lecture.id === show_lecture.id)" @click="dialog=false,authStore.addLecture(show_lecture.id)" color="green" text="Register"></v-btn>
+                <v-btn v-if="user.email_verified_at && authStore.lectures.some(lecture => lecture.id === show_lecture.id)" @click="dialog=false,authStore.deleteLecture(show_lecture.id)" color="red" text="Remove"></v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -110,6 +111,16 @@
 
         </div>
       </div>
+      <v-dialog v-model="error_dialog" width="auto" persistent>
+        <v-card min-width="600" prepend-icon="mdi-update" title="We couldn't perform the operation.">
+          <v-card-text>
+              <p>{{authStore.errors.message}}</p>
+          </v-card-text>
+          <template v-slot:actions>
+            <v-btn class="ms-auto" text="Close" @click="closeErrorDialog"></v-btn>
+          </template>
+        </v-card>
+      </v-dialog>
     </div>
   </section>
 
@@ -118,6 +129,7 @@
 import {useStageStore} from "@/stores/StageStore.js";
 import {useLectureStore} from "@/stores/LectureStore.js";
 import {UseAuthStore} from "@/stores/AuthStore.js";
+import {watch} from "vue";
 
 export default {
   data(){
@@ -125,6 +137,7 @@ export default {
       stageStore: useStageStore(),
       lectureStore: useLectureStore(),
       dialog: false,
+      error_dialog: false,
       show_lecture:[],
       authStore: UseAuthStore(),
       user: {}
@@ -136,10 +149,25 @@ created(){
   this.lectureStore.fetchLecturesByStage("SOFT DEV STAGE");
   this.user = this.authStore.getUser;
 },
+  mounted() {
+    watch(() => this.authStore.errors, (newValue, oldValue) => {
+      if (newValue && newValue.length !== 0) {
+        this.callErrorDialog();
+      }
+    });
+  }
+  ,
   methods:{
     showDetails(lecture){
       this.show_lecture = lecture;
       this.dialog=true;
+    },
+    callErrorDialog(){
+      this.error_dialog = true;
+    },
+    closeErrorDialog(){
+      this.error_dialog = false;
+      this.authStore.errors=[];
     }
   }
 }

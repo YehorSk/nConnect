@@ -41,6 +41,10 @@ Route::get('/sanctum/csrf-cookie', [CsrfCookieController::class, 'show']);
 Route::get('/fetchuser', [AuthController::class, 'fetchUser']);
 Route::get('/users-regular', [AuthController::class, 'getRegularUsers']);
 Route::get('/users-admin', [AuthController::class, 'getAdminUsers']);
+Route::get('/user-lectures', [AuthController::class, 'fetchLectures']);
+Route::post('/user-add-lecture', [AuthController::class, 'addLecture']);
+Route::post('/user-remove-lecture', [AuthController::class, 'removeLecture']);
+
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -86,6 +90,7 @@ Route::delete('/delete-speakers-from-conference/{id}',[SpeakerController::class,
 //----------------------------Lectures Routes---------------------------------
 Route::apiResource('lectures',LectureController::class);
 Route::get('/get-current-conference-lectures',[LectureController::class,'get_current_conference_lectures']);
+Route::get('/get-lecture-users/{id}',[LectureController::class,'get_lecture_users']);
 Route::post('/add-speaker-to-lecture',[LectureController::class,'addSpeakerToLecture']);
 Route::post('/add-stage-to-lecture',[LectureController::class,'addStageToLecture']);
 

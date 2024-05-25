@@ -11,7 +11,8 @@ export const useLectureStore = defineStore("lectures", {
         errors:[],
         errors_update:[],
         main_lectures:[],
-        current_lectures:[]
+        current_lectures:[],
+        current_users:[]
     }),
     getters: {
         getLectures() {
@@ -144,6 +145,18 @@ export const useLectureStore = defineStore("lectures", {
                 if (error.response.status === 422) {
                     this.errors.value = error.response.data.errors;
                 }
+            }   
+        },
+        async attachUser(user_id, lecture_id){
+            console.log(lecture_id);
+        },
+        async getLectureUsers(lecture_id){
+            try{
+                const response = await axios.get(`get-lecture-users/${lecture_id}`);
+                this.current_users = response.data;
+                console.log(response.data);
+            }catch (error){
+
             }
         }
     }

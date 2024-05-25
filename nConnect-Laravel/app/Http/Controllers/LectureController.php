@@ -16,6 +16,11 @@ class LectureController extends Controller
         $lectures = Lecture::all();
         return response()->json($lectures);
     }
+    public function get_lecture_users($id){
+        $lecture = Lecture::find($id);
+        $users = $lecture->users;
+        return response()->json($users);
+    }
     public function get_current_conference_lectures(){
         $conference = Conference::query()->where("is_current", true)->first();
         $lectures = $conference->lectures()->with('speaker', 'stage')->get();
@@ -47,6 +52,8 @@ class LectureController extends Controller
 
         return response()->json($lectures);
     }
+
+
 
     public function store(Request $request)
     {

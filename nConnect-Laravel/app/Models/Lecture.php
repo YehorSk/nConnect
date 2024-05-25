@@ -33,4 +33,9 @@ class Lecture extends Model
         return $this->belongsTo(Conference::class);
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
 }

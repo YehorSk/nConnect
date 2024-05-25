@@ -12,7 +12,8 @@ export const UseAuthStore = defineStore("auth",{
         errors:[],
         regular_users: [],
         admin_users:[],
-        success: '',
+        lectures:[],
+        success: ''
     }),
     getters:{
         getUser(){
@@ -82,21 +83,89 @@ export const UseAuthStore = defineStore("auth",{
             }
         },
         async fetchUser(){
-            try{
-                await this.getToken();
-                const response = await axios.get('fetchuser',{
-                    headers: {
-                        'Accept': 'application/vnd.api+json',
-                        "Content-Type": "application/vnd.api+json",
-                        "Access-Control-Allow-Origin":"*",
-                        'Authorization': `Bearer `+this.token
+            if(this.token !== null){
+                try{
+                    await this.getToken();
+                    const response = await axios.get('fetchuser',{
+                        headers: {
+                            'Accept': 'application/vnd.api+json',
+                            "Content-Type": "application/vnd.api+json",
+                            "Access-Control-Allow-Origin":"*",
+                            'Authorization': `Bearer `+this.token
+                        }
+                    });
+                    this.user = response.data;
+                }catch (error) {
+                    if (error.response && error.response.status === 401) {
+                        this.user = {};
+                        this.token = null;
                     }
-                });
-                this.user = response.data;
-            }catch (error) {
-                if (error.response && error.response.status === 401) {
-                    this.user = {};
-                    this.token = null;
+                    if (error.response && error.response.status === 500) {
+                    }
+                }
+            }
+        },
+        async fetchLectures(){
+            if(this.token !== null){
+                try{
+                    await this.getToken();
+                    const response = await axios.get('user-lectures',{
+                        headers: {
+                            'Accept': 'application/vnd.api+json',
+                            "Content-Type": "application/vnd.api+json",
+                            "Access-Control-Allow-Origin":"*",
+                            'Authorization': `Bearer `+this.token
+                        }
+                    });
+                    this.lectures = response.data;
+                }catch (error) {
+                    if (error.response && error.response.status === 401) {
+
+                    }
+                }
+            }
+        },
+        async addLecture(id){
+            if(this.token !== null){
+                try{
+                    await this.getToken();
+                    const response = await axios.post('user-add-lecture', {
+                        id: id
+                    }, {
+                        headers: {
+                            'Accept': 'application/vnd.api+json',
+                            "Content-Type": "application/vnd.api+json",
+                            "Access-Control-Allow-Origin":"*",
+                            'Authorization': `Bearer ${this.token}`
+                        }
+                    });
+                    await this.fetchLectures();
+                }catch (error) {
+                    if (error.response && error.response.status === 422) {
+                        this.errors = error.response.data;
+                    }
+                }
+            }
+        },
+        async deleteLecture(id){
+            if(this.token !== null){
+                try{
+                    await this.getToken();
+                    const response = await axios.post('user-remove-lecture', {
+                        id: id
+                    }, {
+                        headers: {
+                            'Accept': 'application/vnd.api+json',
+                            "Content-Type": "application/vnd.api+json",
+                            "Access-Control-Allow-Origin":"*",
+                            'Authorization': `Bearer ${this.token}`
+                        }
+                    });
+                    await this.fetchLectures();
+                }catch (error) {
+                    if (error.response && error.response.status === 401) {
+
+                    }
                 }
             }
         },
@@ -123,7 +192,6 @@ export const UseAuthStore = defineStore("auth",{
                     this.errors.value = error.response.data.errors;
                 }
             }
-
         },
 
     }

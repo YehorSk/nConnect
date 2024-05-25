@@ -13,7 +13,28 @@
             <!-- Action Button -->
             <div v-if="user.id">
               <div v-if="user.email_verified_at">
-                <router-link  to="#" class="btn btn-white-md">Moje konferencie</router-link>
+                <v-btn class="btn btn-white-md" @click="conference_dialog = true">Moje konferencie</v-btn>
+                <v-dialog v-model="conference_dialog" width="auto">
+                  <v-card min-width="600" prepend-icon="mdi-update" title="Moje konferencie">
+                    <v-card-text>
+                      <v-list lines="one">
+                        <v-list-item
+                            v-for="lecture in authStore.lectures"
+                            :key="lecture.id"
+                            :title="'Name: ' + lecture.name"
+                            :subtitle="'Time: ' + lecture.start_time + ' - ' + lecture.end_time"
+                        >
+                          <v-btn color="black"  @click="authStore.deleteLecture(lecture.id)">
+                            Odhlásiť sa
+                          </v-btn>
+                        </v-list-item>
+                      </v-list>
+                    </v-card-text>
+                    <template v-slot:actions>
+                      <v-btn class="ms-auto" text="Close" @click="conference_dialog = false"></v-btn>
+                    </template>
+                  </v-card>
+                </v-dialog>
               </div>
               <div v-else-if="!user.email_verified_at">
                 <h2>Please verify your email</h2>
@@ -39,17 +60,21 @@
 import {UseAuthStore} from "@/stores/AuthStore.js";
 import { initFlowbite } from 'flowbite';
 import {UseConferenceStore} from "@/stores/ConferenceStore.js";
+import {useLectureStore} from "@/stores/LectureStore.js";
 export default {
   data(){
     return{
       authStore: UseAuthStore(),
       user: {},
+      conference_dialog: false,
+      lectureStore: useLectureStore(),
       conferenceStore: UseConferenceStore(),
     };
   },
   created() {
     this.user = this.authStore.getUser;
     this.conferenceStore.fetchCurrentConference();
+    this.authStore.fetchLectures();
   },
   mounted() {
     initFlowbite();

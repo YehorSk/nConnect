@@ -132,6 +132,9 @@
                   Speaker
                 </th>
                 <th scope="col" class="px-6 py-3">
+                  Users
+                </th>
+                <th scope="col" class="px-6 py-3">
                   Update
                 </th>
                 <th scope="col" class="px-6 py-3">
@@ -167,6 +170,29 @@
                 </td>
                 <td class="px-6 py-4">
                   <p v-if="lecture.speaker_name!==null">{{lecture.speaker_name + " " + lecture.speaker_lastname}}</p>
+                </td>
+                <td class="px-6 py-4">
+                  <v-btn class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block" @click="users_dialog = true,lectureStore.getLectureUsers(lecture.id)">
+                    Users
+                  </v-btn>
+
+                  <v-dialog v-model="users_dialog" width="auto">
+                    <v-card min-width="600" prepend-icon="mdi-update" title="Users">
+                      <v-card-text>
+                        <v-list lines="one">
+                          <v-list-item
+                              v-for="user in lectureStore.current_users"
+                              :key="user.id"
+                              :title="'Name: ' + user.name"
+                              :subtitle="'Email: ' + user.email"
+                          ></v-list-item>
+                        </v-list>
+                      </v-card-text>
+                      <template v-slot:actions>
+                        <v-btn class="ms-auto" text="Close" @click="users_dialog = false"></v-btn>
+                      </template>
+                    </v-card>
+                  </v-dialog>
                 </td>
                 <td class="px-6 py-4">
                   <v-btn class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block" @click="dialog = true,editLecture(lecture)">
@@ -288,6 +314,7 @@ export default {
       edit_lecture:[],
       dialog:false,
       error_dialog:false,
+      users_dialog:false,
       lectureStore: useLectureStore(),
       stageStore: useStageStore(),
       speakerStore: useSpeakersStore()

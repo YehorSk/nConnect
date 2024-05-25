@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Models\Gallery;
+use App\Models\Lecture;
 use App\Traits\HttpResponses;
 use App\models\User;
 use Illuminate\Http\Request;
@@ -54,6 +55,58 @@ class AuthController extends Controller
         }
         return $this->error('','No user',401);
 
+    }
+    public function fetchLectures(){
+        $user =  auth('sanctum')->user();
+        if($user instanceof User){
+            return $user->lectures;
+        }
+        return $this->error('','No user',401);
+    }
+
+
+//    public function addLecture(Request $request){
+//        $user =  auth('sanctum')->user();
+//        if($user instanceof User){
+//            $lecture = Lecture::find($request->input('id'));
+//            $user->lectures()->attach($lecture);
+//        }
+//        return $this->error('','No user',401);
+//    }
+    public function addLecture(Request $request){
+        $user = auth('sanctum')->user();
+        if($user instanceof User){
+            $lecture = Lecture::find($request->input('id'));
+            $newStartTime = $lecture->start_time;
+            $newEndTime = $lecture->end_time;
+            $overlappingLectures = $user->lectures()->where(function($query) use ($newStartTime, $newEndTime) {
+                $query->where(function($query) use ($newStartTime, $newEndTime) {
+                    $query->where('start_time', '<', $newEndTime)
+                        ->where('end_time', '>', $newStartTime);
+                })->orWhere(function($query) use ($newStartTime, $newEndTime) {
+                    $query->where('start_time', '>', $newStartTime)
+                        ->where('start_time', '<', $newEndTime);
+                });
+            })->exists();
+
+            if (!$overlappingLectures) {
+                $user->lectures()->attach($lecture);
+
+                return $this->success('', 'Lecture added successfully');
+            }else{
+                return $this->error('', 'The new lecture overlaps with existing lectures', 422);
+            }
+
+
+        }
+    }
+
+    public function removeLecture(Request $request){
+        $user =  auth('sanctum')->user();
+        if($user instanceof User){
+            $lecture = Lecture::find($request->input('id'));
+            $user->lectures()->detach($lecture);
+        }
     }
     public function getRegularUsers()
     {
