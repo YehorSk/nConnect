@@ -12,7 +12,7 @@
         <div class="col-12">
           <div class="schedule-tab">
             <ul class="nav nav-pills text-center">
-              <li v-for="(stage, index) in stageStore.getCurrentStages" class="nav-item">
+              <li v-for="(stage, index) in stageStore.getCurrentStages" :key="stage.name" class="nav-item">
                 <a class="nav-link" href="#nov20" @click="lectureStore.fetchLecturesByStage(stage.name)" data-toggle="pill" :class="{ 'active': index === 0 }">
                   {{ stage.name }}
                   <span>{{ stage.date }}</span>
@@ -32,8 +32,8 @@
                     <div class="venue">Miestnosť</div>
                   </li>
                   <!-- Schedule Details -->
-                  <template v-for="lecture in lectureStore.getMainLectures">
-                    <li v-if="lecture.is_lecture === 1"  @click="showDetails(lecture)" class="schedule-details">
+                  <template v-for="lecture in lectureStore.getMainLectures" :key="lecture.id">
+                    <li v-if="lecture.is_lecture === 1" @click="showDetails(lecture)" class="schedule-details">
                       <div class="block">
                         <!-- time -->
                         <div class="time">
@@ -42,8 +42,8 @@
                         </div>
                         <!-- Speaker -->
                         <div class="speaker">
-                          <img v-if="lecture.speaker_image!==null" :src="'http://127.0.0.1:8000/storage/' + lecture.speaker_image" width="50px" height="50px" alt="speaker-thumb-one">
-                          <span v-if="lecture.speaker_name!==null" class="name">{{lecture.speaker_name + " " + lecture.speaker_lastname}}</span>
+                          <img v-if="lecture.speaker_image !== null" :src="'http://127.0.0.1:8000/storage/' + lecture.speaker_image" width="50px" height="50px" alt="speaker-thumb-one">
+                          <span v-if="lecture.speaker_name !== null" class="name">{{lecture.speaker_name + " " + lecture.speaker_lastname}}</span>
                         </div>
                         <!-- Subject -->
                         <div class="subject">{{lecture.name}}</div>
@@ -51,7 +51,7 @@
                         <div class="venue">{{lecture.stage_name}}</div>
                       </div>
                     </li>
-                    <li v-else class="schedule-details ">
+                    <li v-else class="schedule-details">
                       <div class="block">
                         <!-- time -->
                         <div class="time">
@@ -60,8 +60,8 @@
                         </div>
                         <!-- Speaker -->
                         <div class="speaker">
-                          <img v-if="lecture.speaker_image!==null" :src="'http://127.0.0.1:8000/storage/' + lecture.speaker_image" width="50px" height="50px" alt="speaker-thumb-one">
-                          <span v-if="lecture.speaker_name!==null" class="name">{{lecture.speaker_name + " " + lecture.speaker_lastname}}</span>
+                          <img v-if="lecture.speaker_image !== null" :src="'http://127.0.0.1:8000/storage/' + lecture.speaker_image" width="50px" height="50px" alt="speaker-thumb-one">
+                          <span v-if="lecture.speaker_name !== null" class="name">{{lecture.speaker_name + " " + lecture.speaker_lastname}}</span>
                         </div>
                         <!-- Subject -->
                         <div class="subject">{{lecture.name}}</div>
@@ -72,59 +72,51 @@
                   </template>
                 </ul>
               </div>
-
             </div>
           </div>
+
+          <!-- Success Alert -->
+          <v-alert v-model="success_alert" :type="success_color" dismissible>
+            {{ success_message }}
+          </v-alert>
+
           <v-dialog v-model="dialog" min-width="400px" min-height="400px" width="600px" height="600px">
-            <v-card
-                class="mx-auto text-black"
-                color="white"
-                max-width="800"
-                title="Details"
-            >
+            <v-card class="mx-auto text-black" color="white" max-width="800" title="Details">
               <v-card-text class="text-h5 py-2">
                 {{ show_lecture.short_desc }}
               </v-card-text>
-
               <v-card-actions>
                 <v-list-item class="w-200">
                   <template v-slot:prepend>
-                    <v-avatar
-                        color="grey-darken-3"
-                        :image="'http://127.0.0.1:8000/storage/' + show_lecture.speaker_image"
-                    ></v-avatar>
+                    <v-avatar color="grey-darken-3" :image="'http://127.0.0.1:8000/storage/' + show_lecture.speaker_image"></v-avatar>
                   </template>
-
-                  <v-list-item-title>{{ show_lecture.speaker_name }} {{ show_lecture.speaker_lastname }}  {{ show_lecture.overlapping}}</v-list-item-title>
-
+                  <v-list-item-title>{{ show_lecture.speaker_name }} {{ show_lecture.speaker_lastname }}  {{ show_lecture.overlapping }}</v-list-item-title>
                   <v-list-item-subtitle>{{ show_lecture.speaker_company }}</v-list-item-subtitle>
-
                 </v-list-item>
                 <v-divider :thickness="8" color="info"></v-divider>
-                <v-btn color="black" @click="dialog = false" text="Close"></v-btn>
-                <v-btn v-if="user.email_verified_at && !authStore.lectures.some(lecture => lecture.id === show_lecture.id)" @click="dialog=false,authStore.addLecture(show_lecture.id)" color="green" text="Register"></v-btn>
-                <v-btn v-if="user.email_verified_at && authStore.lectures.some(lecture => lecture.id === show_lecture.id)" @click="dialog=false,authStore.deleteLecture(show_lecture.id)" color="red" text="Remove"></v-btn>
+                <v-btn color="black" @click="dialog = false" text>Close</v-btn>
+                <v-btn v-if="user.email_verified_at && !authStore.lectures.some(lecture => lecture.id === show_lecture.id)" @click="registerLecture" color="green" text>Register</v-btn>
+                <v-btn v-if="user.email_verified_at && authStore.lectures.some(lecture => lecture.id === show_lecture.id)" @click="removeLecture" color="red" text>Remove</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
 
-
+          <v-dialog v-model="error_dialog" width="auto" persistent>
+            <v-card min-width="600" prepend-icon="mdi-update" title="We couldn't perform the operation.">
+              <v-card-text>
+                <p>{{authStore.errors.message}}</p>
+              </v-card-text>
+              <template v-slot:actions>
+                <v-btn class="ms-auto" @click="closeErrorDialog">Close</v-btn>
+              </template>
+            </v-card>
+          </v-dialog>
         </div>
       </div>
-      <v-dialog v-model="error_dialog" width="auto" persistent>
-        <v-card min-width="600" prepend-icon="mdi-update" title="We couldn't perform the operation.">
-          <v-card-text>
-              <p>{{authStore.errors.message}}</p>
-          </v-card-text>
-          <template v-slot:actions>
-            <v-btn class="ms-auto" text="Close" @click="closeErrorDialog"></v-btn>
-          </template>
-        </v-card>
-      </v-dialog>
     </div>
   </section>
-
 </template>
+
 <script>
 import {useStageStore} from "@/stores/StageStore.js";
 import {useLectureStore} from "@/stores/LectureStore.js";
@@ -132,42 +124,71 @@ import {UseAuthStore} from "@/stores/AuthStore.js";
 import {watch} from "vue";
 
 export default {
-  data(){
-    return{
+  data() {
+    return {
       stageStore: useStageStore(),
       lectureStore: useLectureStore(),
       dialog: false,
       error_dialog: false,
-      show_lecture:[],
+      success_alert: false,
+      success_message: "",
+      action_type: "",
+      show_lecture: [],
       authStore: UseAuthStore(),
       user: {}
     };
   },
-created(){
-  this.stageStore.fetchCurrentConferenceStages();
-  this.lectureStore.fetchCurrentConferenceLectures();
-  this.lectureStore.fetchLecturesByStage("SOFT DEV STAGE");
-  this.user = this.authStore.getUser;
-},
+  computed: {
+    success_color() {
+      return this.action_type === "register" ? "success" : "error";
+    }
+  },
+  created() {
+    this.stageStore.fetchCurrentConferenceStages();
+    this.lectureStore.fetchCurrentConferenceLectures();
+    this.lectureStore.fetchLecturesByStage("SOFT DEV STAGE");
+    this.user = this.authStore.getUser;
+  },
   mounted() {
     watch(() => this.authStore.errors, (newValue, oldValue) => {
       if (newValue && newValue.length !== 0) {
         this.callErrorDialog();
       }
     });
-  }
-  ,
-  methods:{
-    showDetails(lecture){
+  },
+  methods: {
+    showDetails(lecture) {
       this.show_lecture = lecture;
-      this.dialog=true;
+      this.dialog = true;
     },
-    callErrorDialog(){
+    callErrorDialog() {
       this.error_dialog = true;
     },
-    closeErrorDialog(){
+    closeErrorDialog() {
       this.error_dialog = false;
-      this.authStore.errors=[];
+      this.authStore.errors = [];
+    },
+    registerLecture() {
+      this.dialog = false;
+      this.authStore.addLecture(this.show_lecture.id).then(() => {
+        this.success_message = "Ste zaregistrovaný/á!";
+        this.action_type = "register";
+        this.success_alert = true;
+        setTimeout(() => {
+          this.success_alert = false;
+        }, 3000);
+      });
+    },
+    removeLecture() {
+      this.dialog = false;
+      this.authStore.deleteLecture(this.show_lecture.id).then(() => {
+        this.success_message = "Ste odhlásený/á!";
+        this.action_type = "remove";
+        this.success_alert = true;
+        setTimeout(() => {
+          this.success_alert = false;
+        }, 3000);
+      });
     }
   }
 }
