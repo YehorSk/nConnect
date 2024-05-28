@@ -25,7 +25,7 @@
                           <v-list-item-content>
                             <v-list-item-title>{{ 'Name: ' + lecture.name }}</v-list-item-title>
                             <v-list-item-subtitle>{{ 'Time: ' + lecture.start_time + ' - ' + lecture.end_time }}</v-list-item-subtitle>
-                            <v-list-item-subtitle>{{ 'Available spots: ' + lecture.capacity }}</v-list-item-subtitle>
+                            <v-list-item-subtitle>{{ 'Voľné miesta: ' + (lecture.capacity - lecture.remaining_spots) }}</v-list-item-subtitle>
                           </v-list-item-content>
                           <v-btn color="black" @click="removeLecture(lecture.id)">
                             Odhlásiť sa

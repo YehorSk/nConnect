@@ -90,6 +90,7 @@
                   <template v-slot:prepend>
                     <v-avatar color="grey-darken-3" :image="'http://127.0.0.1:8000/storage/' + show_lecture.speaker_image"></v-avatar>
                   </template>
+                  <v-list-item-title>{{ 'Voľné miesta: ' + (show_lecture.capacity - show_lecture.remaining_spots) }}</v-list-item-title>
                   <v-list-item-title>{{ show_lecture.speaker_name }} {{ show_lecture.speaker_lastname }}  {{ show_lecture.overlapping }}</v-list-item-title>
                   <v-list-item-subtitle>{{ show_lecture.speaker_company }}</v-list-item-subtitle>
                 </v-list-item>

@@ -77,7 +77,7 @@ class AuthController extends Controller
         $user = auth('sanctum')->user();
         if($user instanceof User){
             $lecture = Lecture::find($request->input('id'));
-            if ($lecture->capacity <= 0) {
+            if ($lecture->remaining_spots >= $lecture->capacity) {
                 return $this->error('', 'Full capacity', 422);
             }
             $newStartTime = $lecture->start_time;
@@ -94,7 +94,7 @@ class AuthController extends Controller
 
             if (!$overlappingLectures) {
                 $user->lectures()->attach($lecture);
-                $lecture->capacity -= 1;
+                $lecture->remaining_spots += 1;
                 $lecture->save();
 
                 return $this->success('', 'Lecture added successfully');
@@ -111,7 +111,7 @@ class AuthController extends Controller
         if($user instanceof User){
             $lecture = Lecture::find($request->input('id'));
             $user->lectures()->detach($lecture);
-            $lecture->capacity += 1;
+            $lecture->remaining_spots -= 1;
             $lecture->save();
         }
     }
