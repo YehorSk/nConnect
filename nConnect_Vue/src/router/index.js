@@ -24,6 +24,7 @@ import {UseAuthStore} from "@/stores/AuthStore.js";
 import NotFoundView from "@/views/NotFoundView.vue";
 import AdminManageAdmins from "@/views/admin/AdminManageAdmins.vue";
 import AdminManageUsers from "@/views/admin/AdminManageUsers.vue";
+import AdminEditorView from "@/views/admin/AdminEditorView.vue";
 
 async function adminGuard(ro,from,next){
   const authStore = UseAuthStore();
@@ -184,6 +185,12 @@ const router = createRouter({
       component: AdminManageUsers,
       beforeEnter: adminGuard
     },
+    {
+      path: '/admin-editor',
+      name: 'admin-editor',
+      component: AdminEditorView,
+      beforeEnter: adminGuard
+    }
 
   ]
 })

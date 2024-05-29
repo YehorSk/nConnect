@@ -130,3 +130,6 @@ Route::post('/upload-review-image', [ReviewController::class,'uploadReviewImage'
 Route::get('/get-time-slots/{id}',[TimeSlotController::class,'index']);
 
 Route::apiResource('slots', TimeSlotController::class);
+
+
+Route::apiResource('pages',\App\Http\Controllers\PageController::class);
