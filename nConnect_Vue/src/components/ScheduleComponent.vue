@@ -90,7 +90,7 @@
                   <template v-slot:prepend>
                     <v-avatar color="grey-darken-3" :image="'http://127.0.0.1:8000/storage/' + show_lecture.speaker_image"></v-avatar>
                   </template>
-                  <v-list-item-title>{{ 'Voľné miesta: ' + (show_lecture.capacity - show_lecture.remaining_spots) }}</v-list-item-title>
+                  <v-list-item-title>{{ 'Voľné miesta: ' + remainingSpots }}</v-list-item-title>
                   <v-list-item-title>{{ show_lecture.speaker_name }} {{ show_lecture.speaker_lastname }}  {{ show_lecture.overlapping }}</v-list-item-title>
                   <v-list-item-subtitle>{{ show_lecture.speaker_company }}</v-list-item-subtitle>
                 </v-list-item>
@@ -119,10 +119,10 @@
 </template>
 
 <script>
-import {useStageStore} from "@/stores/StageStore.js";
-import {useLectureStore} from "@/stores/LectureStore.js";
-import {UseAuthStore} from "@/stores/AuthStore.js";
-import {watch} from "vue";
+import { useStageStore } from "@/stores/StageStore.js";
+import { useLectureStore } from "@/stores/LectureStore.js";
+import { UseAuthStore } from "@/stores/AuthStore.js";
+import { watch } from "vue";
 
 export default {
   data() {
@@ -134,14 +134,21 @@ export default {
       success_alert: false,
       success_message: "",
       action_type: "",
-      show_lecture: [],
+      show_lecture: null,
       authStore: UseAuthStore(),
-      user: {}
+      user: {},
     };
   },
   computed: {
     success_color() {
       return this.action_type === "register" ? "success" : "error";
+    },
+    remainingSpots() {
+      if (this.show_lecture) {
+        return this.show_lecture.capacity - this.show_lecture.remaining_spots;
+      } else {
+        return 0;
+      }
     }
   },
   created() {
@@ -189,6 +196,8 @@ export default {
         setTimeout(() => {
           this.success_alert = false;
         }, 3000);
+      }).catch(() => {
+        this.error_dialog = true;
       });
     }
   }

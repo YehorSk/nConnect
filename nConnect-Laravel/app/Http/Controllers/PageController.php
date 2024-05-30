@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Page;
+use App\Models\Speaker;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -17,6 +18,14 @@ class PageController extends Controller
         $page = new Page($data);
         $page->save();
         return response()->json("Page Created");
+    }
+    public function index(){
+        $page = Page::all();
+        return response()->json($page);
+    }
+    public function getCurrentPage($id){
+        $page=Page::find($id);
+        return response()->json($page);
     }
 
 }

@@ -37,7 +37,12 @@
           </li>
           <li class="nav-item">
             <router-link
-                to="/contact" class="nav-link">Kontakt<span></span>
+                to="/contact" class="nav-link">Kontakt<span>/</span>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
+                to="/pages" class="nav-link">Info<span></span>
             </router-link>
           </li>
         </ul>
@@ -51,11 +56,12 @@
 
 <script>
 import {UseAuthStore} from "@/stores/AuthStore.js";
-
+import {useEditorStore} from "@/stores/EditorStore.js"
 export default {
   data(){
     return{
       authStore: UseAuthStore(),
+      editorStore: useEditorStore(),
       user: []
     };
   },

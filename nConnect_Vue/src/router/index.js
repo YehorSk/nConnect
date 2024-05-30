@@ -7,6 +7,8 @@ import SingleSpeakerView from "@/views/SingleSpeakerView.vue";
 import GalleryView from "@/views/GalleryView.vue";
 import ContactView from "@/views/ContactView.vue";
 import RegisterView from "@/views/RegisterView.vue";
+import CustomPagesView from "@/views/CustomPagesView.vue";
+import SinglePageView from "@/views/SinglePageView.vue";
 import AdminView from "@/views/admin/AdminView.vue";
 import AdminStagesView from "@/views/admin/Stages/AdminStagesView.vue";
 import AdminTimeSlots from "@/views/admin/AdminTimeSlots.vue";
@@ -84,6 +86,17 @@ const router = createRouter({
       name: 'contact',
       component: ContactView
     },
+    {
+      path: '/pages',
+      name: 'pages',
+      component: CustomPagesView
+    },
+    {
+      path: '/get-page/:id',
+      name: 'get-page',
+      component: SinglePageView
+    },
+
     {
       path: '/register',
       name: 'register',

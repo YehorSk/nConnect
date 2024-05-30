@@ -10,6 +10,7 @@ use \App\Http\Controllers\ConferenceController;
 use \App\Http\Controllers\SponsorController;
 use \App\Http\Controllers\LectureController;
 use App\Http\Controllers\OrganizerController;
+use App\Http\Controllers\PageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
@@ -132,4 +133,5 @@ Route::get('/get-time-slots/{id}',[TimeSlotController::class,'index']);
 Route::apiResource('slots', TimeSlotController::class);
 
 
-Route::apiResource('pages',\App\Http\Controllers\PageController::class);
+Route::apiResource('pages',PageController::class);
+Route::get('/get-current-page/{id}', [PageController::class, 'getCurrentPage' ]);
