@@ -52,7 +52,18 @@ export const useEditorStore = defineStore("editor",{
                     this.errors.value = error.response.data.errors;
                 }
             }
-        }
+        },
+        async destroyPage(id) {
+            try {
+                const response = await axios.delete('pages/' + id);
+                this.pages = this.pages.filter(page => page.id !== id);
+                this.success = "Deleted successfully";
+            } catch (error) {
+                if (error.response.status === 422) {
+                    this.errors.value = error.response.data.errors;
+                }
+            }
+        },
     }
 
 });

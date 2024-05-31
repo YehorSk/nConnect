@@ -8,6 +8,9 @@
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <TipTapComponent/>
       </div>
+      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <CustomPagesComponent/>
+      </div>
     </div>
   </div>
 </template>
@@ -18,10 +21,11 @@ import AdminNavComponent from "@/components/AdminNavComponent.vue";
 import SuccessAlertComponent from "@/components/alerts/SuccessAlertComponent.vue";
 import ErrorAlertComponent from "@/components/alerts/ErrorAlertComponent.vue";
 import TipTapComponent from "@/components/TipTapComponent.vue";
+import CustomPagesComponent from "@/components/CustomPagesComponent.vue";
 
 
 export default {
-  components: {TipTapComponent, ErrorAlertComponent, SuccessAlertComponent, AdminNavComponent},
+  components: {CustomPagesComponent, TipTapComponent, ErrorAlertComponent, SuccessAlertComponent, AdminNavComponent},
   mounted() {
     initFlowbite();
   },

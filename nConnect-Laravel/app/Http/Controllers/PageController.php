@@ -27,5 +27,10 @@ class PageController extends Controller
         $page=Page::find($id);
         return response()->json($page);
     }
+    public function destroy($id){
+        $page=Page::find($id);
+        $page->delete();
+        return response()->json("Page Deleted");
+    }
 
 }
