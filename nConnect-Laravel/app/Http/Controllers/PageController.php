@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Page;
 use App\Models\Speaker;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class PageController extends Controller
 {
@@ -19,6 +20,23 @@ class PageController extends Controller
         $page->save();
         return response()->json("Page Created");
     }
+
+    public function update(Request $request,$id){
+        $page = Page::find($id);
+
+        $data = $request->validate([
+            'name' => [
+                'required',
+                Rule::unique('pages')->ignore($page),
+            ],
+            'content' => 'required'
+        ]);
+
+        $page->update($data);
+        return response()->json("Page Updated");
+    }
+
+
     public function index(){
         $page = Page::all();
         return response()->json($page);

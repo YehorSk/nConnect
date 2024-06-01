@@ -1,8 +1,35 @@
+
 <template>
   <form @submit.prevent="submitForm" class="space-y-8">
     <section class="buttons flex items-center flex-wrap gap-x-4 border-t border-l border-r border-gray-400 p-4">
       <div v-if="editor">
-
+        <button @click="editor.chain().focus().setTextAlign('left').run()" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+            <title>format-align-left</title>
+            <path d="M3,3H21V5H3V3M3,7H15V9H3V7M3,11H21V13H3V11M3,15H15V17H3V15M3,19H21V21H3V19Z" />
+          </svg>
+        </button>
+        <button @click="editor.chain().focus().setTextAlign('center').run()" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+            <title>format-align-center</title>
+            <path d="M3,3H21V5H3V3M7,7H17V9H7V7M3,11H21V13H3V11M7,15H17V17H7V15M3,19H21V21H3V19Z" />
+          </svg>
+        </button>
+        <button @click="editor.chain().focus().setTextAlign('right').run()" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+            <title>format-align-right</title>
+            <path d="M3,3H21V5H3V3M9,7H21V9H9V7M3,11H21V13H3V11M9,15H21V17H9V15M3,19H21V21H3V19Z" />
+          </svg>
+        </button>
+        <button @click="editor.chain().focus().setTextAlign('justify').run()" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+            <title>format-align-justify</title>
+            <path d="M3,3H21V5H3V3M3,7H21V9H3V7M3,11H21V13H3V11M3,15H21V17H3V15M3,19H21V21H3V19Z" />
+          </svg>
+        </button>
+<!--        <button @click="editor.chain().focus().unsetTextAlign().run()" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">-->
+<!--          unsetTextAlign-->
+<!--        </button>-->
           <button @click="addImage" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
               <title>image-area</title>
@@ -150,10 +177,39 @@
       </div>
       <hr>
       <input type="text" class="w-full border border-gray-400 p-2" placeholder="Name: " v-model="pageName">
-      <input type="submit" @click="addPage()" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" >
+      <input type="submit" @click="submitBtn()" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" >
     </section>
   <editor-content :editor="editor" />
   </form>
+
+  <div class="row">
+    <v-col  v-for="page in editorStore.getPages" :key="page.id" cols="12" md="4">
+      <v-card>
+        <v-card-title>{{ page.name}}</v-card-title>
+      </v-card>
+      <v-card-actions>
+        <v-btn
+            @click="updatePage(page.id)"
+            color="green-lighten-2"
+            text="Update"
+        ></v-btn>
+        <v-btn @click="editorStore.destroyPage(page.id)"
+               color="red-lighten-2"
+               text="Delete"
+        ></v-btn>
+      </v-card-actions>
+    </v-col>
+  </div>
+  <v-dialog v-model="error_dialog" width="auto" persistent>
+    <v-card min-width="600" prepend-icon="mdi-update" title="We couldn't perform the operation.">
+      <v-card-text>
+        <p>{{editorStore.errors.message}}</p>
+      </v-card-text>
+      <template v-slot:actions>
+        <v-btn class="ms-auto" @click="closeErrorDialog">Close</v-btn>
+      </template>
+    </v-card>
+  </v-dialog>
 </template>
 <script>
 import { initFlowbite } from 'flowbite'
@@ -162,9 +218,12 @@ import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import Image from '@tiptap/extension-image'
 import Text from '@tiptap/extension-text'
+import TextAlign from '@tiptap/extension-text-align'
 import Document from '@tiptap/extension-document'
-import ImageResize from 'tiptap-extension-resize-image';
-import Youtube from '@tiptap/extension-youtube'
+import Youtube from '@tiptap/extension-youtube';
+import Heading from '@tiptap/extension-heading'
+import Paragraph from '@tiptap/extension-paragraph'
+import {watch} from "vue";
 
 
 export default {
@@ -178,22 +237,37 @@ export default {
       width: '640',
       height: '480',
       pageName: '',
-      editorStore: useEditorStore()
+      editorStore: useEditorStore(),
+      page:null,
+      error_dialog: false,
     }
   },
 
   mounted() {
+    watch(() => this.editorStore.errors, (newValue, oldValue) => {
+      if (newValue && newValue.length !== 0) {
+        this.callErrorDialog();
+      }
+    });
     initFlowbite();
     this.editor = new Editor({
       extensions: [
         StarterKit,
         Document,
         Text,
-        Image,
-        ImageResize,
+        Image.configure({
+          HTMLAttributes: {
+            class: 'image-custom-class',
+          },
+        }),
         Youtube.configure({
           controls: false,
           nocookie: true,
+        }),
+        Heading,
+        Paragraph,
+        TextAlign.configure({
+          types: ['heading', 'paragraph'],
         }),
       ],
       editorProps: {
@@ -205,6 +279,13 @@ export default {
     })
   },
   methods: {
+    callErrorDialog() {
+      this.error_dialog = true;
+    },
+    closeErrorDialog() {
+      this.error_dialog = false;
+      this.editorStore.errors = [];
+    },
     addImage() {
       const url = window.prompt('URL')
 
@@ -224,12 +305,42 @@ export default {
     addPage(){
       this.editorStore.insertPage(this.pageName,this.editor.getHTML());
       this.pageName='';
+      this.editor.commands.setContent(`<h1>Hello World!</h1>`);
+    },
+    async updatePage(id){
+      this.page = await this.editorStore.fetchPageById(id);
+      this.editor.commands.setContent(this.page.content);
+      this.pageName = this.page.name;
+    },
+    submitBtn(){
+      if(this.page == null){
+          this.addPage();
+      }else{
+        this.page.name = this.pageName;
+        this.page.content = this.editor.getHTML();
+        this.editorStore.updatePage(this.page);
+        this.pageName='';
+        this.editor.commands.setContent(`<h1>Hello World!</h1>`);
+        this.page = null;
+      }
     }
   },
-
   beforeUnmount() {
     this.editor.destroy()
+  },
+  created(){
+    this.editorStore.fetchPages();
   },
 }
 </script>
 
+<style>
+.image-custom-class {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px;
+  height: 500px;
+  object-fit: cover;
+}
+</style>

@@ -21,16 +21,16 @@ export const useEditorStore = defineStore("editor",{
 
     actions:{
         async insertPage(name, content) {
-            console.log(name);
-            console.log(content);
             try {
                 const response = await axios.post('pages', {
                     name: name,
                     content: content,
                 });
-
+                this.fetchPages();
             } catch (error) {
-
+                if(error.response.status === 422){
+                    this.errors.value = error.response.data.errors;
+                }
             }
         },
         async fetchPages(){
@@ -64,6 +64,19 @@ export const useEditorStore = defineStore("editor",{
                 }
             }
         },
+        async updatePage(page){
+            try{
+                const response = await axios.put("pages/" +page.id,{
+                    name: page.name,
+                    content: page.content,
+                });
+                this.success = "Updated successfully";
+            }catch (error) {
+                if(error.response.status === 422){
+                    this.errors.value = error.response.data.errors;
+                }
+            }
+        }
     }
 
 });

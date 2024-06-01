@@ -8,9 +8,9 @@
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <TipTapComponent/>
       </div>
-      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <CustomPagesComponent/>
-      </div>
+<!--      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">-->
+<!--        <CustomPagesComponent/>-->
+<!--      </div>-->
     </div>
   </div>
 </template>
@@ -25,7 +25,8 @@ import CustomPagesComponent from "@/components/CustomPagesComponent.vue";
 
 
 export default {
-  components: {CustomPagesComponent, TipTapComponent, ErrorAlertComponent, SuccessAlertComponent, AdminNavComponent},
+  components: {
+    CustomPagesComponent, TipTapComponent, ErrorAlertComponent, SuccessAlertComponent, AdminNavComponent},
   mounted() {
     initFlowbite();
   },
