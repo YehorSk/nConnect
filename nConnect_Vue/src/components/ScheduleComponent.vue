@@ -152,9 +152,10 @@ export default {
     }
   },
   created() {
-    this.stageStore.fetchCurrentConferenceStages();
+    this.stageStore.fetchCurrentConferenceStages().then(() => {
+      this.fetchLecturesByStage();
+    });
     this.lectureStore.fetchCurrentConferenceLectures();
-    this.lectureStore.fetchLecturesByStage("SOFT DEV STAGE");
     this.user = this.authStore.getUser;
   },
   mounted() {
@@ -199,6 +200,16 @@ export default {
       }).catch(() => {
         this.error_dialog = true;
       });
+    },
+    fetchLecturesByStage(stageName = null) {
+      if (stageName) {
+        this.lectureStore.fetchLecturesByStage(stageName);
+      } else {
+        const stages = this.stageStore.getCurrentStages;
+        if (stages.length > 0) {
+          this.lectureStore.fetchLecturesByStage(stages[0].name);
+        }
+      }
     }
   }
 }
