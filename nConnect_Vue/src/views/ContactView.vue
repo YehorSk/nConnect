@@ -15,11 +15,13 @@
       </div>
     </div>
   </section>
+  <OrganizersComponent/>
   <MapComponent/>
   <FooterComponent/>
 </template>
 <script setup lang="ts">
 import NavigationComponent from "@/components/NavigationComponent.vue";
 import MapComponent from "@/components/MapComponent.vue";
+import OrganizersComponent from "@/components/OrganizersComponent.vue";
 import FooterComponent from "@/components/FooterComponent.vue";
 </script>

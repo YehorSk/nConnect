@@ -56,7 +56,7 @@
                 Môj profil
               </a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#" @click.prevent="openConferenceDialog">Moje konferencie</a>
+                <a class="dropdown-item" v-if="user.is_admin === 0" href="#" @click.prevent="openConferenceDialog">Moje konferencie</a>
                 <router-link v-if="user.is_admin === 1" to="/admin" class="dropdown-item">Admin</router-link>
                 <a class="dropdown-item" href="#" @click.prevent="authStore.logout">Logout</a>
               </div>

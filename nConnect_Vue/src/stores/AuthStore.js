@@ -146,6 +146,7 @@ export const UseAuthStore = defineStore("auth",{
                         }
                     });
                     this.lectures = response.data;
+                    await this.fetchLectures();
                 }catch (error) {
                     if (error.response && error.response.status === 401) {
 

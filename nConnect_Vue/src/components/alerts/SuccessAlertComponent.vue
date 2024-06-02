@@ -18,7 +18,6 @@
   import {useStageStore} from "@/stores/StageStore.js";
   import {onMounted} from "vue";
   import {initFlowbite} from "flowbite";
-  import {useTimeSlotStore} from "@/stores/TimeSlotStore.js";
   import {useSponsorsStore} from "@/stores/SponsorsStore.js";
   import {UseConferenceStore} from "@/stores/ConferenceStore.js";
   import {useLectureStore} from "@/stores/LectureStore.js";
@@ -31,7 +30,6 @@
     data(){
       return{
         stageStore: useStageStore(),
-        timeSlotStore: useTimeSlotStore(),
         sponsorStore: useSponsorsStore(),
         speakersStore: useSpeakersStore(),
         conferenceStore: UseConferenceStore(),
@@ -44,7 +42,6 @@
     methods:{
       clearSuccess(){
         this.stageStore.success = '';
-        this.timeSlotStore.success = '';
         this.sponsorStore.success = '';
         this.speakersStore.success = '';
         this.conferenceStore.success = '';

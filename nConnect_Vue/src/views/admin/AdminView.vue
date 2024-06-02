@@ -40,6 +40,8 @@
                 <input type="hidden" v-model="conference.id">
                 <input type="text" v-model="conference.name" placeholder="Name" class="inline-block mr-2">
                 <input type="text" v-model="conference.year" placeholder="Date" class="inline-block mr-2">
+                <button class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block mr-2" @click="updateForm(conference)" type="submit">UPDATE</button>
+                <button class="font-medium text-red-600 dark:text-red-500 hover:underline inline-block" type="submit" @click="conferenceStore.destroyConference(conference.id)">DELETE</button>
                 <div>
                   <label class="inline-flex items-center cursor-pointer">
                     <input type="checkbox" class="sr-only peer" @change="updateIsCurrent($event, conference)" :checked="conference.is_current === 1">
@@ -47,10 +49,8 @@
                     <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Is current</span>
                   </label>
                 </div>
-                <button class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block mr-2" @click="updateForm(conference)" type="submit">Update</button>
               </form>
               <form @submit.prevent class="inline-block">
-                <button class="font-medium text-red-600 dark:text-red-500 hover:underline inline-block" type="submit" @click="conferenceStore.destroyConference(conference.id)">DELETE</button>
               </form>
             </div>
           </div>

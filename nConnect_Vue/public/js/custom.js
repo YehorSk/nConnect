@@ -93,11 +93,25 @@ function activeLink() {
 list.forEach((item) => item.addEventListener("mouseover", activeLink));
 
 // Menu Toggle
-let toggle = document.querySelector(".toggle");
-let navigation = document.querySelector(".navigation");
-let main = document.querySelector(".main");
+document.addEventListener("DOMContentLoaded", function() {
+    let toggle = document.querySelector(".toggle");
+    let navigation = document.querySelector(".navigation");
+    let main = document.querySelector(".main");
 
-toggle.onclick = function () {
-    navigation.classList.toggle("active");
-    main.classList.toggle("active");
-};
+    if (!toggle) {
+        console.error("Toggle button is missing.");
+    }
+    if (!navigation) {
+        console.error("Navigation element is missing.");
+    }
+    if (!main) {
+        console.error("Main element is missing.");
+    }
+
+    if (toggle && navigation && main) {
+        toggle.onclick = function () {
+            navigation.classList.toggle("active");
+            main.classList.toggle("active");
+        };
+    }
+});

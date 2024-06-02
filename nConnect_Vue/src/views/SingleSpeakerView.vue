@@ -37,7 +37,7 @@
             <p>{{ speaker.long_desc }}</p>
           </div>
           <div class="social-profiles mt-4">
-            <h5>Social Profiles</h5>
+            <h5>Social Media Profiles</h5>
             <ul class="list-inline social-list">
               <li v-if="speaker.twitter" class="list-inline-item"><a :href="speaker.twitter" class="social-icon twitter"><i class="fa fa-twitter"></i></a></li>
               <li v-if="speaker.linkedIn" class="list-inline-item"><a :href="speaker.linkedIn" class="social-icon linkedin"><i class="fa fa-linkedin"></i></a></li>
