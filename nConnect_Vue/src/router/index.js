@@ -9,6 +9,8 @@ const SingleSpeakerView = () => import(/* webpackChunkName: "single-speaker" */ 
 const GalleryView = () => import(/* webpackChunkName: "gallery" */ '@/views/GalleryView.vue');
 const ContactView = () => import(/* webpackChunkName: "contact" */ '@/views/ContactView.vue');
 const RegisterView = () => import(/* webpackChunkName: "register" */ '@/views/RegisterView.vue');
+const ForgotPasswordView = () => import(/* webpackChunkName: "forgot-password" */ '@/views/ForgotPasswordView.vue');
+const ResetPasswordView = () => import(/* webpackChunkName: "reset-password" */ '@/views/ResetPasswordView.vue');
 const CustomPagesView = () => import(/* webpackChunkName: "pages" */ '@/views/CustomPagesView.vue');
 const SinglePageView = () => import(/* webpackChunkName: "get-page" */ '@/views/SinglePageView.vue');
 const AdminView = () => import(/* webpackChunkName: "admin" */ '@/views/admin/AdminView.vue');
@@ -94,6 +96,18 @@ const routes = [
     path: '/register',
     name: 'register',
     component: RegisterView,
+    beforeEnter: userGuard
+  },
+  {
+    path: '/forgot-password',
+    name: 'forgot-password',
+    component: ForgotPasswordView,
+    beforeEnter: userGuard
+  },
+  {
+    path: '/reset-password/:token',
+    name: 'reset-password',
+    component: ResetPasswordView,
     beforeEnter: userGuard
   },
   {

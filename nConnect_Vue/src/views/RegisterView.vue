@@ -39,7 +39,12 @@ import FooterComponent from "@/components/FooterComponent.vue";
                         </div>
                       </div>
                       <a href="#" @click="submitLogInForm" class="btn mt-4">Login</a>
-                      <p class="mb-0 mt-4 text-center"><a href="#" class="link">Forgot your password?</a></p>
+
+                      <p class="mb-0 mt-4 text-center">
+                        <router-link
+                            to="/forgot-password" class="link">Forgot your password?<span></span>
+                        </router-link>
+                      </p>
                     </div>
                   </div>
                 </div>

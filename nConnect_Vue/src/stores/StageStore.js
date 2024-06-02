@@ -112,6 +112,7 @@ export const useStageStore = defineStore("stages",{
             } catch (error) {
                 if(error.response.status === 422){
                     this.errors.value = error.response.data.errors;
+                    console.log(this.errors.value);
                 }
             }
         },

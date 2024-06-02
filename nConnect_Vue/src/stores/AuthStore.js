@@ -9,7 +9,7 @@ export const UseAuthStore = defineStore("auth",{
     state:() =>({
         user: useStorage('user', {}),
         token: useStorage('token',null),
-        errors:[],
+        errors:'',
         regular_users: [],
         admin_users:[],
         lectures:[],
@@ -39,7 +39,6 @@ export const UseAuthStore = defineStore("auth",{
                 this.token = response.data.data.token;
                 window.location.reload();
             } catch (error) {
-                console.log(error.response.data.errors);
                 if(error.response.status === 422){
                     this.errors = error.response.data.errors;
                 }
@@ -79,6 +78,35 @@ export const UseAuthStore = defineStore("auth",{
                 console.log(error.response.data.errors);
                 if (error.response.status === 422) {
                     this.errors = error.response.data.errors;
+                }
+            }
+        },
+        async forgot_password(email){
+            try {
+                const response = await axios.post('forgot-password', {
+                    email: email,
+                });
+
+                window.location.reload();
+            } catch (error) {
+                if(error.response.status === 422){
+                    this.errors = error.response.data.errors;
+                }
+            }
+        },
+        async reset_password(new_pwd,confirm_new_pwd,email,token){
+            try {
+                await this.getToken();
+                const response = await axios.post('update-password', {
+                    email: email,
+                    token:token,
+                    password: new_pwd,
+                    password_confirmation:confirm_new_pwd
+                });
+                this.success = "Updated successfully";
+            } catch (error) {
+                if(error.response.status === 422){
+                    this.errors = error.response.data.errors.password[0];
                 }
             }
         },
