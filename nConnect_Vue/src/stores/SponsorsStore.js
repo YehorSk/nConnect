@@ -87,7 +87,6 @@ export const useSponsorsStore = defineStore("sponsors",{
         },
         async insertSponsor(name,link,image){
             try {
-                console.log(image);
                 let formData = new FormData();
                 formData.append('name', name);
                 formData.append('link', link);

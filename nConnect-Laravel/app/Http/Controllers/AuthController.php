@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\StoreUserRequest;
+use App\Models\Conference;
 use App\Models\Gallery;
 use App\Models\Lecture;
 use App\Traits\HttpResponses;
@@ -87,12 +88,21 @@ class AuthController extends Controller
         return $this->error('','No user',401);
 
     }
-    public function fetchLectures(){
-        $user =  auth('sanctum')->user();
-        if($user instanceof User){
-            return $user->lectures;
+    public function fetchLectures()
+    {
+        $user = auth('sanctum')->user();
+        if ($user instanceof User) {
+            $activeConference = Conference::query()->where("is_current",true)->first();
+
+            if (!$activeConference) {
+                return $this->error('', 'No active conference found', 404);
+            }
+
+            $lectures = $user->lectures()->where('conference_id', $activeConference->id)->get();
+            return response()->json($lectures);
         }
-        return $this->error('','No user',401);
+
+        return $this->error('', 'No user', 401);
     }
 
 
@@ -104,24 +114,34 @@ class AuthController extends Controller
 //        }
 //        return $this->error('','No user',401);
 //    }
-    public function addLecture(Request $request){
+    public function addLecture(Request $request)
+    {
         $user = auth('sanctum')->user();
         if($user instanceof User){
             $lecture = Lecture::find($request->input('id'));
+
             if ($lecture->remaining_spots >= $lecture->capacity) {
                 return $this->error('', 'Full capacity', 422);
             }
+
+            $activeConference = Conference::query()->where("is_current", true)->first();
+            if (!$activeConference) {
+                return $this->error('', 'No active conference found', 404);
+            }
+
             $newStartTime = $lecture->start_time;
             $newEndTime = $lecture->end_time;
-            $overlappingLectures = $user->lectures()->where(function($query) use ($newStartTime, $newEndTime) {
-                $query->where(function($query) use ($newStartTime, $newEndTime) {
-                    $query->where('start_time', '<', $newEndTime)
-                        ->where('end_time', '>', $newStartTime);
-                })->orWhere(function($query) use ($newStartTime, $newEndTime) {
-                    $query->where('start_time', '>', $newStartTime)
-                        ->where('start_time', '<', $newEndTime);
-                });
-            })->exists();
+            $overlappingLectures = $user->lectures()
+                ->where('conference_id', $activeConference->id)
+                ->where(function($query) use ($newStartTime, $newEndTime) {
+                    $query->where(function($query) use ($newStartTime, $newEndTime) {
+                        $query->where('start_time', '<', $newEndTime)
+                            ->where('end_time', '>', $newStartTime);
+                    })->orWhere(function($query) use ($newStartTime, $newEndTime) {
+                        $query->where('start_time', '>', $newStartTime)
+                            ->where('start_time', '<', $newEndTime);
+                    });
+                })->exists();
 
             if (!$overlappingLectures) {
                 $user->lectures()->attach($lecture);
@@ -129,12 +149,12 @@ class AuthController extends Controller
                 $lecture->save();
 
                 return $this->success('', 'Lecture added successfully');
-            }else{
+            } else {
                 return $this->error('', 'The new lecture overlaps with existing lectures', 422);
             }
-
-
         }
+
+        return $this->error('', 'No user', 401);
     }
 
     public function removeLecture(Request $request){

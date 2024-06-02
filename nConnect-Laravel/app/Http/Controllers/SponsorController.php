@@ -67,9 +67,6 @@ class SponsorController extends Controller
         $sponsor->image = $relativePath;
         $sponsor->save();
 
-        $conference = Conference::query()->where("is_current",true)->first();
-        $conference->sponsors()->attach($sponsor);
-
         return response()->json("Sponsor Created");
     }
 

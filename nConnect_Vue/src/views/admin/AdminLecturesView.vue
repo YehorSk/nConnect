@@ -117,25 +117,13 @@
                   End Time
                 </th>
                 <th scope="col" class="px-6 py-3">
-                  Short Description
-                </th>
-                <th scope="col" class="px-6 py-3">
-                  Long Description
-                </th>
-                <th scope="col" class="px-6 py-3">
                   Is Lecture
-                </th>
-                <th scope="col" class="px-6 py-3">
-                  Stage
-                </th>
-                <th scope="col" class="px-6 py-3">
-                  Speaker
                 </th>
                 <th scope="col" class="px-6 py-3">
                   Users
                 </th>
                 <th scope="col" class="px-6 py-3">
-                  Update
+                  Show/Update
                 </th>
                 <th scope="col" class="px-6 py-3">
                   Delete
@@ -144,7 +132,7 @@
               </thead>
               <tbody>
               <tr v-for="lecture in lectureStore.getCurrentLectures" :key="lecture.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white">
                   {{lecture.name}}
                 </td>
                 <td class="px-6 py-4">
@@ -157,19 +145,7 @@
                   {{lecture.end_time}}
                 </td>
                 <td class="px-6 py-4">
-                  {{lecture.short_desc}}
-                </td>
-                <td class="px-6 py-4">
-                  {{lecture.long_desc}}
-                </td>
-                <td class="px-6 py-4">
                   {{lecture.is_lecture}}
-                </td>
-                <td class="px-6 py-4">
-                  {{lecture.stage_name}}
-                </td>
-                <td class="px-6 py-4">
-                  <p v-if="lecture.speaker_name!==null">{{lecture.speaker_name + " " + lecture.speaker_lastname}}</p>
                 </td>
                 <td class="px-6 py-4">
                   <v-btn class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block" @click="users_dialog = true,lectureStore.getLectureUsers(lecture.id)">
@@ -196,7 +172,7 @@
                 </td>
                 <td class="px-6 py-4">
                   <v-btn class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block" @click="dialog = true,editLecture(lecture)">
-                    Update
+                    Show/Update
                   </v-btn>
 
                   <v-dialog v-model="dialog" width="auto" persistent>
