@@ -27,7 +27,7 @@
                 label="Capacity"
                 type="number"
             ></v-text-field>
-            <div v-if="lectureStore.errors['capacity'] && is_lecture">
+            <div v-if="lectureStore.errors['capacity']">
               <span class="text-sm text-red-400">
                 {{lectureStore.errors['capacity'][0]}}
               </span>

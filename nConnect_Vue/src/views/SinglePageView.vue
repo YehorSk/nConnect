@@ -59,16 +59,23 @@ export default {
   mounted() {
     this.editor = new Editor({
       editable: this.editable,
-      content: this.page.content,
+      content: '',
       extensions: [
         StarterKit,
         Document,
         Text,
-        Image.configure({
-          HTMLAttributes: {
-            class: 'image-custom-class',
-          },
-        }),
+        // Image.configure({
+        //   HTMLAttributes: {
+        //     class: 'image-custom-class',
+        //   },
+        // }),
+          ImageResize.configure(
+              {
+                HTMLAttributes: {
+                  class: 'image-custom-class',
+                },
+              }
+          ),
         Youtube.configure({
           controls: false,
           nocookie: true,
@@ -79,7 +86,8 @@ export default {
           types: ['heading', 'paragraph'],
         }),
       ],
-    })
+    });
+    this.editor.commands.setContent(this.page.content);
   },
 
   watch: {
@@ -95,12 +103,9 @@ export default {
 </script>
 <style>
 .image-custom-class {
-  display: block;
+  display:flex;
   margin-left: auto;
   margin-right: auto;
-  width: 500px;
-  height: 500px;
-  object-fit: cover;
 }
 .video-custom-class {
   display: block;

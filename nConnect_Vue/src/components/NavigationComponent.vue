@@ -112,7 +112,6 @@ export default {
     };
   },
   created() {
-    this.authStore.fetchUser().then(() => {
       this.user = this.authStore.getUser;
       if (this.user) {
         this.authStore.fetchLectures().finally(() => {
@@ -121,7 +120,6 @@ export default {
       } else {
         this.loading = false;
       }
-    });
   },
 
   methods: {
