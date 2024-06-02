@@ -224,6 +224,7 @@ import Youtube from '@tiptap/extension-youtube';
 import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import {watch} from "vue";
+import ImageResize from "tiptap-extension-resize-image";
 
 
 export default {
@@ -255,11 +256,16 @@ export default {
         StarterKit,
         Document,
         Text,
-        Image.configure({
-          HTMLAttributes: {
-            class: 'image-custom-class',
-          },
-        }),
+        // Image.configure({
+        //   HTMLAttributes: {
+        //     class: 'image-custom-class',
+        //   },
+        // }),
+          ImageResize.configure({
+              HTMLAttributes: {
+                class: 'image-custom-class',
+              },
+            }),
         Youtube.configure({
           controls: false,
           nocookie: true,
@@ -336,11 +342,8 @@ export default {
 
 <style>
 .image-custom-class {
-  display: block;
+  display:flex;
   margin-left: auto;
   margin-right: auto;
-  width: 500px;
-  height: 500px;
-  object-fit: cover;
 }
 </style>
