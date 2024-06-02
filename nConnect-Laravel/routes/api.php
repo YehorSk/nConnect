@@ -34,6 +34,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');
+Route::get('/forgot-password', [VerificationController::class, 'forgot-password'])->name('password.request');
 
 //Auth routes
 Route::post('/register', [AuthController::class, 'register']);

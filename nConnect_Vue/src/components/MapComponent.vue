@@ -21,7 +21,8 @@
         </template>
         <template v-slot:default="{ isActive }">
           <v-card>
-            <v-img color="surface-variant"
+            <v-img loading="lazy"
+                   color="surface-variant"
                    height="400"
                    src="../images/background/location.jpg"
                    cover></v-img>

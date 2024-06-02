@@ -14,7 +14,7 @@
           <!-- Organizer 1 -->
           <div class="speaker-item">
             <div class="image">
-              <img :src="'http://127.0.0.1:8000/storage/' + organizer.image" :alt="`${organizer.name}`" class="img-fluid">
+              <img loading="lazy" :src="'http://127.0.0.1:8000/storage/' + organizer.image" :alt="`${organizer.name}`" class="img-fluid">
             </div>
             <div class="content text-center">
               <h5>{{ organizer.name }}</h5>
