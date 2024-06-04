@@ -36,27 +36,32 @@
                 </div>
               </div>
             </div>
-            </div>
+          </div>
+        </div>
       </div>
-    </div>
     </div>
   </section>
   <MapComponent/>
   <FooterComponent/>
 </template>
+
 <script>
 import ErrorAlertComponent from "@/components/alerts/ErrorAlertComponent.vue";
 import SuccessAlertComponent from "@/components/alerts/SuccessAlertComponent.vue";
 import {initFlowbite} from "flowbite";
 import {UseGalleryStore} from "@/stores/GalleryStore.js";
-import { onMounted } from 'vue';
 import NavigationComponent from "@/components/NavigationComponent.vue";
 import FooterComponent from "@/components/FooterComponent.vue";
 import MapComponent from "@/components/MapComponent.vue";
+
 export default {
   components: {
     NavigationComponent,
-    MapComponent, FooterComponent, ErrorAlertComponent, SuccessAlertComponent},
+    MapComponent,
+    FooterComponent,
+    ErrorAlertComponent,
+    SuccessAlertComponent
+  },
   data(){
     return {
       galleryStore: UseGalleryStore(),
@@ -65,12 +70,16 @@ export default {
   },
   created(){
     this.galleryStore.fetchGallery();
-    this.filterByYear('all');
   },
   mounted() {
     initFlowbite();
   },
-  methods:{
+  watch: {
+    'galleryStore.gallery': function(newGallery) {
+      this.filterByYear('all');
+    }
+  },
+  methods: {
     filterByYear(year) {
       if (year === 'all') {
         this.filteredGallery = this.galleryStore.gallery;
