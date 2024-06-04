@@ -24,15 +24,6 @@ class StageSeeder extends Seeder
         $stage2->name = "AI&DATA STAGE";
         $stage2->date = "14.MAREC";
         $stage2->save();
-        $stage2->name = "TEST 1";
-        $stage2->date = "14.MAREC";
-        $stage2->save();
-        $stage2->name = "TEST 2";
-        $stage2->date = "14.MAREC";
-        $stage2->save();
-        $stage2->name = "TEST 3";
-        $stage2->date = "14.MAREC";
-        $stage2->save();
 
         $conference = Conference::query()->where("is_current",1)->first();
         $conference->stages()->attach($stage);

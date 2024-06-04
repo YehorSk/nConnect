@@ -15,7 +15,6 @@ const CustomPagesView = () => import(/* webpackChunkName: "pages" */ '@/views/Cu
 const SinglePageView = () => import(/* webpackChunkName: "get-page" */ '@/views/SinglePageView.vue');
 const AdminView = () => import(/* webpackChunkName: "admin" */ '@/views/admin/AdminView.vue');
 const AdminStagesView = () => import(/* webpackChunkName: "admin-stages" */ '@/views/admin/Stages/AdminStagesView.vue');
-const AdminTimeSlots = () => import(/* webpackChunkName: "admin-time-slots" */ '@/views/admin/AdminTimeSlots.vue');
 const AdminGalleryView = () => import(/* webpackChunkName: "admin-gallery" */ '@/views/admin/AdminGalleryView.vue');
 const AdminSponsorsView = () => import(/* webpackChunkName: "admin-sponsors" */ '@/views/admin/Sponsors/AdminSponsorsView.vue');
 const AdminReviewView = () => import(/* webpackChunkName: "admin-reviews" */ '@/views/admin/AdminReviewView.vue');
@@ -131,12 +130,6 @@ const routes = [
     path: '/admin-current-conference-stages',
     name: 'admin-current-conference-stages',
     component: AdminCurConStagesView,
-    beforeEnter: adminGuard
-  },
-  {
-    path: '/admin-time-slots/:id',
-    name: 'admin-time-slots',
-    component: AdminTimeSlots,
     beforeEnter: adminGuard
   },
   {
