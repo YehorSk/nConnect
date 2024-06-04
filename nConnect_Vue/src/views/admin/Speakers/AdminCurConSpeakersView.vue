@@ -33,25 +33,7 @@
                 Last Name
               </th>
               <th scope="col" class="px-6 py-3">
-                Short Description
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Long Description
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Company
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Instagram
-              </th>
-              <th scope="col" class="px-6 py-3">
-                LinkedIn
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Facebook
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Twitter
+                Show
               </th>
               <th scope="col" class="px-6 py-3">
                 Delete
@@ -69,26 +51,68 @@
               <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                 {{speaker.last_name}}
               </td>
-              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                {{speaker.short_desc}}
-              </td>
-              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                {{speaker.long_desc}}
-              </td>
-              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                {{speaker.company}}
-              </td>
-              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                {{speaker.instagram}}
-              </td>
-              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                {{speaker.linkedIn}}
-              </td>
-              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                {{speaker.facebook}}
-              </td>
-              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                {{speaker.twitter}}
+              <td>
+                <v-btn class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block" @click="dialog = true,ShowSpeakers(speaker)">
+                  Show
+                </v-btn>
+                <v-dialog v-model="dialog" width="auto" persistent>
+                  <v-card min-width="600" prepend-icon="mdi-update" title="Show Speaker">
+                    <v-card-text>
+                      <img :src="'http://127.0.0.1:8000/storage/' + Show_speakers.picture" class="w-32 md:w-64 max-w-full max-h-full mb-4" alt="Speaker's Profile Picture">
+                      <v-text-field
+                          v-model="Show_speakers.first_name"
+                          label="First Name"
+                          readonly
+                      ></v-text-field>
+                      <v-text-field
+                          v-model="Show_speakers.last_name"
+                          label="Last Name"
+                          readonly
+                      ></v-text-field>
+                      <v-text-field
+                          v-model="Show_speakers.short_desc"
+                          label="Short Description"
+                          readonly
+                      ></v-text-field>
+                      <v-textarea
+                          v-model="Show_speakers.long_desc"
+                          label="Long Description"
+                          row-height="25"
+                          rows="4"
+                          auto-grow
+                          readonly
+                      ></v-textarea>
+                      <v-text-field
+                          v-model="Show_speakers.company"
+                          label="Company"
+                          readonly
+                      ></v-text-field>
+                      <v-text-field
+                          v-model="Show_speakers.instagram"
+                          label="Instagram"
+                          readonly
+                      ></v-text-field>
+                      <v-text-field
+                          v-model="Show_speakers.linkedIn"
+                          label="LinkedIn"
+                          readonly
+                      ></v-text-field>
+                      <v-text-field
+                          v-model="Show_speakers.facebook"
+                          label="Facebook"
+                          readonly
+                      ></v-text-field>
+                      <v-text-field
+                          v-model="Show_speakers.twitter"
+                          label="Twitter"
+                          readonly
+                      ></v-text-field>
+                    </v-card-text>
+                    <template v-slot:actions>
+                      <v-btn class="ms-auto" text="Close" @click="dialog = false, speakersStore.refreshSpeakers()"></v-btn>
+                    </template>
+                  </v-card>
+                </v-dialog>
               </td>
               <td>
                 <form @submit.prevent class="inline-block">
@@ -139,6 +163,8 @@ export default {
       stages:[],
       errors:[],
       speaker:[],
+      Show_speakers:[],
+      dialog:false,
       speakersStore: useSpeakersStore(),
     };
   },
@@ -161,6 +187,9 @@ export default {
         title: item.first_name,
         subtitle: item.last_name,
       }
+    },
+    ShowSpeakers(speakers){
+      this.Show_speakers = speakers;
     },
   }
 }
