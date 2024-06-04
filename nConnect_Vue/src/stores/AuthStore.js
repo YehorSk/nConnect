@@ -136,7 +136,7 @@ export const UseAuthStore = defineStore("auth",{
         async fetchLectures(){
             if(this.token !== null){
                 try{
-                    await this.getToken();
+                    // await this.getToken();
                     const response = await axios.get('user-lectures',{
                         headers: {
                             'Accept': 'application/vnd.api+json',

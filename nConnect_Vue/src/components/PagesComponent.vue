@@ -1,8 +1,16 @@
 <template>
   <section class="section schedule">
     <div class="container">
-      <div class="row">
-          <div class="row justify-content-center">
+      <div class="row justify-center align-items-center" >
+        <div v-if="waiting">
+          <v-progress-circular
+              :size="80"
+              :width="7"
+              color="primary"
+              indeterminate
+          ></v-progress-circular>
+        </div>
+          <div class="row justify-content-center" v-else>
             <div v-for="page in editorStore.getPages" :key="page.id" class="col-lg-3 col-md-4 col-sm-6 mx-auto">
               <div class="speaker-item">
                 <div class="content text-center">
@@ -22,10 +30,13 @@ export default {
   data() {
     return {
       editorStore: useEditorStore(),
+      waiting:false,
     };
   },
-  created() {
-    this.editorStore.fetchPages();
+  async created() {
+    this.waiting = true;
+    await this.editorStore.fetchPages();
+    this.waiting = false;
   }
 };
 </script>

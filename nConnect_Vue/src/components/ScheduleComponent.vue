@@ -32,7 +32,15 @@
                     <div class="venue">Miestnosť</div>
                   </li>
                   <!-- Schedule Details -->
-                  <template v-for="lecture in lectureStore.getMainLectures" :key="lecture.id">
+                  <template v-if="waiting" class="items-center">
+                    <v-progress-circular
+                        :size="70"
+                        :width="7"
+                        color="primary"
+                        indeterminate
+                    ></v-progress-circular>
+                  </template>
+                  <template v-else v-for="lecture in lectureStore.getMainLectures" :key="lecture.id">
                     <li v-if="lecture.is_lecture === 1" @click="showDetails(lecture)" class="schedule-details">
                       <div class="block">
                         <!-- time -->
@@ -137,6 +145,7 @@ export default {
       show_lecture: null,
       authStore: UseAuthStore(),
       user: {},
+      waiting:false,
     };
   },
   computed: {
@@ -201,13 +210,16 @@ export default {
         this.error_dialog = true;
       });
     },
-    fetchLecturesByStage(stageName = null) {
+    async fetchLecturesByStage(stageName = null) {
+      this.waiting = true;
       if (stageName) {
-        this.lectureStore.fetchLecturesByStage(stageName);
+        await this.lectureStore.fetchLecturesByStage(stageName);
+        this.waiting = false;
       } else {
         const stages = this.stageStore.getCurrentStages;
         if (stages.length > 0) {
-          this.lectureStore.fetchLecturesByStage(stages[0].name);
+          await this.lectureStore.fetchLecturesByStage(stages[0].name);
+          this.waiting = false;
         }
       }
     }

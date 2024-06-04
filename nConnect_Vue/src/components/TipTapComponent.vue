@@ -21,6 +21,11 @@
             <path d="M3,3H21V5H3V3M9,7H21V9H9V7M3,11H21V13H3V11M9,15H21V17H9V15M3,19H21V21H3V19Z" />
           </svg>
         </button>
+        <input
+            type="color"
+            @input="editor.chain().focus().setColor($event.target.value).run()"
+            :value="editor.getAttributes('textStyle').color"
+        >
         <button @click="editor.chain().focus().setTextAlign('justify').run()" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
             <title>format-align-justify</title>
@@ -225,11 +230,14 @@ import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import {watch} from "vue";
 import ImageResize from "tiptap-extension-resize-image";
+import { Color } from '@tiptap/extension-color';
+import TextStyle from '@tiptap/extension-text-style';
 
 
 export default {
   components: {
     EditorContent,
+    Color
   },
 
   data() {
@@ -256,6 +264,8 @@ export default {
         StarterKit,
         Document,
         Text,
+        TextStyle,
+        Color,
         // Image.configure({
         //   HTMLAttributes: {
         //     class: 'image-custom-class',

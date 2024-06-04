@@ -23,7 +23,7 @@ class LectureController extends Controller
     }
     public function get_current_conference_lectures(){
         $conference = Conference::query()->where("is_current", true)->first();
-        $lectures = $conference->lectures()->with('speaker', 'stage')->get();
+        $lectures = $conference->lectures()->with('speaker', 'stage')->orderBy("start_time")->get();
 
         $lectures = $lectures->map(function ($lecture) {
             $speakerId = $lecture->speaker ? $lecture->speaker->id : null;

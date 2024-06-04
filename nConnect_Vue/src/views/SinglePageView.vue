@@ -34,6 +34,8 @@ import ImageResize from 'tiptap-extension-resize-image';
 import Youtube from '@tiptap/extension-youtube';
 import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
+import { Color } from '@tiptap/extension-color';
+import TextStyle from '@tiptap/extension-text-style';
 export default {
   components: {NavigationComponent, FooterComponent,EditorContent},
   data() {
@@ -64,6 +66,8 @@ export default {
         StarterKit,
         Document,
         Text,
+        TextStyle,
+        Color,
         // Image.configure({
         //   HTMLAttributes: {
         //     class: 'image-custom-class',

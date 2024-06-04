@@ -34,7 +34,7 @@ const NotFoundView = () => import(/* webpackChunkName: "not-found" */ '@/views/N
 // Guards
 async function checkAuth(roleCheck, next) {
   const authStore = UseAuthStore();
-  await authStore.fetchUser();
+  // await authStore.fetchUser();
   if (roleCheck(authStore.user)) {
     next();
   } else {

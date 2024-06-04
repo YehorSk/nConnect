@@ -39,7 +39,6 @@ export const UseConferenceStore = defineStore("conferences",{
             try{
                 const response = await axios.get('get-active-conference');
                 this.current_store = response.data;
-                console.log(this.current_store);
             }catch(error){
                 if (error.response.status === 422) {
                     if(error.response.data.errors.name){
