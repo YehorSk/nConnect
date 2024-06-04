@@ -22,6 +22,8 @@
   import {UseConferenceStore} from "@/stores/ConferenceStore.js";
   import {useLectureStore} from "@/stores/LectureStore.js";
   import {useSpeakersStore} from "@/stores/SpeakersStore.js";
+  import {UseOrganizersStore} from "@/stores/OrganizersStore.js";
+  import {UseGalleryStore} from "@/stores/GalleryStore.js";
 
   export default {
     props: {
@@ -33,7 +35,9 @@
         sponsorStore: useSponsorsStore(),
         speakersStore: useSpeakersStore(),
         conferenceStore: UseConferenceStore(),
-        lectureStore: useLectureStore()
+        lectureStore: useLectureStore(),
+        organizersStore: UseOrganizersStore(),
+        galleryStore: UseGalleryStore()
       }
     },
     mounted() {
@@ -46,6 +50,8 @@
         this.speakersStore.success = '';
         this.conferenceStore.success = '';
         this.lectureStore.success = '';
+        this.organizersStore.success = '';
+        this.galleryStore.success = '';
       }
     }
   }

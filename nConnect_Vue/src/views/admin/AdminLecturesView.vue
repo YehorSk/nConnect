@@ -10,92 +10,111 @@
 
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
 
-        <v-sheet class="max-w-sm ">
-          <v-form fast-fail @submit.prevent>
-            <v-text-field
-                v-model="name"
-                label="Name"
-            ></v-text-field>
-            <div v-if="lectureStore.errors['name']">
-              <span class="text-sm text-red-400">
-                {{lectureStore.errors['name'][0]}}
-              </span>
+        <v-sheet class="max-w-full">
+          <div class="flex flex-wrap">
+            <div class="w-full md:w-1/2 p-2">
+              <v-form fast-fail @submit.prevent>
+                <v-text-field
+                    v-model="name"
+                    label="Name"
+                ></v-text-field>
+                <div v-if="lectureStore.errors['name']">
+                  <span class="text-sm text-red-400">
+                    {{lectureStore.errors['name'][0]}}
+                  </span>
+                </div>
+                <v-text-field
+                    :disabled="!is_lecture"
+                    v-model="capacity"
+                    label="Capacity"
+                    type="number"
+                ></v-text-field>
+                <div v-if="lectureStore.errors['capacity']">
+                  <span class="text-sm text-red-400">
+                    {{lectureStore.errors['capacity'][0]}}
+                  </span>
+                </div>
+                <v-text-field
+                    v-model="start_time"
+                    label="Start time"
+                    type="time"
+                ></v-text-field>
+                <div v-if="lectureStore.errors['start_time']">
+                  <span class="text-sm text-red-400">
+                    {{lectureStore.errors['start_time'][0]}}
+                  </span>
+                </div>
+                <v-text-field
+                    v-model="end_time"
+                    label="End time"
+                    type="time"
+                ></v-text-field>
+                <div v-if="lectureStore.errors['end_time']">
+                  <span class="text-sm text-red-400">
+                    {{lectureStore.errors['end_time'][0]}}
+                  </span>
+                </div>
+                <v-text-field
+                    v-model="short_desc"
+                    label="Short Description"
+                ></v-text-field>
+                <div v-if="lectureStore.errors['short_desc']">
+                  <span class="text-sm text-red-400">
+                    {{lectureStore.errors['short_desc'][0]}}
+                  </span>
+                </div>
+              </v-form>
             </div>
-            <v-text-field
-                :disabled="!is_lecture"
-                v-model="capacity"
-                label="Capacity"
-                type="number"
-            ></v-text-field>
-            <div v-if="lectureStore.errors['capacity']">
-              <span class="text-sm text-red-400">
-                {{lectureStore.errors['capacity'][0]}}
-              </span>
+            <div class="w-full md:w-1/2 p-2">
+              <v-form fast-fail @submit.prevent>
+                <v-textarea
+                    :disabled="!is_lecture"
+                    v-model="long_desc"
+                    label="Long Description"
+                    row-height="25"
+                    rows="4"
+                    variant="outlined"
+                    auto-grow
+                    shaped
+                ></v-textarea>
+                <div v-if="lectureStore.errors['long_desc'] && is_lecture">
+                  <span class="text-sm text-red-400">
+                    {{lectureStore.errors['long_desc'][0]}}
+                  </span>
+                </div>
+                <v-checkbox
+                    v-model="is_lecture"
+                    color="orange"
+                    label="Is lecture"
+                    hide-details
+                ></v-checkbox>
+                <v-select
+                    :item-props="itemStages"
+                    v-model="stage"
+                    :items="stageStore.getCurrentStages"
+                    label="Available Stages"
+                ></v-select>
+                <div v-if="lectureStore.errors['stage_id']">
+                  <span class="text-sm text-red-400">
+                    {{lectureStore.errors['stage_id'][0]}}
+                  </span>
+                </div>
+                <v-select
+                    :disabled="!is_lecture"
+                    :item-props="itemSpeakers"
+                    v-model="speaker"
+                    :items="speakerStore.getCurrentSpeakers"
+                    label="Available Speakers"
+                ></v-select>
+                <div v-if="lectureStore.errors['speaker_id'] && is_lecture">
+                  <span class="text-sm text-red-400">
+                    {{lectureStore.errors['speaker_id'][0]}}
+                  </span>
+                </div>
+              </v-form>
             </div>
-            <v-text-field
-                v-model="start_time"
-                label="Start time"
-                type="time"
-            ></v-text-field>
-            <div v-if="lectureStore.errors['start_time']">
-              <span class="text-sm text-red-400">
-                {{lectureStore.errors['start_time'][0]}}
-              </span>
-            </div>
-            <v-text-field
-                v-model="end_time"
-                label="End time"
-                type="time"
-            ></v-text-field>
-            <div v-if="lectureStore.errors['end_time']">
-              <span class="text-sm text-red-400">
-                {{lectureStore.errors['end_time'][0]}}
-              </span>
-            </div>
-            <v-text-field
-                v-model="short_desc"
-                label="Short Description"
-            ></v-text-field>
-            <div v-if="lectureStore.errors['short_desc']">
-              <span class="text-sm text-red-400">
-                {{lectureStore.errors['short_desc'][0]}}
-              </span>
-            </div>
-            <v-textarea
-                :disabled="!is_lecture"
-                v-model="long_desc"
-                label="Long Description"
-                row-height="25"
-                rows="4"
-                variant="outlined"
-                auto-grow
-                shaped
-            ></v-textarea>
-            <div v-if="lectureStore.errors['long_desc'] && is_lecture">
-              <span class="text-sm text-red-400">
-                {{lectureStore.errors['long_desc'][0]}}
-              </span>
-            </div>
-            <v-checkbox
-                v-model="is_lecture"
-                color="orange"
-                label="Is lecture"
-                hide-details
-            ></v-checkbox>
-            <v-select :item-props="itemStages" v-model="stage" :items="stageStore.getCurrentStages" label="Available Stages"></v-select>
-            <div v-if="lectureStore.errors['stage_id']">
-              <span class="text-sm text-red-400">
-                {{lectureStore.errors['stage_id'][0]}}
-              </span>
-            </div>
-            <v-select :disabled="!is_lecture" :item-props="itemSpeakers" v-model="speaker" :items="speakerStore.getCurrentSpeakers" label="Available Speakers"></v-select>
-            <div v-if="lectureStore.errors['speaker_id'] && is_lecture">
-              <span class="text-sm text-red-400">
-                {{lectureStore.errors['speaker_id'][0]}}
-              </span>
-            </div>
-            <v-btn class="mt-2" type="submit" @click="submitForm()" block>Save</v-btn>
-          </v-form>
+          </div>
+          <v-btn class="mt-2 mx-2" type="submit" @click="submitForm()" block>Save</v-btn>
         </v-sheet>
 
         <br>
