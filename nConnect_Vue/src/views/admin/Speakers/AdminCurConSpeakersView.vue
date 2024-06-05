@@ -55,64 +55,6 @@
                 <v-btn class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block" @click="dialog = true,ShowSpeakers(speaker)">
                   Show
                 </v-btn>
-                <v-dialog v-model="dialog" width="auto" persistent>
-                  <v-card min-width="600" prepend-icon="mdi-update" title="Show Speaker">
-                    <v-card-text>
-                      <img :src="'http://127.0.0.1:8000/storage/' + Show_speakers.picture" class="w-32 md:w-64 max-w-full max-h-full mb-4" alt="Speaker's Profile Picture">
-                      <v-text-field
-                          v-model="Show_speakers.first_name"
-                          label="First Name"
-                          readonly
-                      ></v-text-field>
-                      <v-text-field
-                          v-model="Show_speakers.last_name"
-                          label="Last Name"
-                          readonly
-                      ></v-text-field>
-                      <v-text-field
-                          v-model="Show_speakers.short_desc"
-                          label="Short Description"
-                          readonly
-                      ></v-text-field>
-                      <v-textarea
-                          v-model="Show_speakers.long_desc"
-                          label="Long Description"
-                          row-height="25"
-                          rows="4"
-                          auto-grow
-                          readonly
-                      ></v-textarea>
-                      <v-text-field
-                          v-model="Show_speakers.company"
-                          label="Company"
-                          readonly
-                      ></v-text-field>
-                      <v-text-field
-                          v-model="Show_speakers.instagram"
-                          label="Instagram"
-                          readonly
-                      ></v-text-field>
-                      <v-text-field
-                          v-model="Show_speakers.linkedIn"
-                          label="LinkedIn"
-                          readonly
-                      ></v-text-field>
-                      <v-text-field
-                          v-model="Show_speakers.facebook"
-                          label="Facebook"
-                          readonly
-                      ></v-text-field>
-                      <v-text-field
-                          v-model="Show_speakers.twitter"
-                          label="Twitter"
-                          readonly
-                      ></v-text-field>
-                    </v-card-text>
-                    <template v-slot:actions>
-                      <v-btn class="ms-auto" text="Close" @click="dialog = false, speakersStore.refreshSpeakers()"></v-btn>
-                    </template>
-                  </v-card>
-                </v-dialog>
               </td>
               <td>
                 <form @submit.prevent class="inline-block">
@@ -130,6 +72,64 @@
     <div v-if="speakersStore.success" id="alert-3" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
       <SuccessAlertComponent :message="speakersStore.success"/>
     </div>
+    <v-dialog v-model="dialog" width="auto" persistent>
+      <v-card min-width="600" prepend-icon="mdi-update" title="Show Speaker">
+        <v-card-text>
+          <img :src="'http://127.0.0.1:8000/storage/' + Show_speakers.picture" class="w-32 md:w-64 max-w-full max-h-full mb-4" alt="Speaker's Profile Picture">
+          <v-text-field
+              v-model="Show_speakers.first_name"
+              label="First Name"
+              readonly
+          ></v-text-field>
+          <v-text-field
+              v-model="Show_speakers.last_name"
+              label="Last Name"
+              readonly
+          ></v-text-field>
+          <v-text-field
+              v-model="Show_speakers.short_desc"
+              label="Short Description"
+              readonly
+          ></v-text-field>
+          <v-textarea
+              v-model="Show_speakers.long_desc"
+              label="Long Description"
+              row-height="25"
+              rows="4"
+              auto-grow
+              readonly
+          ></v-textarea>
+          <v-text-field
+              v-model="Show_speakers.company"
+              label="Company"
+              readonly
+          ></v-text-field>
+          <v-text-field
+              v-model="Show_speakers.instagram"
+              label="Instagram"
+              readonly
+          ></v-text-field>
+          <v-text-field
+              v-model="Show_speakers.linkedIn"
+              label="LinkedIn"
+              readonly
+          ></v-text-field>
+          <v-text-field
+              v-model="Show_speakers.facebook"
+              label="Facebook"
+              readonly
+          ></v-text-field>
+          <v-text-field
+              v-model="Show_speakers.twitter"
+              label="Twitter"
+              readonly
+          ></v-text-field>
+        </v-card-text>
+        <template v-slot:actions>
+          <v-btn class="ms-auto" text="Close" @click="dialog = false, speakersStore.refreshSpeakers()"></v-btn>
+        </template>
+      </v-card>
+    </v-dialog>
 
   </div>
 

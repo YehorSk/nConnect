@@ -27,10 +27,15 @@ import FooterComponent from "@/components/FooterComponent.vue";
                       <div class="form-group mt-2">
                         <input type="email" v-model="email" class="form-style" :class="{'is-invalid':authStore.errors['email']}" placeholder="Email">
                         <i style="color: #FF6600" class="input-icon uil uil-at"></i>
+<!--                        <div v-if="authStore.credentials" class="invalid-feedback">-->
+<!--                          {{authStore.credentials}}-->
+<!--                        </div>-->
                         <div v-if="authStore.errors['email']" class="invalid-feedback">
                           {{authStore.errors['email'][0]}}
                         </div>
+
                       </div>
+
                       <div class="form-group mt-2">
                         <input type="password" v-model="password" class="form-style" :class="{'is-invalid':authStore.errors['password']}" placeholder="Password">
                         <i style="color: #FF6600" class="input-icon uil uil-lock-alt"></i>

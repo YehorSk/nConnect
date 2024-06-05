@@ -158,57 +158,6 @@
                 <v-btn class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block" @click="dialog = true,editSpeakers(speakers)">
                   Show/Update
                 </v-btn>
-                <v-dialog v-model="dialog" width="auto" persistent>
-                  <v-card min-width="600" prepend-icon="mdi-update" title="Update Speaker">
-                    <v-card-text>
-                      <img :src="'http://127.0.0.1:8000/storage/' + edit_speakers.picture" class="w-32 md:w-64 max-w-full max-h-full mb-4" alt="Speaker's Profile Picture">
-                      <input type="file" accept="image/*" @change="onFileChange($event, 'update')" class="mb-4">
-                      <v-text-field
-                          v-model="edit_speakers.first_name"
-                          label="First Name"
-                      ></v-text-field>
-                      <v-text-field
-                          v-model="edit_speakers.last_name"
-                          label="Last Name"
-                      ></v-text-field>
-                      <v-text-field
-                          v-model="edit_speakers.short_desc"
-                          label="Short Description"
-                      ></v-text-field>
-                      <v-textarea
-                          v-model="edit_speakers.long_desc"
-                          label="Long Description"
-                          row-height="25"
-                          rows="4"
-                          auto-grow
-                      ></v-textarea>
-                      <v-text-field
-                          v-model="edit_speakers.company"
-                          label="Company"
-                      ></v-text-field>
-                      <v-text-field
-                          v-model="edit_speakers.instagram"
-                          label="Instagram"
-                      ></v-text-field>
-                      <v-text-field
-                          v-model="edit_speakers.linkedIn"
-                          label="LinkedIn"
-                      ></v-text-field>
-                      <v-text-field
-                          v-model="edit_speakers.facebook"
-                          label="Facebook"
-                      ></v-text-field>
-                      <v-text-field
-                          v-model="edit_speakers.twitter"
-                          label="Twitter"
-                      ></v-text-field>
-                    </v-card-text>
-                    <template v-slot:actions>
-                      <v-btn class="ms-auto" text="Close" @click="dialog = false, speakersStore.refreshSpeakers()"></v-btn>
-                      <v-btn class="font-medium text-green-600 dark:text-green-500 hover:underline" text="Update" @click="dialog = false,updateForm(edit_speakers)"></v-btn>
-                    </template>
-                  </v-card>
-                </v-dialog>
               </td>
               <td>
                 <form @submit.prevent class="inline-block">
@@ -228,6 +177,57 @@
     <div v-if="speakersStore.success" id="alert-3" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
       <SuccessAlertComponent :message="speakersStore.success"/>
     </div>
+    <v-dialog v-model="dialog" width="auto" persistent>
+      <v-card min-width="600" prepend-icon="mdi-update" title="Update Speaker">
+        <v-card-text>
+          <img :src="'http://127.0.0.1:8000/storage/' + edit_speakers.picture" class="w-32 md:w-64 max-w-full max-h-full mb-4" alt="Speaker's Profile Picture">
+          <input type="file" accept="image/*" @change="onFileChange($event, 'update')" class="mb-4">
+          <v-text-field
+              v-model="edit_speakers.first_name"
+              label="First Name"
+          ></v-text-field>
+          <v-text-field
+              v-model="edit_speakers.last_name"
+              label="Last Name"
+          ></v-text-field>
+          <v-text-field
+              v-model="edit_speakers.short_desc"
+              label="Short Description"
+          ></v-text-field>
+          <v-textarea
+              v-model="edit_speakers.long_desc"
+              label="Long Description"
+              row-height="25"
+              rows="4"
+              auto-grow
+          ></v-textarea>
+          <v-text-field
+              v-model="edit_speakers.company"
+              label="Company"
+          ></v-text-field>
+          <v-text-field
+              v-model="edit_speakers.instagram"
+              label="Instagram"
+          ></v-text-field>
+          <v-text-field
+              v-model="edit_speakers.linkedIn"
+              label="LinkedIn"
+          ></v-text-field>
+          <v-text-field
+              v-model="edit_speakers.facebook"
+              label="Facebook"
+          ></v-text-field>
+          <v-text-field
+              v-model="edit_speakers.twitter"
+              label="Twitter"
+          ></v-text-field>
+        </v-card-text>
+        <template v-slot:actions>
+          <v-btn class="ms-auto" text="Close" @click="dialog = false, speakersStore.refreshSpeakers()"></v-btn>
+          <v-btn class="font-medium text-green-600 dark:text-green-500 hover:underline" text="Update" @click="dialog = false,updateForm(edit_speakers)"></v-btn>
+        </template>
+      </v-card>
+    </v-dialog>
     <v-dialog v-model="error_dialog" width="auto" persistent>
       <v-card min-width="600" prepend-icon="mdi-update" title="We couldn't perform the update. Please check the data you've entered and try again.">
         <v-card-text>

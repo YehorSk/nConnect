@@ -10,6 +10,7 @@ export const UseAuthStore = defineStore("auth",{
         user: useStorage('user', {}),
         token: useStorage('token',null),
         errors:'',
+        credentials:'',
         regular_users: [],
         admin_users:[],
         lectures:[],
@@ -57,6 +58,10 @@ export const UseAuthStore = defineStore("auth",{
                 console.log(error.response);
                 if(error.response.status === 422){
                     this.errors = error.response.data.errors;
+                }
+                else if(error.response.status === 401){
+                    this.credentials = error.response.data.message;
+                    console.log(this.credentials);
                 }
             }
         },

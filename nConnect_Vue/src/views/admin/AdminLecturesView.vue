@@ -161,81 +161,14 @@
                   {{lecture.is_lecture}}
                 </td>
                 <td class="px-6 py-4">
-                  <v-btn class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block" @click="users_dialog = true,lectureStore.getLectureUsers(lecture.id)">
+                  <v-btn class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block" @click="callUserDialog(lecture.id)">
                     Users
                   </v-btn>
-
-                  <v-dialog v-model="users_dialog" width="auto">
-                    <v-card min-width="600" prepend-icon="mdi-update" title="Users">
-                      <v-card-text>
-                        <v-list lines="one">
-                          <v-list-item
-                              v-for="user in lectureStore.current_users"
-                              :key="user.id"
-                              :title="'Name: ' + user.name"
-                              :subtitle="'Email: ' + user.email"
-                          ></v-list-item>
-                        </v-list>
-                      </v-card-text>
-                      <template v-slot:actions>
-                        <v-btn class="ms-auto" text="Close" @click="users_dialog = false"></v-btn>
-                      </template>
-                    </v-card>
-                  </v-dialog>
                 </td>
                 <td class="px-6 py-4">
                   <v-btn class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block" @click="dialog = true,editLecture(lecture)">
                     Show/Update
                   </v-btn>
-
-                  <v-dialog v-model="dialog" width="auto" persistent>
-                    <v-card min-width="600" prepend-icon="mdi-update" title="Update Lecture">
-                      <v-card-text>
-                        <v-text-field
-                            v-model="edit_lecture.name"
-                            label="Name"
-                        ></v-text-field>
-
-                        <v-text-field
-                            :disabled="!edit_lecture.is_lecture"
-                            v-model="edit_lecture.capacity"
-                            label="Capacity"
-                            type="number"
-                        ></v-text-field>
-
-                        <v-text-field
-                            v-model="edit_lecture.start_time"
-                            label="Start time"
-                            type="time"
-                        ></v-text-field>
-                        <v-text-field
-                            v-model="edit_lecture.end_time"
-                            label="End time"
-                            type="time"
-                        ></v-text-field>
-                        <v-text-field
-                            v-model="edit_lecture.short_desc"
-                            label="Short Description"
-                        ></v-text-field>
-                        <v-textarea
-                            :disabled="!edit_lecture.is_lecture"
-                            v-model="edit_lecture.long_desc"
-                            label="Long Description"
-                            row-height="25"
-                            rows="4"
-                            variant="outlined"
-                            auto-grow
-                            shaped
-                        ></v-textarea>
-                        <v-select :item-props="itemStages" item-value="id" v-model="edit_lecture.stage_id" :items="stageStore.getCurrentStages" label="Available Stages"></v-select>
-                        <v-select :disabled="!edit_lecture.is_lecture" item-value="id" :item-props="itemSpeakers" v-model="edit_lecture.speaker_id" :items="speakerStore.getCurrentSpeakers" label="Available Speakers"></v-select>
-                      </v-card-text>
-                      <template v-slot:actions>
-                        <v-btn class="ms-auto" text="Close" @click="dialog = false, lectureStore.refreshLectures()"></v-btn>
-                        <v-btn class="font-medium text-green-600 dark:text-green-500 hover:underline" text="Update" @click="dialog = false,updateForm(edit_lecture)"></v-btn>
-                      </template>
-                    </v-card>
-                  </v-dialog>
                 </td>
                 <td class="px-6 py-4">
                   <form @submit.prevent class="inline-block">
@@ -253,6 +186,31 @@
     <div v-if="lectureStore.success" id="alert-3" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
       <SuccessAlertComponent :message="lectureStore.success"/>
     </div>
+    <v-dialog v-model="users_dialog" width="auto">
+      <v-card min-width="600" prepend-icon="mdi-update" title="Users">
+        <v-card-text v-if="waiting">
+          <v-progress-circular
+              :size="80"
+              :width="7"
+              color="primary"
+              indeterminate
+          ></v-progress-circular>
+        </v-card-text>
+        <v-card-text v-else>
+          <v-list lines="one">
+            <v-list-item
+                v-for="user in lectureStore.current_users"
+                :key="user.id"
+                :title="'Name: ' + user.name"
+                :subtitle="'Email: ' + user.email"
+            ></v-list-item>
+          </v-list>
+        </v-card-text>
+        <template v-slot:actions>
+          <v-btn class="ms-auto" text="Close" @click="users_dialog = false"></v-btn>
+        </template>
+      </v-card>
+    </v-dialog>
     <v-dialog v-model="error_dialog" width="auto" persistent>
       <v-card min-width="600" prepend-icon="mdi-update" title="We couldn't perform the update. Please check the data you've entered and try again.">
         <v-card-text>
@@ -266,6 +224,54 @@
         </v-card-text>
         <template v-slot:actions>
           <v-btn class="ms-auto" text="Close" @click="closeErrorDialog"></v-btn>
+        </template>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="dialog" width="auto" persistent>
+      <v-card min-width="600" prepend-icon="mdi-update" title="Update Lecture">
+        <v-card-text>
+          <v-text-field
+              v-model="edit_lecture.name"
+              label="Name"
+          ></v-text-field>
+
+          <v-text-field
+              :disabled="!edit_lecture.is_lecture"
+              v-model="edit_lecture.capacity"
+              label="Capacity"
+              type="number"
+          ></v-text-field>
+
+          <v-text-field
+              v-model="edit_lecture.start_time"
+              label="Start time"
+              type="time"
+          ></v-text-field>
+          <v-text-field
+              v-model="edit_lecture.end_time"
+              label="End time"
+              type="time"
+          ></v-text-field>
+          <v-text-field
+              v-model="edit_lecture.short_desc"
+              label="Short Description"
+          ></v-text-field>
+          <v-textarea
+              :disabled="!edit_lecture.is_lecture"
+              v-model="edit_lecture.long_desc"
+              label="Long Description"
+              row-height="25"
+              rows="4"
+              variant="outlined"
+              auto-grow
+              shaped
+          ></v-textarea>
+          <v-select :item-props="itemStages" item-value="id" v-model="edit_lecture.stage_id" :items="stageStore.getCurrentStages" label="Available Stages"></v-select>
+          <v-select :disabled="!edit_lecture.is_lecture" item-value="id" :item-props="itemSpeakers" v-model="edit_lecture.speaker_id" :items="speakerStore.getCurrentSpeakers" label="Available Speakers"></v-select>
+        </v-card-text>
+        <template v-slot:actions>
+          <v-btn class="ms-auto" text="Close" @click="dialog = false, lectureStore.refreshLectures()"></v-btn>
+          <v-btn class="font-medium text-green-600 dark:text-green-500 hover:underline" text="Update" @click="dialog = false,updateForm(edit_lecture)"></v-btn>
         </template>
       </v-card>
     </v-dialog>
@@ -306,7 +312,8 @@ export default {
       users_dialog:false,
       lectureStore: useLectureStore(),
       stageStore: useStageStore(),
-      speakerStore: useSpeakersStore()
+      speakerStore: useSpeakersStore(),
+      waiting: false,
     };
   },
   created(){
@@ -361,6 +368,12 @@ export default {
       this.error_dialog = false;
       this.lectureStore.errors_update=[];
       this.lectureStore.fetchCurrentConferenceLectures();
+    },
+    async callUserDialog(id) {
+      this.waiting = true;
+      this.users_dialog = true;
+      await this.lectureStore.getLectureUsers(id)
+      this.waiting = false;
     }
   }
 }
