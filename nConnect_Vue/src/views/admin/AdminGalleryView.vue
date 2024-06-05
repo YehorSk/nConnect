@@ -110,6 +110,7 @@ export default {
   },
   created() {
     this.galleryStore.fetchGallery();
+    this.galleryStore.success = '';
   },
   methods: {
     submitForm() {

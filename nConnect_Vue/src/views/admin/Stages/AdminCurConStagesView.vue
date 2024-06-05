@@ -97,6 +97,7 @@ import ErrorAlertComponent from "@/components/alerts/ErrorAlertComponent.vue";
     created(){
       this.stageStore.fetchCurrentConferenceStages();
       this.stageStore.fetchAvailableStages();
+      this.stageStore.success = '';
     },
     mounted() {
       initFlowbite();

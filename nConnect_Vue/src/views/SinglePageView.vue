@@ -4,8 +4,8 @@
     <div class="container">
       <div class="row">
         <div class="col-12 text-center">
-          <div class="section-title">
-            <h5>{{page.name}}</h5>
+          <div class="section-title white">
+            <h3>{{page.name}}</h3>
           </div>
         </div>
       </div>
@@ -50,7 +50,6 @@ export default {
     const pageId = this.$route.params.id;
     try {
       this.page = await editorStore.fetchPageById(pageId);
-      console.log(this.page.content);
     } catch (error) {
       console.error('Error fetching page:', error);
     }

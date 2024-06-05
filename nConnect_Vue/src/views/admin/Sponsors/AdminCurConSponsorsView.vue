@@ -98,6 +98,7 @@ export default {
     this.sponsorsStore.fetchSponsors();
     this.sponsorsStore.fetchCurrentConferenceSponsors();
     this.sponsorsStore.fetchAvailableSponsors();
+    this.sponsorsStore.success = '';
   },
   mounted() {
     initFlowbite();

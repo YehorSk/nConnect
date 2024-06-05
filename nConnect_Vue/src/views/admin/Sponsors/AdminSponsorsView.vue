@@ -140,6 +140,7 @@ export default {
   },
   created(){
     this.sponsorsStore.fetchSponsors();
+    this.sponsorsStore.success = '';
   },
   mounted() {
     initFlowbite();

@@ -18,6 +18,9 @@
             Reset password
           </button>
         </form>
+        <div v-if="authStore.success" id="alert-3" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+          <SuccessAlertComponent :message="authStore.success"/>
+        </div>
       </div>
     </div>
   </section>
@@ -26,8 +29,9 @@
 import NavigationComponent from "@/components/NavigationComponent.vue";
 import {UseAuthStore} from "@/stores/AuthStore.js";
 import { initFlowbite } from 'flowbite'
+import SuccessAlertComponent from "@/components/alerts/SuccessAlertComponent.vue";
 export default {
-  components:{NavigationComponent},
+  components:{SuccessAlertComponent, NavigationComponent},
   data(){
     return{
       authStore: UseAuthStore(),

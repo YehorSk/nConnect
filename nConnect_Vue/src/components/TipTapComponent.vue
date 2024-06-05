@@ -187,24 +187,42 @@
   <editor-content :editor="editor" />
   </form>
 
-  <div class="row">
-    <v-col  v-for="page in editorStore.getPages" :key="page.id" cols="12" md="4">
-      <v-card>
-        <v-card-title>{{ page.name}}</v-card-title>
-      </v-card>
-      <v-card-actions>
-        <v-btn
+
+    <v-table
+
+    >
+      <thead>
+      <tr>
+        <th class="text-left">
+          Name
+        </th>
+        <th class="text-left">
+          Update
+        </th>
+        <th class="text-left">
+          Delete
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr
+          v-for="page in editorStore.getPages" :key="page.id"
+      >
+        <td>{{ page.name}}</td>
+        <td><v-btn
             @click="updatePage(page.id)"
             color="green-lighten-2"
             text="Update"
-        ></v-btn>
-        <v-btn @click="editorStore.destroyPage(page.id)"
-               color="red-lighten-2"
-               text="Delete"
-        ></v-btn>
-      </v-card-actions>
-    </v-col>
-  </div>
+        ></v-btn></td>
+        <td>
+          <v-btn @click="editorStore.destroyPage(page.id)"
+                 color="red-lighten-2"
+                 text="Delete"
+          ></v-btn>
+        </td>
+      </tr>
+      </tbody>
+    </v-table>
   <v-dialog v-model="error_dialog" width="auto" persistent>
     <v-card min-width="600" prepend-icon="mdi-update" title="We couldn't perform the operation.">
       <v-card-text>
@@ -232,10 +250,12 @@ import {watch} from "vue";
 import ImageResize from "tiptap-extension-resize-image";
 import { Color } from '@tiptap/extension-color';
 import TextStyle from '@tiptap/extension-text-style';
+import SuccessAlertComponent from "@/components/alerts/SuccessAlertComponent.vue";
 
 
 export default {
   components: {
+    SuccessAlertComponent,
     EditorContent,
     Color
   },
@@ -253,6 +273,7 @@ export default {
   },
 
   mounted() {
+    this.editorStore.success = '';
     watch(() => this.editorStore.errors, (newValue, oldValue) => {
       if (newValue && newValue.length !== 0) {
         this.callErrorDialog();

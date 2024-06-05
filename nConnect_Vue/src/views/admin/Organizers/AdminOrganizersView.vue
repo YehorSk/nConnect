@@ -155,6 +155,7 @@ export default {
   },
   created() {
     this.organizersStore.fetchOrganizers();
+    this.organizersStore.success = '';
   },
   mounted() {
     initFlowbite();

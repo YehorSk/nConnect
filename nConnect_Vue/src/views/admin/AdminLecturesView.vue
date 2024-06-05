@@ -319,6 +319,7 @@ export default {
     this.lectureStore.fetchCurrentConferenceLectures();
     this.stageStore.fetchCurrentConferenceStages();
     this.speakerStore.fetchCurrentConferenceSpeakers();
+    this.lectureStore.success = '';
   },
   mounted() {
     initFlowbite();

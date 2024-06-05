@@ -86,8 +86,7 @@ export const UseAuthStore = defineStore("auth",{
                 const response = await axios.post('forgot-password', {
                     email: email,
                 });
-
-                window.location.reload();
+                this.success = "A link to reset your password has been sent to your email. Please check your inbox and follow the instructions to reset your password. If you do not see the email, please check your spam or junk folder.";
             } catch (error) {
                 if(error.response.status === 422){
                     this.errors = error.response.data.errors;

@@ -172,6 +172,7 @@ export default {
     this.speakersStore.fetchSpeakers();
     this.speakersStore.fetchCurrentConferenceSpeakers();
     this.speakersStore.fetchAvailableSpeakers();
+    this.speakersStore.success = '';
   },
   mounted() {
     initFlowbite();

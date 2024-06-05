@@ -88,6 +88,7 @@ import ErrorAlertComponent from "@/components/alerts/ErrorAlertComponent.vue";
     },
     created(){
       this.stageStore.fetchStages();
+      this.stageStore.success = '';
     },
     mounted() {
       initFlowbite();

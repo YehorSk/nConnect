@@ -99,6 +99,7 @@ export default {
   },
   created() {
     this.reviewStore.fetchReviews();
+    this.reviewStore.success = '';
   },
   methods: {
     submitForm() {

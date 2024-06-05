@@ -4,7 +4,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\StageController;
-use \App\Http\Controllers\TimeSlotController;
 use \App\Http\Controllers\GalleryController;
 use \App\Http\Controllers\ConferenceController;
 use \App\Http\Controllers\SponsorController;
@@ -143,11 +142,6 @@ Route::post('/upload-gallery-image', [GalleryController::class, 'uploadGalleryIm
 Route::apiResource('reviews',ReviewController::class);
 Route::post('/upload-review-image', [ReviewController::class,'uploadReviewImage']);
 //------------------------------------------------------------
-
-//Get all time slots for the stage
-Route::get('/get-time-slots/{id}',[TimeSlotController::class,'index']);
-
-Route::apiResource('slots', TimeSlotController::class);
 
 
 Route::apiResource('pages',PageController::class);

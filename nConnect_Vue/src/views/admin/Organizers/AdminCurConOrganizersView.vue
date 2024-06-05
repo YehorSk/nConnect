@@ -105,6 +105,7 @@ export default {
     this.organizersStore.fetchOrganizers();
     this.organizersStore.fetchCurrentConferenceOrganizers();
     this.organizersStore.fetchAvailableOrganizers();
+    this.organizersStore.success = '';
   },
   mounted() {
     initFlowbite();

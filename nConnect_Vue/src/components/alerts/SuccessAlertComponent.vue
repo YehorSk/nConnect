@@ -15,47 +15,47 @@
   </button>
 </template>
 <script>
-  import {useStageStore} from "@/stores/StageStore.js";
-  import {onMounted} from "vue";
-  import {initFlowbite} from "flowbite";
-  import {useSponsorsStore} from "@/stores/SponsorsStore.js";
-  import {UseConferenceStore} from "@/stores/ConferenceStore.js";
-  import {useLectureStore} from "@/stores/LectureStore.js";
-  import {useSpeakersStore} from "@/stores/SpeakersStore.js";
-  import {UseOrganizersStore} from "@/stores/OrganizersStore.js";
-  import {UseGalleryStore} from "@/stores/GalleryStore.js";
-  import {UseReviewStore} from "@/stores/ReviewStore.js";
+import {useStageStore} from "@/stores/StageStore.js";
+import {onMounted} from "vue";
+import {initFlowbite} from "flowbite";
+import {useSponsorsStore} from "@/stores/SponsorsStore.js";
+import {UseConferenceStore} from "@/stores/ConferenceStore.js";
+import {useLectureStore} from "@/stores/LectureStore.js";
+import {useSpeakersStore} from "@/stores/SpeakersStore.js";
+import {UseOrganizersStore} from "@/stores/OrganizersStore.js";
+import {UseGalleryStore} from "@/stores/GalleryStore.js";
+import {UseAuthStore} from "@/stores/AuthStore.js";
 
-  export default {
-    props: {
-      message: String
-    },
-    data(){
-      return{
-        stageStore: useStageStore(),
-        sponsorStore: useSponsorsStore(),
-        speakersStore: useSpeakersStore(),
-        conferenceStore: UseConferenceStore(),
-        lectureStore: useLectureStore(),
-        organizersStore: UseOrganizersStore(),
-        galleryStore: UseGalleryStore(),
-        reviewStore: UseReviewStore()
-      }
-    },
-    mounted() {
-      initFlowbite();
-    },
-    methods:{
-      clearSuccess(){
-        this.stageStore.success = '';
-        this.sponsorStore.success = '';
-        this.speakersStore.success = '';
-        this.conferenceStore.success = '';
-        this.lectureStore.success = '';
-        this.organizersStore.success = '';
-        this.galleryStore.success = '';
-        this.reviewStore.success = '';
-      }
+export default {
+  props: {
+    message: String
+  },
+  data() {
+    return {
+      stageStore: useStageStore(),
+      sponsorStore: useSponsorsStore(),
+      speakersStore: useSpeakersStore(),
+      conferenceStore: UseConferenceStore(),
+      lectureStore: useLectureStore(),
+      organizersStore: UseOrganizersStore(),
+      galleryStore: UseGalleryStore(),
+      authStore: UseAuthStore()
+    }
+  },
+  mounted() {
+    initFlowbite();
+  },
+  methods: {
+    clearSuccess() {
+      this.stageStore.success = '';
+      this.sponsorStore.success = '';
+      this.speakersStore.success = '';
+      this.conferenceStore.success = '';
+      this.lectureStore.success = '';
+      this.organizersStore.success = '';
+      this.galleryStore.success = '';
+      this.authStore.success = '';
     }
   }
+}
 </script>

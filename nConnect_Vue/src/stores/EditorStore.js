@@ -11,7 +11,8 @@ export function stripHtmlTags(str) {
 export const useEditorStore = defineStore("editor",{
     state:()=>({
         errors:[],
-        pages: []
+        pages: [],
+        success: ''
     }),
     getters:{
         getPages(){
@@ -27,6 +28,7 @@ export const useEditorStore = defineStore("editor",{
                     content: content,
                 });
                 this.fetchPages();
+                this.success = "Added successfully";
             } catch (error) {
                 if(error.response.status === 422){
                     this.errors.value = error.response.data.errors;

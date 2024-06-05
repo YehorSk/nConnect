@@ -287,6 +287,7 @@ export default {
   },
   created(){
     this.speakersStore.fetchSpeakers();
+    this.speakersStore.success = '';
   },
   mounted() {
     initFlowbite();

@@ -93,6 +93,7 @@ export default{
   },
   created(){
     this.conferenceStore.fetchConferences();
+    this.conferenceStore.success = '';
   },
   mounted() {
     initFlowbite();
