@@ -3,13 +3,9 @@
 </style>
 <template>
   <AdminNavComponent/>
-
   <div class="p-4 sm:ml-64 ">
     <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
-
-
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-
         <v-sheet class="max-w-full">
           <div class="flex flex-wrap">
             <div class="w-full md:w-1/2 p-2">
@@ -82,12 +78,10 @@
                     {{lectureStore.errors['long_desc'][0]}}
                   </span>
                 </div>
-                <v-checkbox
-                    v-model="is_lecture"
-                    color="orange"
-                    label="Is lecture"
-                    hide-details
-                ></v-checkbox>
+                <label class="inline-flex items-center cursor-pointer mt-4">
+                  <input type="checkbox" @change="is_lecture = !is_lecture" :checked="is_lecture" class="form-checkbox h-5 w-5 text-blue-600 transition duration-150 ease-in-out">
+                  <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Is lecture</span>
+                </label>
                 <v-select
                     :item-props="itemStages"
                     v-model="stage"

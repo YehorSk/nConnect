@@ -22,7 +22,7 @@ class ConferenceController extends Controller
     public function store(Request $request){
         $data = $request->validate([
             'name' => 'required|unique:conferences',
-            'year' => 'required|unique:conferences',
+            'year' => 'required',
         ]);
         $conference = new Conference($data);
         $conference->save();
@@ -40,7 +40,6 @@ class ConferenceController extends Controller
             ],
             'year' => [
                 'required',
-                Rule::unique('conferences')->ignore($conference),
             ],
             'is_current'=>[
                 'required'
