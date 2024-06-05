@@ -8,7 +8,8 @@ export const UseReviewStore = defineStore("reviews", {
             error_name: '',
             error_text: '',
             error_photo: '',
-            success: ''
+            success: '',
+            errors: ''
         }),
         getters: {
             getReviews() {
@@ -91,7 +92,7 @@ export const UseReviewStore = defineStore("reviews", {
                     await this.fetchReviews();
                 } catch (error) {
                     if (error.response && error.response.status === 422) {
-                        const errors = error.response.data.errors;
+                        this.errors = error.response.data.errors.name[0];
 
                     }
                 }

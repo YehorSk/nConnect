@@ -53,8 +53,8 @@ class ReviewController extends Controller
             File::delete($filePath);
         }
         $data = $request->validate([
-            'name' => ['required', Rule::unique('reviews')->ignore($reviews->id)],
-            'text' => ['required', 'string', 'min:5', 'max:255', Rule::unique('reviews')->ignore($reviews->id)],
+            'name' => ['required',],
+            'text' => ['required', 'string', 'max:255',],
             'image' =>[ 'nullable']
         ]);
 

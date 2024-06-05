@@ -105,6 +105,9 @@
     <div v-if="sponsorsStore.success" id="alert-3" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
       <SuccessAlertComponent :message="sponsorsStore.success"/>
     </div>
+    <div v-if="sponsorsStore.errors" id="alert-2" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+      <ErrorAlertComponent :message="sponsorsStore.errors"/>
+    </div>
 
   </div>
 
@@ -154,8 +157,9 @@ export default {
       this.sponsorsStore.error_image = '';
     },
     updateForm(sponsors){
-      console.log("File", this.file);
       this.sponsorsStore.updateSponsors(sponsors, this.updateFile);
+      this.updateFile = null;
+      this.updateImageUrl = "";
     },
     createImage(file, form) {
       if (!(file instanceof Blob)) {

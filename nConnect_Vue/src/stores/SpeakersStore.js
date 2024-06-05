@@ -192,7 +192,6 @@ export const useSpeakersStore = defineStore("speakers",{
             } catch (error) {
                 if (error.response.status === 422) {
                     this.errors_update = error.response.data.errors;
-                    console.log(this.errors_update);
                     await this.fetchSpeakers();
                 }
             }

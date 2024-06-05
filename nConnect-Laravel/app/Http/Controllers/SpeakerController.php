@@ -109,43 +109,33 @@ class SpeakerController extends Controller
         $data = $request->validate([
             'first_name' => [
                 'required',
-                Rule::unique('speakers')->ignore($speaker->id),
             ],
             'last_name' => [
                 'required',
-                Rule::unique('speakers')->ignore($speaker->id),
             ],
             'short_desc' => [
                 'required',
-                Rule::unique('speakers')->ignore($speaker->id),
             ],
             'long_desc' => [
                 'required',
-                Rule::unique('speakers')->ignore($speaker->id),
             ],
             'Company' => [
                 'required',
-                Rule::unique('speakers')->ignore($speaker->id),
             ],
             'Instagram' => [
                 'nullable',
-                Rule::unique('speakers')->ignore($speaker->id),
             ],
             'LinkedIn' => [
                 'nullable',
-                Rule::unique('speakers')->ignore($speaker->id),
             ],
             'Facebook' => [
                 'nullable',
-                Rule::unique('speakers')->ignore($speaker->id),
             ],
             'Twitter' => [
                 'nullable',
-                Rule::unique('speakers')->ignore($speaker->id),
             ],
             'picture' => [
                 'nullable',
-                Rule::unique('speakers')->ignore($speaker->id),
             ],
         ]);
 

@@ -13,7 +13,8 @@ export const useSponsorsStore = defineStore("sponsors",{
        error_image: '',
         update_error_name:'',
         update_error_date:'',
-       success: ''
+       success: '',
+        errors: ''
     }),
     getters:{
         getSponsors(){
@@ -133,7 +134,6 @@ export const useSponsorsStore = defineStore("sponsors",{
 
                     imagePath = response.data.image_path;
                 }
-                console.log('Image path:', imagePath);
                 const updatedData = {
                     name: sponsors.name,
                     link: sponsors.link,
@@ -147,7 +147,7 @@ export const useSponsorsStore = defineStore("sponsors",{
                 await this.fetchSponsors();
             }catch (error) {
                 if (error.response && error.response.status === 422) {
-                    const errors = error.response.data.errors;
+                    this.errors = error.response.data.errors.name[0];
                 }
 
             }

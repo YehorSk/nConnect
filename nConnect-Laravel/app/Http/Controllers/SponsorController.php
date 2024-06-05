@@ -86,9 +86,9 @@ class SponsorController extends Controller
             File::delete($filePath);
         }
         $data = $request->validate([
-            'name'=>[ 'required', Rule::unique('sponsors')->ignore($sponsor->id),],
-            'link'=>[ 'required', Rule::unique('sponsors')->ignore($sponsor->id),],
-            'image'=>[ 'nullable', Rule::unique('sponsors')->ignore($sponsor->id),]
+            'name'=>[ 'required',],
+            'link'=>[ 'required',],
+            'image'=>[ 'nullable',]
 
         ]);
         $sponsor->update($data);

@@ -13,7 +13,8 @@ export const UseOrganizersStore = defineStore("organizers", {
         error_phone_number: '',
         error_id: '',
         error_image: '',
-        success: ''
+        success: '',
+        errors: ''
     }),
     getters: {
         getOrganizers() {
@@ -134,18 +135,21 @@ export const UseOrganizersStore = defineStore("organizers", {
                     const response = await axios.post("/upload-organizer-image", formData);
                     imagePath = response.data.image_path;
                 }
-                console.log('Image path:', imagePath);
                 const updatedData = {
                     name: organizers.name,
                     phone_number: organizers.phone_number,
                     email: organizers.email,
-                    image: imagePath
                 };
+
+                if (imagePath !== null) {
+                    updatedData.image = imagePath;
+                }
                 const updatedResponse = await axios.put("/organizers/" + organizers.id, updatedData);
                 this.success = "Updated successfully";
                 await this.fetchOrganizers();
             } catch (error) {
                 this.handleErrors(error);
+                this.errors = error.response.data.errors.name[0];
             }
         }
     }

@@ -94,12 +94,13 @@ class OrganizerController extends Controller
             $filePath = storage_path('app/public/' . $organizer->image);
             File::delete($filePath);
         }
-//
+
         $data = $request->validate([
-            'name' => ['required', Rule::unique('organizers')->ignore($organizer->id),],
-            'phone_number' => ['required', Rule::unique('organizers')->ignore($organizer->id),],
-            'email' => ['required', Rule::unique('organizers')->ignore($organizer->id),],
-            'image' => ['nullable', Rule::unique('organizers')->ignore($organizer->id),],]);
+            'name' => ['required',],
+            'phone_number' => ['required',],
+            'email' => ['required',],
+            'image' => ['nullable', ],
+            ]);
 
         $organizer->update($data);
         return response()->json($data);
