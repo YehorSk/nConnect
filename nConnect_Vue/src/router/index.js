@@ -110,7 +110,7 @@ const routes = [
     beforeEnter: userGuard
   },
   {
-    path: '/notfound',
+    path: '/:pathMatch(.*)*',
     name: 'not-found',
     component: NotFoundView
   },
