@@ -64,6 +64,7 @@ class SpeakersSeeder extends Seeder
 
             ],
 
+
         ];
         foreach ($speakers as $speakerData) {
             $speaker = new Speaker();

@@ -26,7 +26,9 @@
           <div class="single-footer-widget">
             <p>Študentské centrum UKF Dražovská 2, Nitra</p>
             <br><br>
-            <p>Ochrana osobných údajov</p>
+            <router-link
+                to="/get-page/1" >Ochrana osobných údajov<span></span>
+            </router-link>
           </div>
         </div>
         <div class="col-md-4 col-sm-6">
@@ -48,7 +50,7 @@
       <div class="row">
         <div class="col-md-6 align-self-center">
           <div class="copyright-text">
-            <p><a href="#">nConnect</a> &#169; 2024 All Right Reserved</p>
+            <p><a href="#">nConnect</a> &#169; 2024 All Rights Reserved</p>
           </div>
         </div>
         <div class="col-md-6">

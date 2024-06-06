@@ -147,9 +147,6 @@ export const useLectureStore = defineStore("lectures", {
                 }
             }   
         },
-        async attachUser(user_id, lecture_id){
-            console.log(lecture_id);
-        },
         async getLectureUsers(lecture_id){
             try{
                 const response = await axios.get(`get-lecture-users/${lecture_id}`);

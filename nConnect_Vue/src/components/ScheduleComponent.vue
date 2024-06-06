@@ -41,25 +41,7 @@
                     ></v-progress-circular>
                   </template>
                   <template v-else v-for="lecture in lectureStore.getMainLectures" :key="lecture.id">
-                    <li v-if="lecture.is_lecture === 1" @click="showDetails(lecture)" class="schedule-details">
-                      <div class="block">
-                        <!-- time -->
-                        <div class="time">
-                          <i class="fa fa-clock-o"></i>
-                          <span class="time">{{ lecture.start_time +" - "+lecture.end_time }}</span>
-                        </div>
-                        <!-- Speaker -->
-                        <div class="speaker">
-                          <img v-if="lecture.speaker_image !== null" :src="'http://127.0.0.1:8000/storage/' + lecture.speaker_image" width="50px" height="50px" alt="speaker-thumb-one">
-                          <span v-if="lecture.speaker_name !== null" class="name">{{lecture.speaker_name + " " + lecture.speaker_lastname}}</span>
-                        </div>
-                        <!-- Subject -->
-                        <div class="subject">{{lecture.name}}</div>
-                        <!-- Venue -->
-                        <div class="venue">{{lecture.stage_name}}</div>
-                      </div>
-                    </li>
-                    <li v-else class="schedule-details">
+                    <li @click="showDetails(lecture)" class="schedule-details">
                       <div class="block">
                         <!-- time -->
                         <div class="time">
@@ -90,11 +72,11 @@
 
           <v-dialog v-model="dialog" min-width="400px" min-height="400px" width="600px" height="600px">
             <v-card class="mx-auto text-black" color="white" max-width="800" title="Details">
-              <v-card-text class="text-h5 py-2">
+              <v-card-text class="text-p py-2">
                 {{ show_lecture.short_desc }}
               </v-card-text>
               <v-card-actions>
-                <v-list-item class="w-200">
+                <v-list-item class="w-200" v-if="show_lecture.is_lecture === 1">
                   <template v-slot:prepend>
                     <v-avatar color="grey-darken-3" :image="'http://127.0.0.1:8000/storage/' + show_lecture.speaker_image"></v-avatar>
                   </template>
@@ -104,7 +86,7 @@
                 </v-list-item>
                 <v-divider :thickness="8" color="info"></v-divider>
                 <v-btn color="black" @click="dialog = false" text>Close</v-btn>
-                <template v-if="!user.is_admin">
+                <template v-if="!user.is_admin && show_lecture.is_lecture === 1">
                   <v-btn v-if="user.email_verified_at && !authStore.lectures.some(lecture => lecture.id === show_lecture.id)" @click="registerLecture" color="green" text>Register</v-btn>
                   <v-btn v-if="user.email_verified_at && authStore.lectures.some(lecture => lecture.id === show_lecture.id)" @click="removeLecture" color="red" text>Remove</v-btn>
                 </template>
