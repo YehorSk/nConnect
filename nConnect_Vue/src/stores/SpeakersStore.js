@@ -159,6 +159,12 @@ export const useSpeakersStore = defineStore("speakers",{
         },
         async updateSpeakers(speakers, file) {
             try {
+                if (!speakers.first_name || !speakers.last_name || !speakers.short_desc || !speakers.long_desc || !speakers.company) {
+                    this.errors_update = {
+                        general: ["first_name, last_name, short_desc, long_desc and company cannot be empty"]
+                    };
+                    return;
+                }
                 let imagePath = null;
                 if (file) {
                     const formData = new FormData();

@@ -8,7 +8,7 @@ export const UseGalleryStore = defineStore("gallery", {
             error_image: '',
             error_year: '',
             success: '',
-
+            errors: ''
         }),
         getters: {
             getGallery() {
@@ -68,6 +68,10 @@ export const UseGalleryStore = defineStore("gallery", {
 
             async updateGallery(gallery, file) {
                 try {
+                    if (!gallery.year) {
+                        this.errors = "Year cannot be empty";
+                        return;
+                    }
                     let imagePath = null;
                     if (file) {
                         const formData = new FormData();
@@ -88,9 +92,8 @@ export const UseGalleryStore = defineStore("gallery", {
                     await this.fetchGallery();
 
                 } catch (error) {
-                    if (error.response && error.response.status === 422) {
-                        const errors = error.response.data.errors;
-
+                    if (error.response && error.response.data && error.response.data.errors) {
+                        this.errors = Object.values(error.response.data.errors).flat().join(' ');
                         }
                     }
                 }

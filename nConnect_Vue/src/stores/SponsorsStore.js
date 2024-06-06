@@ -126,6 +126,10 @@ export const useSponsorsStore = defineStore("sponsors",{
         },
         async updateSponsors(sponsors, file){
             try {
+                if (!sponsors.name || !sponsors.link) {
+                    this.errors = "Name and link cannot be empty";
+                    return;
+                }
                 let imagePath = null;
                 if (file) {
                     const formData = new FormData();
@@ -147,9 +151,10 @@ export const useSponsorsStore = defineStore("sponsors",{
                 await this.fetchSponsors();
             }catch (error) {
                 if (error.response && error.response.status === 422) {
-                    this.errors = error.response.data.errors.name[0];
+                    this.errors = Object.values(error.response.data.errors).flat().join(' ');
+                }else {
+                    console.error(error.response.data);
                 }
-
             }
         },
 

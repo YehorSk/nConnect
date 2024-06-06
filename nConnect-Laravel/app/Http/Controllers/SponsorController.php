@@ -55,8 +55,7 @@ class SponsorController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $imageName = $request->name.'.'.$request->image->extension();
-
+        $imageName = $request->name.'.'.time().'.'.$request->image->extension();
         $path = $request->file('image')->storeAs('public/images/sponsors/', $imageName);
 
         $relativePath = str_replace('public/', '', $path);

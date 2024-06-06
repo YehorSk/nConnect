@@ -128,6 +128,10 @@ export const UseOrganizersStore = defineStore("organizers", {
         },
         async updateOrganizer(organizers, file) {
             try {
+                if (!organizers.name || !organizers.phone_number || !organizers.email) {
+                    this.errors = "Name, phone number and email cannot be empty";
+                    return;
+                }
                 let imagePath = null;
                 if (file) {
                     const formData = new FormData();
@@ -149,7 +153,7 @@ export const UseOrganizersStore = defineStore("organizers", {
                 await this.fetchOrganizers();
             } catch (error) {
                 this.handleErrors(error);
-                this.errors = error.response.data.errors.name[0];
+                this.errors = Object.values(error.response.data.errors).flat().join(' ');
             }
         }
     }

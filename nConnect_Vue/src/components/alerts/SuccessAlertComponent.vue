@@ -25,6 +25,7 @@ import {useSpeakersStore} from "@/stores/SpeakersStore.js";
 import {UseOrganizersStore} from "@/stores/OrganizersStore.js";
 import {UseGalleryStore} from "@/stores/GalleryStore.js";
 import {UseAuthStore} from "@/stores/AuthStore.js";
+import {UseReviewStore} from "@/stores/ReviewStore.js";
 
 export default {
   props: {
@@ -39,7 +40,8 @@ export default {
       lectureStore: useLectureStore(),
       organizersStore: UseOrganizersStore(),
       galleryStore: UseGalleryStore(),
-      authStore: UseAuthStore()
+      authStore: UseAuthStore(),
+      reviewStore: UseReviewStore()
     }
   },
   mounted() {
@@ -55,6 +57,7 @@ export default {
       this.organizersStore.success = '';
       this.galleryStore.success = '';
       this.authStore.success = '';
+      this.reviewStore.success = '';
     }
   }
 }

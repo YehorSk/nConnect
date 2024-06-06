@@ -31,7 +31,7 @@ class StageController extends Controller
     public function store(Request $request){
         $data = $request->validate([
             'name' => 'required|unique:stages',
-            'date' => 'required|unique:stages',
+            'date' => 'required',
         ]);
         $stage = new Stage($data);
         $stage->save();
@@ -68,7 +68,6 @@ class StageController extends Controller
             ],
             'date' => [
                 'required',
-                Rule::unique('stages')->ignore($stage),
             ],
         ]);
 

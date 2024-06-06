@@ -71,32 +71,40 @@ export const UseReviewStore = defineStore("reviews", {
             },
             async updateReview(reviews, file) {
                 try {
+                    if (!reviews.name || !reviews.text) {
+                        this.errors = "Name and text cannot be empty";
+                        return;
+                    }
+
                     let imagePath = null;
-                    if(file){
+                    if (file) {
                         const formData = new FormData();
                         formData.append('image', file);
-                        const response = await axios.post("/upload-review-image" ,formData);
+                        const response = await axios.post("/upload-review-image", formData);
                         imagePath = response.data.image_path;
-
                     }
                     console.log('Image path:', imagePath);
-                    const updatedData={
+
+                    const updatedData = {
                         name: reviews.name,
                         text: reviews.text,
                     };
                     if (imagePath !== null) {
                         updatedData.image = imagePath;
                     }
+
                     const updatedResponse = await axios.put("/reviews/" + reviews.id, updatedData);
                     this.success = "Updated successfully";
                     await this.fetchReviews();
                 } catch (error) {
-                    if (error.response && error.response.status === 422) {
-                        this.errors = error.response.data.errors.name[0];
-
+                    if (error.response && error.response.data && error.response.data.errors) {
+                        this.errors = Object.values(error.response.data.errors).flat().join(' ');
+                    } else {
+                        console.error(error.response.data);
                     }
                 }
             }
+
 
 
 

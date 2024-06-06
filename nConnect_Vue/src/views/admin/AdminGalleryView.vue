@@ -78,6 +78,9 @@
     <div v-if="galleryStore.success" id="alert-3" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
       <SuccessAlertComponent :message="galleryStore.success"/>
     </div>
+    <div v-if="galleryStore.errors" id="alert-2" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+      <ErrorAlertComponent :message="galleryStore.errors"/>
+    </div>
   </div>
 
 
