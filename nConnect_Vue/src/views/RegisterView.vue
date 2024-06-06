@@ -37,10 +37,13 @@ import FooterComponent from "@/components/FooterComponent.vue";
                       </div>
 
                       <div class="form-group mt-2">
-                        <input type="password" v-model="password" class="form-style" :class="{'is-invalid':authStore.errors['password']}" placeholder="Password">
+                        <input type="password" v-model="password" class="form-style" :class="{'is-invalid':authStore.errors['password'] || authStore.errors['credentials']}" placeholder="Password">
                         <i style="color: #FF6600" class="input-icon uil uil-lock-alt"></i>
                         <div v-if="authStore.errors['password']" class="invalid-feedback">
                           {{authStore.errors['password'][0]}}
+                        </div>
+                        <div v-if="authStore.errors['credentials']" class="invalid-feedback">
+                          {{authStore.errors['credentials']}}
                         </div>
                       </div>
                       <a href="#" @click="submitLogInForm" class="btn mt-4">Login</a>
