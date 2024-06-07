@@ -67,11 +67,17 @@
                 <input type="text" v-model="review.text" placeholder="Text" class="inline-block w-full">
               </td>
               <td class="px-6 py-4">
-                <button class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block" @click="updateForm(review)" type="submit">Update</button>
+                <v-btn @click="updateForm(review)"
+                       color="green-lighten-2"
+                       text="Update"
+                ></v-btn>
               </td>
               <td class="px-6 py-4">
                 <form @submit.prevent class="inline-block">
-                  <button class="font-medium text-red-600 dark:text-red-500 hover:underline inline-block" type="submit" @click="reviewStore.destroyReviews(review.id)">DELETE</button>
+                  <v-btn @click="reviewStore.destroyReviews(review.id)"
+                         color="red-lighten-2"
+                         text="Delete"
+                  ></v-btn>
                 </form>
               </td>
             </tr>

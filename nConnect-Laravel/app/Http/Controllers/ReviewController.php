@@ -24,7 +24,7 @@ class ReviewController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         $imageName = $request->name . '.' . $request->image->extension();
-        $path = $request->file('image')->storeAs('public/images/reviews/', $imageName);
+        $path = $request->file('image')->storeAs('public/images/reviews', $imageName);
         $relativePath = str_replace('public/', '', $path);
         $reviews = new Review();
         $reviews->name = $request->input('name');

@@ -6,7 +6,6 @@ use App\Models\Conference;
 use App\Models\Sponsor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Validation\Rule;
 
 class SponsorController extends Controller
 {
@@ -56,7 +55,7 @@ class SponsorController extends Controller
         ]);
 
         $imageName = $request->name.'.'.time().'.'.$request->image->extension();
-        $path = $request->file('image')->storeAs('public/images/sponsors/', $imageName);
+        $path = $request->file('image')->storeAs('public/images/sponsors', $imageName);
 
         $relativePath = str_replace('public/', '', $path);
 
@@ -85,9 +84,9 @@ class SponsorController extends Controller
             File::delete($filePath);
         }
         $data = $request->validate([
-            'name'=>[ 'required',],
-            'link'=>[ 'required',],
-            'image'=>[ 'nullable',]
+            'name'=>[ 'required'],
+            'link'=>[ 'required'],
+            'image'=>[ 'nullable']
 
         ]);
         $sponsor->update($data);

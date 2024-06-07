@@ -21,7 +21,7 @@ class GalleryController extends Controller
         ]);
 
         $imageName = time().'.'.$request->image->extension();
-        $path = $request->file('image')->storeAs('public/images/gallery/', $imageName);
+        $path = $request->file('image')->storeAs('public/images/gallery', $imageName);
         $relativePath = str_replace('public/', '', $path);
         $gallery = new Gallery();
         $gallery->image = $relativePath;

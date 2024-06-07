@@ -5,7 +5,6 @@ use App\Models\Conference;
 use App\Models\Organizer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Validation\Rule;
 
 class OrganizerController extends Controller
 {
@@ -62,7 +61,7 @@ class OrganizerController extends Controller
 
         $imageName = $request->name . '_' . $request->image->extension();
 
-        $path = $request->file('image')->storeAs('public/images/organizers/', $imageName);
+        $path = $request->file('image')->storeAs('public/images/organizers', $imageName);
 
         $relativePath = str_replace('public/', '', $path);
 
@@ -94,12 +93,11 @@ class OrganizerController extends Controller
             $filePath = storage_path('app/public/' . $organizer->image);
             File::delete($filePath);
         }
-
         $data = $request->validate([
-            'name' => ['required',],
-            'phone_number' => ['required',],
-            'email' => ['required',],
-            'image' => ['nullable', ],
+            'name' => ['required'],
+            'phone_number' => ['required'],
+            'email' => ['required'],
+            'image' => ['nullable'],
             ]);
 
         $organizer->update($data);

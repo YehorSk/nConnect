@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Models\Conference;
-use App\Models\Gallery;
 use App\Models\Lecture;
 use App\Traits\HttpResponses;
 use App\models\User;
@@ -105,15 +104,6 @@ class AuthController extends Controller
         return $this->error('', 'No user', 401);
     }
 
-
-//    public function addLecture(Request $request){
-//        $user =  auth('sanctum')->user();
-//        if($user instanceof User){
-//            $lecture = Lecture::find($request->input('id'));
-//            $user->lectures()->attach($lecture);
-//        }
-//        return $this->error('','No user',401);
-//    }
     public function addLecture(Request $request)
     {
         $user = auth('sanctum')->user();

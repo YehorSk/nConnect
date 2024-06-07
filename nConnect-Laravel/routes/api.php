@@ -69,14 +69,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 //----------------------------Stages Routes---------------------------------
 Route::apiResource('stages',StageController::class);
-//Route::get('/stages', [StageController::class, 'index']);
-//Route::post('/stages', [StageController::class, 'store']);
-//Route::put('/stages/{id}', [StageController::class, 'update']);
-//Route::delete('/stages/{id}', [StageController::class, 'destroy']);
-//Route::group(['middleware' => ['auth:sanctum']], function () {
-//
-//});
-
 Route::get('/get-current-conference-stages',[StageController::class,'get_current_conference_stages']);
 Route::get('/get-available-stages',[StageController::class,'get_available_stages']);
 Route::post('/add-stages-to-conference',[StageController::class,'addStageToConference']);
@@ -143,6 +135,7 @@ Route::apiResource('reviews',ReviewController::class);
 Route::post('/upload-review-image', [ReviewController::class,'uploadReviewImage']);
 //------------------------------------------------------------
 
-
+//----------------------------Pages Routes---------------------------------
 Route::apiResource('pages',PageController::class);
 Route::get('/get-current-page/{id}', [PageController::class, 'getCurrentPage' ]);
+//---------------------------------------------------------------------------------

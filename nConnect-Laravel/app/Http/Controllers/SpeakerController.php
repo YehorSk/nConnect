@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Conference;
 use App\Models\Speaker;
-use App\Models\Stage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Validation\Rule;
 
 class SpeakerController extends Controller
 {
@@ -69,7 +67,7 @@ class SpeakerController extends Controller
         ]);
         $imageName = time().'.'.$request->first_name . '_' . $request->last_name . '.' . $request->image->extension();
 
-        $path = $request->file('image')->storeAs('public/images/speakers/', $imageName);
+        $path = $request->file('image')->storeAs('public/images/speakers', $imageName);
 
         $relativePath = str_replace('public/', '', $path);
 
@@ -108,34 +106,34 @@ class SpeakerController extends Controller
 
         $data = $request->validate([
             'first_name' => [
-                'required',
+                'required'
             ],
             'last_name' => [
-                'required',
+                'required'
             ],
             'short_desc' => [
-                'required',
+                'required'
             ],
             'long_desc' => [
-                'required',
+                'required'
             ],
             'Company' => [
-                'required',
+                'required'
             ],
             'Instagram' => [
-                'nullable',
+                'nullable'
             ],
             'LinkedIn' => [
-                'nullable',
+                'nullable'
             ],
             'Facebook' => [
-                'nullable',
+                'nullable'
             ],
             'Twitter' => [
-                'nullable',
+                'nullable'
             ],
             'picture' => [
-                'nullable',
+                'nullable'
             ],
         ]);
 
@@ -151,12 +149,9 @@ class SpeakerController extends Controller
         ]);
 
         $imageName = time().'.'.$request->image->extension();
-        $request->image->storeAs('public/images/speakers/', $imageName);
+        $request->image->storeAs('public/images/speakers', $imageName);
 
         return response()->json(['image_path' => 'images/speakers/'.$imageName]);
     }
-
-
-
 
 }

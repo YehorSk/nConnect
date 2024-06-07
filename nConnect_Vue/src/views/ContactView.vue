@@ -15,6 +15,7 @@
       </div>
     </div>
   </section>
+  <OrganizersComponent/>
   <MapComponent/>
   <FooterComponent/>
 </template>
@@ -22,4 +23,5 @@
 import NavigationComponent from "@/components/NavigationComponent.vue";
 import MapComponent from "@/components/MapComponent.vue";
 import FooterComponent from "@/components/FooterComponent.vue";
+import OrganizersComponent from "@/components/OrganizersComponent.vue";
 </script>
