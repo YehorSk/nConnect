@@ -9,11 +9,19 @@
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <v-sheet class="max-w-sm">
           <v-form fast-fail @submit.prevent>
-            <v-text-field v-model="name" label="Name"></v-text-field>
+            <v-text-field
+                v-model="name"
+                label="Name"
+                color="orange"
+            ></v-text-field>
             <div v-if="conferenceStore.error_name">
               <span class="text-sm text-red-400">{{conferenceStore.error_name}}</span>
             </div>
-            <v-text-field v-model="date" label="Date"></v-text-field>
+            <v-text-field
+                v-model="date"
+                label="Date"
+                color="orange"
+            ></v-text-field>
             <div v-if="conferenceStore.error_year">
               <span class="text-sm text-red-400">{{conferenceStore.error_date}}</span>
             </div>

@@ -8,19 +8,34 @@
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <v-sheet class="max-w-sm">
           <v-form fast-fail @submit.prevent>
-            <v-text-field v-model="name" label="Name"></v-text-field>
+            <v-text-field
+                v-model="name"
+                label="Name"
+                color="orange"
+            ></v-text-field>
             <div v-if="reviewStore.error_name">
               <span class="text-sm text-red-400">{{reviewStore.error_name}}</span>
             </div>
-            <v-text-field v-model="text" label="Text"></v-text-field>
+            <v-text-field
+                v-model="text"
+                label="Text"
+                color="orange"
+            ></v-text-field>
             <div v-if="reviewStore.error_text">
               <span class="text-sm text-red-400">{{reviewStore.error_text}}</span>
             </div>
-            <v-file-input v-model="addPhoto" accept="image/png, image/jpeg, image/bmp" :prepend-icon="null" color="black" @change="onFileChange($event, 'add')" label="Choose Photo"></v-file-input>
+            <v-file-input
+                v-model="addPhoto"
+                accept="image/png, image/jpeg, image/bmp"
+                :prepend-icon="null"
+                color="orange"
+                @change="onFileChange($event, 'add')"
+                label="Choose Photo"
+            ></v-file-input>
             <div v-if="reviewStore.error_photo">
               <span class="text-sm text-red-400">{{reviewStore.error_photo}}</span>
             </div>
-            <v-img :src="addImageUrl" />
+            <v-img v-if="addImageUrl" :src="addImageUrl" />
             <v-btn class="mt-2" type="submit" @click="submitForm()" block>Save</v-btn>
           </v-form>
         </v-sheet>

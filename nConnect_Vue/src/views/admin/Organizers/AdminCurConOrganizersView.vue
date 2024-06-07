@@ -12,8 +12,19 @@
 
         <v-sheet class="max-w-sm ">
           <v-form fast-fail @submit.prevent >
-            <v-select :item-props="itemProps" v-model="organizer" :items="organizersStore.getAvailableOrganizers" label="Available Organizers"></v-select>
-            <v-btn class="mt-2" type="submit" @click="submitForm()" block>Save</v-btn>
+            <v-select
+                :item-props="itemProps"
+                v-model="organizer"
+                color="orange"
+                :items="organizersStore.getAvailableOrganizers"
+                label="Available Organizers"
+            ></v-select>
+            <v-btn
+                class="mt-2"
+                type="submit"
+                @click="submitForm()"
+                block
+            >Save</v-btn>
           </v-form>
         </v-sheet>
 

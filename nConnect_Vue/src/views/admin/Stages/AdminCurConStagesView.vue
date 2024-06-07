@@ -12,8 +12,19 @@
 
         <v-sheet class="max-w-sm ">
           <v-form fast-fail @submit.prevent>
-            <v-select :item-props="itemProps" v-model="stage" :items="stageStore.getAvailableStages" label="Available Stages"></v-select>
-            <v-btn class="mt-2" type="submit" @click="submitForm()" block>Save</v-btn>
+            <v-select
+                :item-props="itemProps"
+                color="orange"
+                v-model="stage"
+                :items="stageStore.getAvailableStages"
+                label="Available Stages"
+            ></v-select>
+            <v-btn
+                class="mt-2"
+                type="submit"
+                @click="submitForm()"
+                block
+            >Save</v-btn>
           </v-form>
         </v-sheet>
 

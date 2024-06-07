@@ -13,6 +13,7 @@
                 <v-text-field
                     v-model="name"
                     label="Name"
+                    color="orange"
                 ></v-text-field>
                 <div v-if="lectureStore.errors['name']">
                   <span class="text-sm text-red-400">
@@ -24,6 +25,7 @@
                     v-model="capacity"
                     label="Capacity"
                     type="number"
+                    color="orange"
                 ></v-text-field>
                 <div v-if="lectureStore.errors['capacity']">
                   <span class="text-sm text-red-400">
@@ -34,6 +36,7 @@
                     v-model="start_time"
                     label="Start time"
                     type="time"
+                    color="orange"
                 ></v-text-field>
                 <div v-if="lectureStore.errors['start_time']">
                   <span class="text-sm text-red-400">
@@ -44,6 +47,7 @@
                     v-model="end_time"
                     label="End time"
                     type="time"
+                    color="orange"
                 ></v-text-field>
                 <div v-if="lectureStore.errors['end_time']">
                   <span class="text-sm text-red-400">
@@ -53,6 +57,7 @@
                 <v-text-field
                     v-model="short_desc"
                     label="Short Description"
+                    color="orange"
                 ></v-text-field>
                 <div v-if="lectureStore.errors['short_desc']">
                   <span class="text-sm text-red-400">
@@ -72,6 +77,7 @@
                     variant="outlined"
                     auto-grow
                     shaped
+                    color="orange"
                 ></v-textarea>
                 <div v-if="lectureStore.errors['long_desc'] && is_lecture">
                   <span class="text-sm text-red-400">
@@ -79,7 +85,12 @@
                   </span>
                 </div>
                 <label class="inline-flex items-center cursor-pointer mt-4">
-                  <input type="checkbox" @change="is_lecture = !is_lecture" :checked="is_lecture" class="form-checkbox h-5 w-5 text-blue-600 transition duration-150 ease-in-out">
+                  <input
+                      type="checkbox"
+                      @change="is_lecture = !is_lecture"
+                      :checked="is_lecture"
+                      class="form-checkbox h-5 w-5 text-blue-600 transition duration-150 ease-in-out"
+                  >
                   <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Is lecture</span>
                 </label>
                 <v-select
@@ -87,6 +98,7 @@
                     v-model="stage"
                     :items="stageStore.getCurrentStages"
                     label="Available Stages"
+                    color="orange"
                 ></v-select>
                 <div v-if="lectureStore.errors['stage_id']">
                   <span class="text-sm text-red-400">
@@ -99,6 +111,7 @@
                     v-model="speaker"
                     :items="speakerStore.getCurrentSpeakers"
                     label="Available Speakers"
+                    color="orange"
                 ></v-select>
                 <div v-if="lectureStore.errors['speaker_id'] && is_lecture">
                   <span class="text-sm text-red-400">

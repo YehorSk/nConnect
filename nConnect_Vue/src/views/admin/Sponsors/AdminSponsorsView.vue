@@ -7,14 +7,13 @@
   <div class="p-4 sm:ml-64 ">
     <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
 
-
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-
-        <v-sheet class="max-w-sm ">
-          <v-form fast-fail @submit.prevent >
+        <v-sheet class="max-w-sm">
+          <v-form fast-fail @submit.prevent>
             <v-text-field
                 v-model="name"
                 label="Name"
+                color="orange"
             ></v-text-field>
             <div v-if="sponsorsStore.error_name">
               <span class="text-sm text-red-400">
@@ -24,6 +23,7 @@
             <v-text-field
                 v-model="link"
                 label="Link"
+                color="orange"
             ></v-text-field>
             <div v-if="sponsorsStore.error_link">
               <span class="text-sm text-red-400">
@@ -34,7 +34,7 @@
                 v-model="addFile"
                 accept="image/png, image/jpeg, image/bmp"
                 :prepend-icon="null"
-                color="black"
+                color="orange"
                 @change="onFileChange($event, 'add')"
                 label="Choose Image">
             </v-file-input>
@@ -43,7 +43,7 @@
                 {{sponsorsStore.error_image}}
               </span>
             </div>
-            <v-img :src="addImageUrl" />
+            <v-img v-if="addImageUrl" :src="addImageUrl" />
             <v-btn class="mt-2" type="submit" @click="submitForm()" block>Save</v-btn>
           </v-form>
         </v-sheet>
@@ -106,21 +106,20 @@
 
   </div>
 
-
-
 </template>
+
 <script>
 import { onMounted } from 'vue'
 import { initFlowbite } from 'flowbite'
 import AdminNavComponent from "@/components/AdminNavComponent.vue";
 import SuccessAlertComponent from "@/components/alerts/SuccessAlertComponent.vue";
 import ErrorAlertComponent from "@/components/alerts/ErrorAlertComponent.vue";
-import {useSponsorsStore} from "@/stores/SponsorsStore.js";
+import { useSponsorsStore } from "@/stores/SponsorsStore.js";
 
 
 export default {
-  components: {ErrorAlertComponent, SuccessAlertComponent, AdminNavComponent},
-  data(){
+  components: { ErrorAlertComponent, SuccessAlertComponent, AdminNavComponent },
+  data() {
     return {
       addFile: null,
       updateFile: null,
@@ -128,22 +127,21 @@ export default {
       updateImageUrl: "",
       name: '',
       link: '',
-      sponsors:[],
-      errors:[],
+      sponsors: [],
+      errors: [],
       sponsorsStore: useSponsorsStore(),
     };
   },
-  created(){
+  created() {
     this.sponsorsStore.fetchSponsors();
     this.sponsorsStore.success = '';
   },
   mounted() {
     initFlowbite();
-  }
-  ,
-  methods:{
+  },
+  methods: {
     submitForm() {
-      this.sponsorsStore.insertSponsor(this.name,this.link,this.addFile);
+      this.sponsorsStore.insertSponsor(this.name, this.link, this.addFile);
       this.name = '';
       this.link = '';
       this.addFile = null;
@@ -152,7 +150,7 @@ export default {
       this.sponsorsStore.error_link = '';
       this.sponsorsStore.error_image = '';
     },
-    updateForm(sponsors){
+    updateForm(sponsors) {
       this.sponsorsStore.updateSponsors(sponsors, this.updateFile);
       this.updateFile = null;
       this.updateImageUrl = "";
@@ -173,7 +171,7 @@ export default {
       };
       reader.readAsDataURL(file);
     },
-    onFileChange(event,form) {
+    onFileChange(event, form) {
       const file = event.target.files[0];
       if (!file) {
         console.log("No file selected.");
@@ -184,7 +182,7 @@ export default {
       } else {
         this.addFile = file;
       }
-      this.createImage(file,form);
+      this.createImage(file, form);
     }
   }
 }

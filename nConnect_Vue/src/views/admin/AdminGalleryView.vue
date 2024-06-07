@@ -12,19 +12,31 @@
 
         <v-sheet class="max-w-sm">
           <v-form fast-fail @submit.prevent>
-            <v-file-input v-model="addFile" label="Image" :prepend-icon="null" accept="image/*" @change="onFileChange($event, 'add')"></v-file-input>
+            <v-file-input
+                v-model="addFile"
+                label="Image"
+                color="orange"
+                :prepend-icon="null"
+                accept="image/*"
+                @change="onFileChange($event, 'add')"
+            ></v-file-input>
             <div v-if="galleryStore.error_image">
               <span class="text-sm text-red-400">
                 {{galleryStore.error_image}}
               </span>
             </div>
-            <v-text-field v-model="year" label="Year" type="number"></v-text-field>
+            <v-text-field
+                v-model="year"
+                label="Year"
+                type="number"
+                color="orange"
+            ></v-text-field>
             <div v-if="galleryStore.error_year">
               <span class="text-sm text-red-400">
                 {{galleryStore.error_year}}
               </span>
             </div>
-            <v-img :src="addImageUrl" />
+            <v-img v-if="addImageUrl" :src="addImageUrl" />
             <v-btn class="mt-2" type="submit" @click="submitForm()" block>Save</v-btn>
           </v-form>
         </v-sheet>

@@ -17,6 +17,7 @@
                 <v-text-field
                     v-model="first_name"
                     label="First Name"
+                    color="orange"
                 ></v-text-field>
                 <div v-if="speakersStore.error_first_name">
           <span class="text-sm text-red-400">
@@ -26,6 +27,7 @@
                 <v-text-field
                     v-model="last_name"
                     label="Last Name"
+                    color="orange"
                 ></v-text-field>
                 <div v-if="speakersStore.error_last_name">
           <span class="text-sm text-red-400">
@@ -35,6 +37,7 @@
                 <v-text-field
                     v-model="short_desc"
                     label="Short Description"
+                    color="orange"
                 ></v-text-field>
                 <div v-if="speakersStore.error_short_desc">
           <span class="text-sm text-red-400">
@@ -44,6 +47,7 @@
                 <v-textarea
                     v-model="long_desc"
                     label="Long Description"
+                    color="orange"
                     outlined
                     rows="5"
                 ></v-textarea>
@@ -55,6 +59,7 @@
                 <v-text-field
                     v-model="company"
                     label="Company"
+                    color="orange"
                 ></v-text-field>
                 <div v-if="speakersStore.error_company">
           <span class="text-sm text-red-400">
@@ -66,6 +71,7 @@
                 <v-text-field
                     v-model="instagram"
                     label="Instagram"
+                    color="orange"
                 ></v-text-field>
                 <div v-if="speakersStore.error_instagram">
           <span class="text-sm text-red-400">
@@ -75,6 +81,7 @@
                 <v-text-field
                     v-model="linkedIn"
                     label="LinkedIn"
+                    color="orange"
                 ></v-text-field>
                 <div v-if="speakersStore.error_linkedIn">
           <span class="text-sm text-red-400">
@@ -84,6 +91,7 @@
                 <v-text-field
                     v-model="facebook"
                     label="Facebook"
+                    color="orange"
                 ></v-text-field>
                 <div v-if="speakersStore.error_facebook">
           <span class="text-sm text-red-400">
@@ -93,6 +101,7 @@
                 <v-text-field
                     v-model="twitter"
                     label="Twitter"
+                    color="orange"
                 ></v-text-field>
                 <div v-if="speakersStore.error_twitter">
           <span class="text-sm text-red-400">
@@ -103,7 +112,7 @@
                     v-model="addFile"
                     accept="image/png, image/jpeg, image/bmp"
                     :prepend-icon="null"
-                    color="black"
+                    color="orange"
                     @change="onFileChange($event, 'add')"
                     label="Choose Image"
                 ></v-file-input>
@@ -112,7 +121,7 @@
             {{speakersStore.error_image}}
           </span>
                 </div>
-                <v-img :src="addImageUrl"></v-img>
+                <v-img v-if="addImageUrl" :src="addImageUrl"></v-img>
               </div>
             </div>
             <v-btn class="mt-2" type="submit" @click="submitForm()" block>Save</v-btn>
@@ -174,18 +183,22 @@
           <v-text-field
               v-model="edit_speakers.first_name"
               label="First Name"
+              color="orange"
           ></v-text-field>
           <v-text-field
               v-model="edit_speakers.last_name"
               label="Last Name"
+              color="orange"
           ></v-text-field>
           <v-text-field
               v-model="edit_speakers.short_desc"
               label="Short Description"
+              color="orange"
           ></v-text-field>
           <v-textarea
               v-model="edit_speakers.long_desc"
               label="Long Description"
+              color="orange"
               row-height="25"
               rows="4"
               auto-grow
@@ -193,22 +206,27 @@
           <v-text-field
               v-model="edit_speakers.company"
               label="Company"
+              color="orange"
           ></v-text-field>
           <v-text-field
               v-model="edit_speakers.instagram"
               label="Instagram"
+              color="orange"
           ></v-text-field>
           <v-text-field
               v-model="edit_speakers.linkedIn"
               label="LinkedIn"
+              color="orange"
           ></v-text-field>
           <v-text-field
               v-model="edit_speakers.facebook"
               label="Facebook"
+              color="orange"
           ></v-text-field>
           <v-text-field
               v-model="edit_speakers.twitter"
               label="Twitter"
+              color="orange"
           ></v-text-field>
         </v-card-text>
         <template v-slot:actions>
@@ -319,8 +337,8 @@ export default {
       this.twitter = '';
       this.addFile = null;
       this.addImageUrl = '';
-      this.$refs.addFileInput.value = '';
-      this.$refs.addImageUrl.value = '';
+      this.addFileInput = '';
+      this.addImageUrl = '';
     },
     updateForm(speakers) {
       console.log("File:", this.file);

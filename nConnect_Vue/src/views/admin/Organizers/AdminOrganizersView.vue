@@ -15,6 +15,7 @@
             <v-text-field
                 v-model="name"
                 label="Name"
+                color="orange"
             ></v-text-field>
             <div v-if="organizersStore.error_name">
               <span class="text-sm text-red-400">
@@ -24,6 +25,7 @@
             <v-text-field
                 v-model="phone_number"
                 label="Phone Number	"
+                color="orange"
             ></v-text-field>
             <div v-if="organizersStore.error_phone_number">
               <span class="text-sm text-red-400">
@@ -33,6 +35,7 @@
             <v-text-field
                 v-model="email"
                 label="Email"
+                color="orange"
             ></v-text-field>
             <div v-if="organizersStore.error_email">
               <span class="text-sm text-red-400">
@@ -43,7 +46,7 @@
                 v-model="addFile"
                 accept="image/png, image/jpeg, image/jpg, image/gif"
                 :prepend-icon="null"
-                color="black"
+                color="orange"
                 @change="onFileChange($event, 'add')"
                 label="Choose Photo">
             </v-file-input>
@@ -52,7 +55,7 @@
                 {{organizersStore.error_image}}
               </span>
             </div>
-            <v-img :src="addImageUrl" />
+            <v-img v-if="addImageUrl" :src="addImageUrl" />
             <v-btn class="mt-2" type="submit" @click="submitForm()" block>Save</v-btn>
           </v-form>
         </v-sheet>

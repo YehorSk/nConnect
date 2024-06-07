@@ -15,6 +15,7 @@
             <v-text-field
                 v-model="name"
                 label="Name"
+                color="orange"
             ></v-text-field>
             <div v-if="stageStore.error_name">
               <span class="text-sm text-red-400">
@@ -24,6 +25,7 @@
             <v-text-field
                 v-model="date"
                 label="Date"
+                color="orange"
             ></v-text-field>
             <div v-if="stageStore.error_date">
               <span class="text-sm text-red-400">
@@ -36,26 +38,40 @@
 
         <br>
         <div class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <div v-for="stage in stageStore.getStages" :key="stage.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 items-center">
-            <div>
-              <form @submit.prevent class="inline-block">
-                <input type="hidden" v-model="stage.id">
-                <input type="text" v-model="stage.name" placeholder="Name" class="inline-block mr-2">
-                <input type="text" v-model="stage.date" placeholder="Date" class="inline-block mr-2">
+          <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" class="px-6 py-3">Name</th>
+              <th scope="col" class="px-6 py-3">Date</th>
+              <th scope="col" class="px-6 py-3">Update</th>
+              <th scope="col" class="px-6 py-3">Delete</th>
+            </tr>
+            </thead>
+            <tbody v-for="stage in stageStore.getStages" :key="stage.id">
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+              <td class="px-6 py-4">
+                <input type="text" v-model="stage.name" placeholder="name" class="inline-block w-full">
+              </td>
+              <td class="px-6 py-4">
+                <input type="text" v-model="stage.date" placeholder="date" class="inline-block w-full">
+              </td>
+              <td class="px-6 py-4">
                 <v-btn @click="updateForm(stage)"
                        color="green-lighten-2"
                        text="Update"
-                       class="mr-2"
                 ></v-btn>
-              </form>
-              <form @submit.prevent class="inline-block">
-                <v-btn @click="stageStore.destroyStage(stage.id)"
-                       color="red-lighten-2"
-                       text="Delete"
-                ></v-btn>
-              </form>
-            </div>
-          </div>
+              </td>
+              <td class="px-6 py-4">
+                <form @submit.prevent class="inline-block">
+                  <v-btn @click="stageStore.destroyStage(stage.id)"
+                         color="red-lighten-2"
+                         text="Delete"
+                  ></v-btn>
+                </form>
+              </td>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
