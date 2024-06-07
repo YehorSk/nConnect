@@ -172,7 +172,10 @@
                 </td>
                 <td class="px-6 py-4">
                   <form @submit.prevent class="inline-block">
-                    <button class="font-medium text-red-600 dark:text-red-500 hover:underline inline-block" type="submit" @click="lectureStore.destroyLecture(lecture.id)">DELETE</button>
+                    <v-btn @click="lectureStore.destroyLecture(lecture.id)"
+                           color="red-lighten-2"
+                           text="Delete"
+                    ></v-btn>
                   </form>
                 </td>
               </tr>

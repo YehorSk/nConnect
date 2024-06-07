@@ -42,10 +42,17 @@
                 <input type="hidden" v-model="stage.id">
                 <input type="text" v-model="stage.name" placeholder="Name" class="inline-block mr-2">
                 <input type="text" v-model="stage.date" placeholder="Date" class="inline-block mr-2">
-                <button class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block mr-2" @click="updateForm(stage)" type="submit">Update</button>
+                <v-btn @click="updateForm(stage)"
+                       color="green-lighten-2"
+                       text="Update"
+                       class="mr-2"
+                ></v-btn>
               </form>
               <form @submit.prevent class="inline-block">
-                <button class="font-medium text-red-600 dark:text-red-500 hover:underline inline-block" type="submit" @click="stageStore.destroyStage(stage.id)">DELETE</button>
+                <v-btn @click="stageStore.destroyStage(stage.id)"
+                       color="red-lighten-2"
+                       text="Delete"
+                ></v-btn>
               </form>
             </div>
           </div>
@@ -67,7 +74,6 @@
 
 </template>
 <script>
-import { onMounted } from 'vue'
 import { initFlowbite } from 'flowbite'
 import {useStageStore} from "@/stores/StageStore.js";
 import AdminNavComponent from "@/components/AdminNavComponent.vue";

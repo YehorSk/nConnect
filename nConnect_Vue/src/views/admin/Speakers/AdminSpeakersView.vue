@@ -122,54 +122,43 @@
 
         <br>
         <div class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-
           <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" class="px-16 py-3">
-                Image
-              </th>
-              <th scope="col" class="px-6 py-3">
-                First Name
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Last Name
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Show/Update
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Delete
-              </th>
+              <th scope="col" class="px-6 py-3">Image</th>
+              <th scope="col" class="px-6 py-3">First Name</th>
+              <th scope="col" class="px-6 py-3">Last Name</th>
+              <th scope="col" class="px-6 py-3">Show/Update</th>
+              <th scope="col" class="px-6 py-3">Delete</th>
             </tr>
             </thead>
             <tbody v-for="speakers in speakersStore.getSpeakers" :key="speakers.id">
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <td class="p-4">
-                <img :src="'http://127.0.0.1:8000/storage/' + speakers.picture" class="w-32 md:w-64 max-w-full max-h-full" alt="Speaker's Profile Picture">
+              <td class="px-6 py-4">
+                <img :src="'http://127.0.0.1:8000/storage/' + speakers.picture" class="w-16 md:w-32 max-w-full max-h-full" alt="Speaker's Profile Picture">
               </td>
-              <td>
+              <td class="px-6 py-4">
                 {{ speakers.first_name }}
               </td>
-              <td>
+              <td class="px-6 py-4">
                 {{ speakers.last_name }}
               </td>
-              <td>
+              <td class="px-6 py-4">
                 <v-btn class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block" @click="dialog = true,editSpeakers(speakers)">
                   Show/Update
                 </v-btn>
               </td>
-              <td>
+              <td class="px-6 py-4">
                 <form @submit.prevent class="inline-block">
-                  <button class="font-medium text-red-600 dark:text-red-500 hover:underline inline-block" type="submit" @click="speakersStore.destroySpeakers(speakers.id)">DELETE</button>
+                  <v-btn @click="speakersStore.destroySpeakers(speakers.id)"
+                         color="red-lighten-2"
+                         text="Delete"
+                  ></v-btn>
                 </form>
               </td>
             </tr>
             </tbody>
-
-
           </table>
-
         </div>
       </div>
     </div>
@@ -180,7 +169,7 @@
     <v-dialog v-model="dialog" width="auto" persistent>
       <v-card min-width="600" prepend-icon="mdi-update" title="Update Speaker">
         <v-card-text>
-          <img :src="'http://127.0.0.1:8000/storage/' + edit_speakers.picture" class="w-32 md:w-64 max-w-full max-h-full mb-4" alt="Speaker's Profile Picture">
+          <img :src="'http://127.0.0.1:8000/storage/' + edit_speakers.picture" class="w-16 md:w-32 max-w-full max-h-full" alt="Speaker's Profile Picture">
           <input type="file" accept="image/*" @change="onFileChange($event, 'update')" class="mb-4">
           <v-text-field
               v-model="edit_speakers.first_name"

@@ -31,48 +31,44 @@
       </div>
       <br>
       <div class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" class="px-16 py-3">
-              Image
-            </th>
-            <th scope="col" class="px-6 py-3">
-              Year
-            </th>
-            <th scope="col" class="px-6 py-3">
-              Update
-            </th>
-            <th scope="col" class="px-6 py-3">
-              Delete
-            </th>
+            <th scope="col" class="px-6 py-3">Image</th>
+            <th scope="col" class="px-6 py-3">Year</th>
+            <th scope="col" class="px-6 py-3">Update</th>
+            <th scope="col" class="px-6 py-3">Delete</th>
           </tr>
           </thead>
           <tbody v-for="gallery in galleryStore.getGallery" :key="gallery.id">
           <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-            <td class="p-4">
+            <td class="px-6 py-4">
               <img :src="'http://127.0.0.1:8000/storage/' + gallery.image" class="w-32 md:w-64 max-w-full max-h-full" alt="Gallery image">
-              <form @submit.prevent class="inline-block">
+              <form @submit.prevent class="inline-block mt-2">
                 <input type="hidden" v-model="gallery.id">
                 <input type="file" accept="image/*" @change="onFileChange($event,'update')" class="inline-block">
               </form>
             </td>
-            <td >
-              <input type="number" v-model="gallery.year" placeholder="year" class="inline-block">
+            <td class="px-6 py-4">
+              <input type="number" v-model="gallery.year" placeholder="year" >
             </td>
-            <td>
-              <button class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block" @click="updateForm(gallery)" type="submit">Update</button>
+            <td class="px-6 py-4">
+              <v-btn @click="updateForm(gallery)"
+                     color="green-lighten-2"
+                     text="Update"
+              ></v-btn>
             </td>
-            <td>
+            <td class="px-6 py-4">
               <form @submit.prevent class="inline-block">
-                <button class="font-medium text-red-600 dark:text-red-500 hover:underline inline-block" type="submit" @click="galleryStore.destroyGallery(gallery.id)">DELETE</button>
+                <v-btn @click="galleryStore.destroyGallery(gallery.id)"
+                       color="red-lighten-2"
+                       text="Delete"
+                ></v-btn>
               </form>
             </td>
           </tr>
           </tbody>
         </table>
-
       </div>
     </div>
     <div v-if="galleryStore.success" id="alert-3" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
