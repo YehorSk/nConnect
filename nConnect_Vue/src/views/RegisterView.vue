@@ -33,13 +33,13 @@ import FooterComponent from "@/components/FooterComponent.vue";
                       </div>
 
                       <div class="form-group mt-2">
-                        <input type="password" v-model="password" class="form-style" :class="{'is-invalid':authStore.errors['password'] || authStore.errors['credentials']}" placeholder="Password">
+                        <input type="password" v-model="password" class="form-style" :class="{ 'is-invalid': authStore.errors['password'] || authStore.credentials }" placeholder="Password">
                         <i style="color: #FF6600" class="input-icon uil uil-lock-alt"></i>
                         <div v-if="authStore.errors['password']" class="invalid-feedback">
-                          <p v-if="authStore.errors['password']">{{authStore.errors['password'][0]}}</p>
+                          <p v-if="authStore.errors['password']">{{ authStore.errors['password'][0] }}</p>
                         </div>
                         <div v-if="authStore.credentials" class="invalid-feedback">
-                          {{authStore.credentials}}
+                          {{ authStore.credentials }}
                         </div>
                       </div>
 
@@ -318,18 +318,15 @@ h6 span{
   -webkit-transition: all 200ms linear;
   transition: all 200ms linear;
 }
-.btn{
+.btn {
   border-radius: 4px;
   height: 44px;
   font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
-  -webkit-transition : all 200ms linear;
   transition: all 200ms linear;
   padding: 0 30px;
   letter-spacing: 1px;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
   display: inline-flex;
   align-items: center;
   background-color: #FF6600;
@@ -338,7 +335,19 @@ h6 span{
 .btn:hover {
   background-color: #000000;
   color: #FF6600;
-  box-shadow: 0 8px 24px 0 rgba(16,39,112,.2);
+  box-shadow: 0 8px 24px 0 rgba(16, 39, 112, .2);
+}
+.btn:active,
+.btn:focus {
+  background-color: #FF6600;
+  color: #000000;
+  outline: none;
+  box-shadow: none;
+}
+.btn:hover:active,
+.btn:hover:focus {
+  background-color: #000000;
+  color: #FF6600;
 }
 @keyframes animStar {
   from {
