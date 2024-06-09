@@ -33,13 +33,13 @@ import FooterComponent from "@/components/FooterComponent.vue";
                       </div>
 
                       <div class="form-group mt-2">
-                        <input type="password" v-model="password" class="form-style" :class="{'is-invalid':authStore.errors['password'] || authStore.errors['credentials']}" placeholder="Password">
+                        <input type="password" v-model="password" class="form-style" :class="{ 'is-invalid': authStore.errors['password'] || authStore.credentials }" placeholder="Password">
                         <i style="color: #FF6600" class="input-icon uil uil-lock-alt"></i>
                         <div v-if="authStore.errors['password']" class="invalid-feedback">
-                          <p v-if="authStore.errors['password']">{{authStore.errors['password'][0]}}</p>
+                          <p v-if="authStore.errors['password']">{{ authStore.errors['password'][0] }}</p>
                         </div>
                         <div v-if="authStore.credentials" class="invalid-feedback">
-                          {{authStore.credentials}}
+                          {{ authStore.credentials }}
                         </div>
                       </div>
 
