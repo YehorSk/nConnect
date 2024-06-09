@@ -1,6 +1,7 @@
 import axios from "axios";
 import {defineStore} from "pinia";
 import {useStorage} from "@vueuse/core";
+import router from "@/router/index.js";
 
 
 axios.defaults.baseURL = "http://localhost/nConnect/nConnect-Laravel/public/";
@@ -36,10 +37,12 @@ export const UseAuthStore = defineStore("auth",{
                     password: password,
                     password_confirmation:password_confirmation
                 });
-                this.user = response.data.data.user;
-                this.token = response.data.data.token;
-                window.location.reload();
+                // this.user = response.data.data.user;
+                // this.token = response.data.data.token;
+                // window.location.reload();
+                this.success = "Please confirm your email";
             } catch (error) {
+                console.log(error.response)
                 if(error.response.status === 422){
                     this.errors = error.response.data.errors;
                 }
@@ -58,6 +61,7 @@ export const UseAuthStore = defineStore("auth",{
                 console.log(error.response);
                 if(error.response.status === 422){
                     this.errors = error.response.data.errors;
+                    console.log(this.errors);
                 }
                 else if(error.response.status === 401){
                     this.credentials = error.response.data.message;
@@ -127,6 +131,7 @@ export const UseAuthStore = defineStore("auth",{
                         }
                     });
                     this.user = response.data;
+                    console.log(this.user);
                 }catch (error) {
                     if (error.response && error.response.status === 401) {
                         this.user = {};

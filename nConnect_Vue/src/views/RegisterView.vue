@@ -16,7 +16,7 @@ import FooterComponent from "@/components/FooterComponent.vue";
         <div class="col-12 text-center align-self-center py-5">
           <div class="section pb-5 pt-5 pt-sm-2 text-center">
             <h6 style="color: #FF6600" class="mb-0 pb-3"><span>Log In </span><span>Sign Up</span></h6>
-            <input class="checkbox" type="checkbox" id="reg-log" name="reg-log"/>
+            <input @click="clearErrors" class="checkbox" type="checkbox" id="reg-log" name="reg-log"/>
             <label for="reg-log"></label>
             <div class="card-3d-wrap mx-auto">
               <div class="card-3d-wrapper">
@@ -27,25 +27,22 @@ import FooterComponent from "@/components/FooterComponent.vue";
                       <div class="form-group mt-2">
                         <input type="email" v-model="email" class="form-style" :class="{'is-invalid':authStore.errors['email']}" placeholder="Email">
                         <i style="color: #FF6600" class="input-icon uil uil-at"></i>
-<!--                        <div v-if="authStore.credentials" class="invalid-feedback">-->
-<!--                          {{authStore.credentials}}-->
-<!--                        </div>-->
                         <div v-if="authStore.errors['email']" class="invalid-feedback">
                           {{authStore.errors['email'][0]}}
                         </div>
-
                       </div>
 
                       <div class="form-group mt-2">
                         <input type="password" v-model="password" class="form-style" :class="{'is-invalid':authStore.errors['password'] || authStore.errors['credentials']}" placeholder="Password">
                         <i style="color: #FF6600" class="input-icon uil uil-lock-alt"></i>
                         <div v-if="authStore.errors['password']" class="invalid-feedback">
-                          {{authStore.errors['password'][0]}}
+                          <p v-if="authStore.errors['password']">{{authStore.errors['password'][0]}}</p>
                         </div>
-                        <div v-if="authStore.errors['credentials']" class="invalid-feedback">
-                          {{authStore.errors['credentials']}}
+                        <div v-if="authStore.credentials" class="invalid-feedback">
+                          {{authStore.credentials}}
                         </div>
                       </div>
+
                       <a href="#" @click="submitLogInForm" class="btn mt-4">Login</a>
 
                       <p class="mb-0 mt-4 text-center">
@@ -98,11 +95,22 @@ import FooterComponent from "@/components/FooterComponent.vue";
       </div>
     </div>
   </div>
+  <v-dialog v-model="success_dialog" width="auto" persistent>
+    <v-card min-width="600" prepend-icon="mdi-update" title="Success">
+      <v-card-text>
+        <p>{{authStore.success}}</p>
+      </v-card-text>
+      <template v-slot:actions>
+        <v-btn class="ms-auto" @click="closeSuccessDialog">Close</v-btn>
+      </template>
+    </v-card>
+  </v-dialog>
   <FooterComponent/>
 </template>
 <script>
 
 import {UseAuthStore} from "@/stores/AuthStore.js";
+import {watch} from "vue";
 
 export default{
   data(){
@@ -111,7 +119,8 @@ export default{
       email:'',
       password:'',
       password_confirmation:'',
-      authStore: UseAuthStore()
+      authStore: UseAuthStore(),
+      success_dialog:false
     };
   },
   methods:{
@@ -121,13 +130,33 @@ export default{
       this.email = '';
       this.password = '';
       this.password_confirmation = '';
+      this.authStore.credentials= '';
+      this.authStore.errors = [];
     },
     submitLogInForm(){
       this.authStore.login(this.email,this.password);
       this.email = '';
       this.password = '';
+    },
+    clearErrors(){
+      this.authStore.credentials= '';
+      this.authStore.errors = [];
+    },
+    callSuccessDialog(){
+      this.success_dialog = true;
+    },
+    closeSuccessDialog(){
+      this.success_dialog = false;
+      this.authStore.success='';
     }
 
+  },
+  mounted() {
+    watch(() => this.authStore.success, (newValue, oldValue) => {
+      if (newValue && newValue.length !== 0) {
+        this.callSuccessDialog();
+      }
+    });
   }
 }
 </script>

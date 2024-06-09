@@ -15,13 +15,13 @@
           <div class="speaker-item">
             <div class="image">
               <img loading="lazy" :src="'http://127.0.0.1:8000/storage/' + speaker.picture" :alt="`${speaker.last_name}`" class="img-fluid">
-              <div class="primary-overlay"></div>
-              <div class="socials">
+              <div v-if="speaker.facebook || speaker.twitter || speaker.linkedIn || speaker.instagram" class="primary-overlay"></div>
+              <div  class="socials">
                 <ul class="list-inline">
-                  <li class="list-inline-item"><a :href="speaker.facebook"><i class="fa fa-facebook"></i></a></li>
-                  <li class="list-inline-item"><a :href="speaker.twitter"><i class="fa fa-twitter"></i></a></li>
-                  <li class="list-inline-item"><a :href="speaker.linkedIn"><i class="fa fa-linkedin"></i></a></li>
-                  <li class="list-inline-item"><a :href="speaker.instagram"><i class="fa fa-instagram"></i></a></li>
+                  <li v-if="speaker.facebook" class="list-inline-item"><a :href="speaker.facebook"><i class="fa fa-facebook"></i></a></li>
+                  <li v-if="speaker.twitter" class="list-inline-item"><a :href="speaker.twitter"><i class="fa fa-twitter"></i></a></li>
+                  <li v-if="speaker.linkedIn" class="list-inline-item"><a :href="speaker.linkedIn"><i class="fa fa-linkedin"></i></a></li>
+                  <li v-if="speaker.instagram" class="list-inline-item"><a :href="speaker.instagram"><i class="fa fa-instagram"></i></a></li>
                 </ul>
               </div>
             </div>
