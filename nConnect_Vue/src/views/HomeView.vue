@@ -10,6 +10,7 @@ import MapComponent from "@/components/MapComponent.vue";
 import FooterComponent from "@/components/FooterComponent.vue";
 import OrganizersComponent from "@/components/OrganizersComponent.vue";
 import TestimonialComponent from "@/components/TestimonialComponent.vue";
+import ContactFormComponent from "@/components/ContactFormComponent.vue";
 </script>
 
 <template>
@@ -20,7 +21,8 @@ import TestimonialComponent from "@/components/TestimonialComponent.vue";
   <ScheduleComponent/>
   <SponsorsComponent/>
   <TestimonialComponent/>
-  <MapComponent/>
   <OrganizersComponent/>
+  <MapComponent/>
+  <ContactFormComponent/>
   <FooterComponent/>
 </template>

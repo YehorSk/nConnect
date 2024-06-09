@@ -98,7 +98,7 @@ import FooterComponent from "@/components/FooterComponent.vue";
   <v-dialog v-model="success_dialog" width="auto" persistent>
     <v-card min-width="600" prepend-icon="mdi-update" title="Success">
       <v-card-text>
-        <p>{{authStore.success}}</p>
+        <h5>{{authStore.success}}</h5>
       </v-card-text>
       <template v-slot:actions>
         <v-btn class="ms-auto" @click="closeSuccessDialog">Close</v-btn>
@@ -111,7 +111,6 @@ import FooterComponent from "@/components/FooterComponent.vue";
 
 import {UseAuthStore} from "@/stores/AuthStore.js";
 import {watch} from "vue";
-
 export default{
   data(){
     return{

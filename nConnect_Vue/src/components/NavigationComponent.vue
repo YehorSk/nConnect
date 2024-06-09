@@ -77,7 +77,7 @@
           <v-list-item v-for="lecture in authStore.lectures" :key="lecture.id">
               <v-list-item-title>{{ lecture.name }}</v-list-item-title>
               <v-list-item-subtitle>{{ lecture.start_time }} - {{ lecture.end_time }}</v-list-item-subtitle>
-              <v-list-item-subtitle>{{ 'Voľné miesta: ' + (lecture.capacity - lecture.remaining_spots) }}</v-list-item-subtitle>
+              <v-list-item-subtitle>{{ 'Voľné miesta: ' + (lecture.capacity - lecture.taken_spots) }}</v-list-item-subtitle>
             <v-list-item-action>
               <v-btn color="black" @click="removeLecture(lecture.id)">Odhlásiť sa</v-btn>
             </v-list-item-action>

@@ -10,6 +10,7 @@ use \App\Http\Controllers\SponsorController;
 use \App\Http\Controllers\LectureController;
 use App\Http\Controllers\OrganizerController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\EmailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
@@ -50,6 +51,8 @@ Route::post('/forgot-password', function (Request $request) {
 Route::get('/reset-password/{token}/{email}', [AuthController::class, 'reset_password'])->name('password.reset');
 
 Route::post('/update-password', [AuthController::class, 'update_password']);
+
+Route::post('/send-email',[EmailController::class, 'sendEmail']);
 
 //Auth routes
 Route::post('/register', [AuthController::class, 'register']);

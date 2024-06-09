@@ -31,7 +31,7 @@ class LectureController extends Controller
                 'id' => $lecture->id,
                 'name' => $lecture->name,
                 'capacity' => $lecture->capacity,
-                'remaining_spots'=>$lecture->remaining_spots,
+                'taken_spots'=>$lecture->taken_spots,
                 'start_time' => $lecture->start_time,
                 'end_time' => $lecture->end_time,
                 'short_desc' => $lecture->short_desc,

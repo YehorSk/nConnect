@@ -65,11 +65,6 @@
             </div>
           </div>
 
-          <!-- Success Alert -->
-          <v-alert v-model="success_alert" :type="success_color" dismissible>
-            {{ success_message }}
-          </v-alert>
-
           <v-dialog v-model="dialog" min-width="400px" min-height="400px" width="600px" height="600px">
             <v-card class="mx-auto text-black" color="white" max-width="800" title="Details">
               <v-card-text class="text-p py-2">
@@ -104,6 +99,12 @@
               </template>
             </v-card>
           </v-dialog>
+          <!-- Success Alert -->
+            <div v-if="authStore.success" role="alert">
+              <v-alert  dismissible v-model="successVisible">
+                {{ authStore.success }}
+              </v-alert>
+            </div>
         </div>
       </div>
     </div>
@@ -121,28 +122,25 @@ export default {
     return {
       stageStore: useStageStore(),
       lectureStore: useLectureStore(),
+      authStore: UseAuthStore(),
       dialog: false,
       error_dialog: false,
-      success_alert: false,
-      success_message: "",
       action_type: "",
       show_lecture: null,
-      authStore: UseAuthStore(),
       user: {},
       waiting:false,
+      successVisible: false,
     };
   },
   computed: {
-    success_color() {
-      return this.action_type === "register" ? "success" : "error";
-    },
     remainingSpots() {
       if (this.show_lecture) {
-        return this.show_lecture.capacity - this.show_lecture.remaining_spots;
+        return this.show_lecture.capacity - this.show_lecture.taken_spots;
       } else {
         return 0;
       }
     }
+
   },
   created() {
     this.stageStore.fetchCurrentConferenceStages().then(() => {
@@ -155,6 +153,14 @@ export default {
     watch(() => this.authStore.errors, (newValue, oldValue) => {
       if (newValue && newValue.length !== 0) {
         this.callErrorDialog();
+      }
+    });
+    watch(() => this.authStore.success, (newValue) => {
+      if (newValue) {
+        this.successVisible = true;
+        setTimeout(() => {
+          this.successVisible = false;
+        }, 4000);
       }
     });
   },
@@ -173,25 +179,15 @@ export default {
     registerLecture() {
       this.dialog = false;
       this.authStore.addLecture(this.show_lecture.id).then(() => {
-        this.success_message = "Ste zaregistrovaný/á!";
-        this.action_type = "register";
-        this.success_alert = true;
-        setTimeout(() => {
-          this.success_alert = false;
-        }, 3000);
+        if (this.authStore.errors.length === 0) {
+          this.show_lecture.taken_spots++;
+        }
       });
     },
     removeLecture() {
       this.dialog = false;
       this.authStore.deleteLecture(this.show_lecture.id).then(() => {
-        this.success_message = "Ste odhlásený/á!";
-        this.action_type = "remove";
-        this.success_alert = true;
-        setTimeout(() => {
-          this.success_alert = false;
-        }, 3000);
-      }).catch(() => {
-        this.error_dialog = true;
+        this.show_lecture.taken_spots--;
       });
     },
     async fetchLecturesByStage(stageName = null) {

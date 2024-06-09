@@ -18,7 +18,7 @@ class Lecture extends Model
         'short_desc',
         'long_desc',
         'capacity',
-        'remaining_spots',
+        'taken_spots',
         'is_lecture',
         'start_time',
         'end_time',

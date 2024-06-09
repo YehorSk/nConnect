@@ -137,6 +137,9 @@
                   Capacity
                 </th>
                 <th scope="col" class="px-6 py-3">
+                  Taken spots
+                </th>
+                <th scope="col" class="px-6 py-3">
                   Start Time
                 </th>
                 <th scope="col" class="px-6 py-3">
@@ -163,6 +166,9 @@
                 </td>
                 <td class="px-6 py-4">
                   {{lecture.capacity}}
+                </td>
+                <td class="px-6 py-4">
+                  {{lecture.taken_spots}}
                 </td>
                 <td class="px-6 py-4">
                   {{lecture.start_time}}

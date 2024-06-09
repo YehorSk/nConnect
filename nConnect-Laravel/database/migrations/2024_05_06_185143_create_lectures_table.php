@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('short_desc');
             $table->longText('long_desc')->nullable();
             $table->integer('capacity')->nullable();
-            $table->integer('remaining_spots')->nullable();
+            $table->integer('taken_spots')->nullable();
             $table->boolean('is_lecture')->default(true);
             $table->time('start_time');
             $table->time('end_time');

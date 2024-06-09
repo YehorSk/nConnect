@@ -177,6 +177,7 @@ export const UseAuthStore = defineStore("auth",{
                         }
                     });
                     await this.fetchLectures();
+                    this.success = 'Ste zaregistrovaný/á!'
                 }catch (error) {
                     if (error.response && error.response.status === 422) {
                         this.errors = error.response.data;
@@ -199,6 +200,7 @@ export const UseAuthStore = defineStore("auth",{
                         }
                     });
                     await this.fetchLectures();
+                    this.success = 'Ste odhlasený/á!'
                 }catch (error) {
                     if (error.response && error.response.status === 401) {
 

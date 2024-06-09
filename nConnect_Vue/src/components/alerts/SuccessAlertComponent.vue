@@ -31,6 +31,7 @@ export default {
   props: {
     message: String
   },
+
   data() {
     return {
       stageStore: useStageStore(),
@@ -46,6 +47,9 @@ export default {
   },
   mounted() {
     initFlowbite();
+    setTimeout(() => {
+      this.clearSuccess();
+    }, 5000);
   },
   methods: {
     clearSuccess() {
