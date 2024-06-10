@@ -108,6 +108,7 @@ export default {
   },
   data() {
     return {
+      galleryStore: UseGalleryStore(),
       addFile: null,
       updateFile: null,
       addImageUrl: "",
@@ -115,7 +116,6 @@ export default {
       year: '',
       gallery: [],
       errors: [],
-      galleryStore: UseGalleryStore(),
     };
   },
   created() {
@@ -136,11 +136,6 @@ export default {
       this.galleryStore.updateGallery(gallery, this.updateFile);
     },
     createImage(file, form) {
-      if (!(file instanceof Blob)) {
-        console.error('blob error');
-        return;
-      }
-
       const reader = new FileReader();
       reader.onload = e => {
         if (form === 'update') {

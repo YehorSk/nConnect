@@ -22,10 +22,14 @@
                 <button type="submit" class="btn btn-main-md btn-block btn-lg">Send</button>
                 <br>
                 <div v-if="contactFormStore.error" class="text-danger">{{ contactFormStore.error }}</div>
-                <div v-if="contactFormStore.success" class="text-success">{{ contactFormStore.success }}</div>
               </div>
             </div>
           </form>
+          <div v-if="successVisible" role="alert">
+            <v-alert dismissible v-model="successVisible" type="success" icon="$success">
+              {{ contactFormStore.success }}
+            </v-alert>
+          </div>
         </div>
       </div>
     </div>
@@ -34,6 +38,7 @@
 
 <script>
 import { useContactFormStore } from '@/stores/ContactFormStore';
+import { watch } from 'vue';
 
 export default {
   data() {
@@ -42,15 +47,24 @@ export default {
       name: '',
       email: '',
       message: '',
+      successVisible: false,
     };
   },
   methods: {
-    handleSubmit() {
+    async handleSubmit() {
       const formData = new FormData();
       formData.append('name', this.name);
       formData.append('email', this.email);
       formData.append('message', this.message);
-      this.contactFormStore.submitForm(formData);
+      await this.contactFormStore.submitForm(formData);
+
+      if (this.contactFormStore.success) {
+        this.successVisible = true;
+        setTimeout(() => {
+          this.successVisible = false;
+        }, 4000);
+      }
+
       this.name = '';
       this.email = '';
       this.message = '';
@@ -58,7 +72,6 @@ export default {
   },
 };
 </script>
-
 
 
 

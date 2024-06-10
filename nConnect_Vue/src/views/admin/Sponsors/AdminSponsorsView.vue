@@ -156,12 +156,7 @@ export default {
       this.updateImageUrl = "";
     },
     createImage(file, form) {
-      if (!(file instanceof Blob)) {
-        console.error('blob error');
-        return;
-      }
       const reader = new FileReader();
-
       reader.onload = e => {
         if (form === 'update') {
           this.updateImageUrl = e.target.result;

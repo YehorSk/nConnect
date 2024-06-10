@@ -155,7 +155,7 @@ export default {
         this.callErrorDialog();
       }
     });
-    watch(() => this.authStore.success, (newValue) => {
+    watch(() => this.authStore.success, (newValue, oldValue) => {
       if (newValue) {
         this.successVisible = true;
         setTimeout(() => {

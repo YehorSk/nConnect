@@ -17,6 +17,7 @@
   </section>
   <OrganizersComponent/>
   <MapComponent/>
+  <ContactFormComponent/>
   <FooterComponent/>
 </template>
 <script setup lang="ts">
@@ -24,4 +25,5 @@ import NavigationComponent from "@/components/NavigationComponent.vue";
 import MapComponent from "@/components/MapComponent.vue";
 import FooterComponent from "@/components/FooterComponent.vue";
 import OrganizersComponent from "@/components/OrganizersComponent.vue";
+import ContactFormComponent from "@/components/ContactFormComponent.vue";
 </script>
