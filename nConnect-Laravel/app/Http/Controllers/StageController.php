@@ -4,14 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Conference;
 use App\Models\Stage;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
 class StageController extends Controller
 {
     //
-    public function index(){
-        $stages = Stage::all();
+    public function index(Request $request){
+        $search = $request->search;
+        $stages = Stage::query()
+            ->when(
+                $search,
+                function(Builder $builder) use ($search){
+                    $builder->where('name', 'like', "%{$search}%");
+                }
+            )->paginate(5);
         return response()->json($stages);
     }
     public function get_current_conference_stages(){

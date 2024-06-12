@@ -26,9 +26,13 @@ export const useStageStore = defineStore("stages",{
         }
     },
     actions:{
-         async fetchStages(){
+         async fetchStages(page=1,search){
              try {
-                 const response = await axios.get('stages');
+                 const response = await axios.get('stages?page='+page,{
+                     params:{
+                         search:search
+                     }
+                 });
                  this.stages = response.data;
              } catch (error) {
                  if(error.response.status === 422){
