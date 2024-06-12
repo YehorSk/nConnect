@@ -22,11 +22,6 @@
                 {{stageStore.error_name}}
               </span>
             </div>
-            <v-text-field
-                v-model="date"
-                label="Date"
-                color="orange"
-            ></v-text-field>
             <div v-if="stageStore.error_date">
               <span class="text-sm text-red-400">
                 {{stageStore.error_date}}
@@ -42,7 +37,6 @@
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" class="px-6 py-3">Name</th>
-              <th scope="col" class="px-6 py-3">Date</th>
               <th scope="col" class="px-6 py-3">Update</th>
               <th scope="col" class="px-6 py-3">Delete</th>
             </tr>
@@ -51,9 +45,6 @@
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <td class="px-6 py-4">
                 <input type="text" v-model="stage.name" placeholder="name" class="inline-block w-full">
-              </td>
-              <td class="px-6 py-4">
-                <input type="text" v-model="stage.date" placeholder="date" class="inline-block w-full">
               </td>
               <td class="px-6 py-4">
                 <v-btn @click="updateForm(stage)"
@@ -102,7 +93,6 @@ import ErrorAlertComponent from "@/components/alerts/ErrorAlertComponent.vue";
     data(){
       return {
         name: '',
-        date:'',
         stages:[],
         errors:[],
         stageStore: useStageStore(),

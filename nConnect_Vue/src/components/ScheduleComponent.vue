@@ -15,7 +15,7 @@
               <li v-for="(stage, index) in stageStore.getCurrentStages" :key="stage.name" class="nav-item">
                 <a class="nav-link" href="#nov20" @click="lectureStore.fetchLecturesByStage(stage.name)" data-toggle="pill" :class="{ 'active': index === 0 }">
                   {{ stage.name }}
-                  <span>{{ stage.date }}</span>
+                  <span>{{ stage.pivot.date }}</span>
                 </a>
               </li>
             </ul>

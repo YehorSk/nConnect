@@ -40,6 +40,7 @@ export const useStageStore = defineStore("stages",{
             try {
                 const response = await axios.get('get-current-conference-stages');
                 this.current_stages = response.data;
+                console.log(this.current_stages);
             } catch (error) {
                 if(error.response.status === 422){
                     this.errors.value = error.response.data.errors;
@@ -76,10 +77,11 @@ export const useStageStore = defineStore("stages",{
                 }
             }
         },
-    async addStageToConference(id){
+    async addStageToConference(id,date){
         try {
             const response = await axios.post('add-stages-to-conference', {
                 id: id,
+                date: date
             });
             this.success = "Added successfully";
             await this.fetchCurrentConferenceStages();
@@ -137,6 +139,24 @@ export const useStageStore = defineStore("stages",{
                      }
                  }
              }
+        },
+        async updateStageInConference(stage){
+            try{
+                const response = await axios.put("update-stage-in-conference/" +stage.id,{
+                    date: stage.pivot.date,
+                });
+                // const index = this.stages.findIndex(s => s.id === stage.id);
+                // if (index !== -1) {
+                //     this.stages[index] = stage;
+                // }
+                this.success = "Updated successfully";
+            }catch (error) {
+                if(error.response.status === 422){
+                    if(error.response.data.errors.date){
+                        this.update_error_date = error.response.data.errors.date[0];
+                    }
+                }
+            }
         }
     }
 

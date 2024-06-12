@@ -23,7 +23,7 @@ class Conference extends Model
 
     public function stages()
     {
-        return $this->belongsToMany(Stage::class);
+        return $this->belongsToMany(Stage::class)->withPivot(['date']);
     }
 
     public function speakers()

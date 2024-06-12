@@ -76,6 +76,7 @@ Route::get('/get-current-conference-stages',[StageController::class,'get_current
 Route::get('/get-available-stages',[StageController::class,'get_available_stages']);
 Route::post('/add-stages-to-conference',[StageController::class,'addStageToConference']);
 Route::delete('/delete-stage-from-conference/{id}',[StageController::class,'deleteStageFromConference']);
+Route::put('/update-stage-in-conference/{id}',[StageController::class,'updateInConference']);
 //----------------------------End Stages Routes ----------------------------
 
 //----------------------------Sponsors Routes---------------------------------

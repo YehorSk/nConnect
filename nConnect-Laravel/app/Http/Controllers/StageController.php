@@ -30,8 +30,7 @@ class StageController extends Controller
 
     public function store(Request $request){
         $data = $request->validate([
-            'name' => 'required|unique:stages',
-            'date' => 'required',
+            'name' => 'required|unique:stages'
         ]);
         $stage = new Stage($data);
         $stage->save();
@@ -43,10 +42,11 @@ class StageController extends Controller
     {
         $data = $request->validate([
             'id' => 'required',
+            'date' => 'required'
         ]);
         $stage = Stage::find($data['id']);
         $conference = Conference::query()->where("is_current",true)->first();
-        $conference->stages()->attach($stage);
+        $conference->stages()->attach($stage,['date' => $data['date']]);
         return response()->json("Stage Added");
     }
 
@@ -65,13 +65,24 @@ class StageController extends Controller
             'name' => [
                 'required',
                 Rule::unique('stages')->ignore($stage),
-            ],
-            'date' => [
-                'required',
-            ],
+            ]
         ]);
 
         $stage->update($data);
+
+        return response()->json("Stage Updated");
+    }
+
+    public function updateInConference(Request $request, $id)
+    {
+        $stage = Stage::find($id);
+        $data = $request->validate([
+            'date' => [
+                'required'
+            ]
+        ]);
+        $conference = Conference::query()->where("is_current",true)->first();
+        $conference->stages()->updateExistingPivot($stage->id, ['date' => $data['date']]);
 
         return response()->json("Stage Updated");
     }

@@ -19,6 +19,11 @@
                 :items="stageStore.getAvailableStages"
                 label="Available Stages"
             ></v-select>
+            <v-text-field
+                v-model="date"
+                label="Date"
+                color="orange"
+            ></v-text-field>
             <v-btn
                 class="mt-2"
                 type="submit"
@@ -41,6 +46,9 @@
                   Year
                 </th>
                 <th scope="col" class="px-6 py-3">
+                  Update
+                </th>
+                <th scope="col" class="px-6 py-3">
                   Delete
                 </th>
               </tr>
@@ -51,7 +59,14 @@
                   {{stage.name}}
                 </td>
                 <td class="px-6 py-4">
-                  {{stage.date}}
+                  <v-text-field
+                      v-model="stage.pivot.date"
+                      label="Date"
+                      color="orange"
+                  ></v-text-field>
+                </td>
+                <td class="px-6 py-4">
+                  <v-btn class="font-medium text-green-600 dark:text-green-500 hover:underline" text="Update" @click="stageStore.updateStageInConference(stage)"></v-btn>
                 </td>
                 <td class="px-6 py-4">
                   <form @submit.prevent class="inline-block">
@@ -61,6 +76,7 @@
                     ></v-btn>
                   </form>
                 </td>
+
               </tr>
               </tbody>
             </table>
@@ -119,8 +135,9 @@ import ErrorAlertComponent from "@/components/alerts/ErrorAlertComponent.vue";
     ,
     methods:{
       submitForm() {
-        this.stageStore.addStageToConference(this.stage.id);
+        this.stageStore.addStageToConference(this.stage.id,this.date);
         this.stage=[];
+        this.date = '';
       },
       updateForm(stage) {
         this.stageStore.updateStage(stage);
