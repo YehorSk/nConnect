@@ -123,7 +123,15 @@
           </div>
           <v-btn class="mt-2 mx-2" type="submit" @click="submitForm()" block>Save</v-btn>
         </v-sheet>
+        <br>
 
+        <div class="inline-flex rounded-md shadow-sm" role="group" >
+          <button v-for="(stage, index) in stageStore.getCurrentStages.data" :key="stage.name" @click="lectureStore.fetchLecturesByStage(stage.name)" type="button" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
+            {{stage.name}}
+          </button>
+        </div>
+
+        <br>
         <br>
         <div class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <div class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 items-center">
@@ -160,7 +168,7 @@
               </tr>
               </thead>
               <tbody>
-              <tr v-for="lecture in lectureStore.getCurrentLectures" :key="lecture.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+              <tr v-for="lecture in lectureStore.getMainLectures" :key="lecture.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white">
                   {{lecture.name}}
                 </td>
@@ -336,6 +344,7 @@ export default {
       stageStore: useStageStore(),
       speakerStore: useSpeakersStore(),
       waiting: false,
+      search:''
     };
   },
   created(){
@@ -344,6 +353,9 @@ export default {
     this.speakerStore.fetchCurrentConferenceSpeakers();
     this.stageStore.fetchAvailableStages();
     this.lectureStore.success = '';
+    this.stageStore.fetchCurrentConferenceStages().then(() => {
+      this.fetchLecturesByStage();
+    });
   },
   mounted() {
     initFlowbite();
@@ -397,6 +409,19 @@ export default {
       this.users_dialog = true;
       await this.lectureStore.getLectureUsers(id)
       this.waiting = false;
+    },
+    async fetchLecturesByStage(stageName = null) {
+      this.waiting = true;
+      if (stageName) {
+        await this.lectureStore.fetchLecturesByStage(stageName);
+        this.waiting = false;
+      } else {
+        const stages = this.stageStore.getCurrentStages.data;
+        if (stages.length > 0) {
+          await this.lectureStore.fetchLecturesByStage(stages[0].name);
+          this.waiting = false;
+        }
+      }
     }
   }
 }

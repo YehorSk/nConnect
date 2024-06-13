@@ -12,7 +12,7 @@
         <div class="col-12">
           <div class="schedule-tab">
             <ul class="nav nav-pills text-center">
-              <li v-for="(stage, index) in stageStore.getCurrentStages" :key="stage.name" class="nav-item">
+              <li v-for="(stage, index) in stageStore.getCurrentStages.data" :key="stage.name" class="nav-item">
                 <a class="nav-link" href="#nov20" @click="lectureStore.fetchLecturesByStage(stage.name)" data-toggle="pill" :class="{ 'active': index === 0 }">
                   {{ stage.name }}
                   <span>{{ stage.pivot.date }}</span>
@@ -196,7 +196,7 @@ export default {
         await this.lectureStore.fetchLecturesByStage(stageName);
         this.waiting = false;
       } else {
-        const stages = this.stageStore.getCurrentStages;
+        const stages = this.stageStore.getCurrentStages.data;
         if (stages.length > 0) {
           await this.lectureStore.fetchLecturesByStage(stages[0].name);
           this.waiting = false;
