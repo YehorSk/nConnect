@@ -2,8 +2,8 @@ import {defineStore} from "pinia";
 import axios from "axios";
 axios.defaults.baseURL = "http://localhost/nConnect/nConnect-Laravel/public/api/";
 
-export const useSpeakersStore = defineStore("speakers",{
-    state:()=>({
+export const useSpeakersStore = defineStore("speakers", {
+    state: () => ({
         speakers: [],
         available_speakers: [],
         current_speakers: [],
@@ -16,57 +16,61 @@ export const useSpeakersStore = defineStore("speakers",{
         error_linkedIn: '',
         error_facebook: '',
         error_twitter: '',
-        error_id:'',
+        error_id: '',
         error_image: '',
-        update_error_name:'',
-        update_error_date:'',
+        update_error_name: '',
+        update_error_date: '',
         success: '',
-        errors_update:[],
+        errors_update: [],
     }),
-    getters:{
-        getSpeakers(){
+    getters: {
+        getSpeakers() {
             return this.speakers;
         },
-        getAvailableSpeakers(){
+        getAvailableSpeakers() {
             return this.available_speakers;
         },
-        getCurrentSpeakers(){
+        getCurrentSpeakers() {
             return this.current_speakers;
         },
     },
-    actions:{
-        async fetchSpeakers(){
+    actions: {
+        async fetchSpeakers(page = 1, search = '') {
             try {
-                const response = await axios.get('speakers');
+                const response = await axios.get('speakers', {
+                    params: {
+                        page: page,
+                        search: search
+                    }
+                });
                 this.speakers = response.data;
             } catch (error) {
-                if(error.response.status === 422){
+                if (error.response && error.response.status === 422) {
                     this.errors.value = error.response.data.errors;
                 }
             }
         },
-
-        async fetchCurrentConferenceSpeakers(){
+        async fetchCurrentConferenceSpeakers() {
             try {
                 const response = await axios.get('get-current-conference-speakers');
                 this.current_speakers = response.data;
             } catch (error) {
-                if(error.response.status === 422){
+                if (error.response.status === 422) {
                     this.errors.value = error.response.data.errors;
                 }
             }
         },
-        async fetchAvailableSpeakers(){
+        async fetchAvailableSpeakers() {
             try {
                 const response = await axios.get('get-available-speakers');
                 this.available_speakers = response.data;
             } catch (error) {
-                if(error.response.status === 422){
+                if (error.response.status === 422) {
                     this.errors.value = error.response.data.errors;
                 }
             }
         },
-        async addSpeakersToConference(id){
+        async addSpeakersToConference(id) {
             try {
                 const response = await axios.post('add-speakers-to-conference', {
                     id: id,
@@ -75,21 +79,21 @@ export const useSpeakersStore = defineStore("speakers",{
                 await this.fetchCurrentConferenceSpeakers();
                 await this.fetchAvailableSpeakers();
             } catch (error) {
-                if(error.response.status === 422){
-                    if(error.response.data.errors.id){
+                if (error.response.status === 422) {
+                    if (error.response.data.errors.id) {
                         this.error_id = error.response.data.errors.id[0];
                     }
                 }
             }
         },
-        async deleteSpeakersFromConference(id){
+        async deleteSpeakersFromConference(id) {
             try {
-                const response = await axios.delete('delete-speakers-from-conference/'+id);
+                const response = await axios.delete('delete-speakers-from-conference/' + id);
                 await this.fetchCurrentConferenceSpeakers();
                 await this.fetchAvailableSpeakers();
                 this.success = "Deleted successfully";
             } catch (error) {
-                if(error.response.status === 422){
+                if (error.response.status === 422) {
                     this.errors.value = error.response.data.errors;
                 }
             }
@@ -114,7 +118,6 @@ export const useSpeakersStore = defineStore("speakers",{
                     }
                 });
 
-                this.speakers.push(response.data);
                 this.success = "Added successfully";
                 await this.fetchSpeakers();
             } catch (error) {
@@ -133,15 +136,13 @@ export const useSpeakersStore = defineStore("speakers",{
                 }
             }
         },
-
-
-        async destroySpeakers(id){
+        async destroySpeakers(id) {
             try {
-                const response = await axios.delete('speakers/'+id);
-                this.speakers = this.speakers.filter(speaker => speaker.id !== id);
+                await axios.delete('speakers/' + id);
+                this.speakers.data = this.speakers.data.filter(speaker => speaker.id !== id);
                 this.success = "Deleted successfully";
             } catch (error) {
-                if(error.response && error.response.status === 422){
+                if (error.response && error.response.status === 422) {
                     this.errors.value = error.response.data.errors;
                 } else {
                     console.error("Error deleting speaker:", error);
@@ -171,10 +172,8 @@ export const useSpeakersStore = defineStore("speakers",{
                     formData.append('image', file);
 
                     const response = await axios.post("/upload-image", formData);
-
                     imagePath = response.data.image_path;
                 }
-                console.log('Image Path:', imagePath);
                 const updatedData = {
                     first_name: speakers.first_name,
                     last_name: speakers.last_name,
@@ -186,7 +185,6 @@ export const useSpeakersStore = defineStore("speakers",{
                     Facebook: speakers.facebook,
                     Twitter: speakers.twitter,
                 };
-
                 if (imagePath !== null) {
                     updatedData.picture = imagePath;
                 }
@@ -211,9 +209,5 @@ export const useSpeakersStore = defineStore("speakers",{
                 }
             }
         }
-
-
-
-
     }
 });

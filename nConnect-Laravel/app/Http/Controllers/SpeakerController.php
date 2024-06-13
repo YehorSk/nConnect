@@ -9,8 +9,16 @@ use Illuminate\Support\Facades\File;
 
 class SpeakerController extends Controller
 {
-    public function index(){
-        $speakers = Speaker::all();
+    public function index(Request $request)
+    {
+        $search = $request->input('search');
+        $speakers = Speaker::query()
+            ->when($search, function ($query, $search) {
+                return $query->where('first_name', 'LIKE', "%{$search}%")
+                    ->orWhere('last_name', 'LIKE', "%{$search}%");
+            })
+            ->paginate(5);
+
         return response()->json($speakers);
     }
     public function show($id) {

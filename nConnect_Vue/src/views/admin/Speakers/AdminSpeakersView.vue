@@ -127,7 +127,19 @@
             <v-btn class="mt-2" type="submit" @click="submitForm()" block>Save</v-btn>
           </v-form>
         </v-sheet>
+        <br>
 
+        <form class="flex items-center max-w-sm mx-auto" @submit.prevent="onSearch">
+          <div class="relative w-full">
+            <input type="text" v-model="search" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search..." required />
+          </div>
+          <button type="submit" class="p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+            </svg>
+            <span class="sr-only">Search</span>
+          </button>
+        </form>
 
         <br>
         <div class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -141,8 +153,8 @@
               <th scope="col" class="px-6 py-3">Delete</th>
             </tr>
             </thead>
-            <tbody v-for="speakers in speakersStore.getSpeakers" :key="speakers.id">
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+            <tbody v-for="speakers in speakersStore.getSpeakers.data" :key="speakers.id">
+            <tr v-if="speakers" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <td class="px-6 py-4">
                 <img :src="'http://127.0.0.1:8000/storage/' + speakers.picture" class="w-16 md:w-32 max-w-full max-h-full" alt="Speaker's Profile Picture">
               </td>
@@ -159,10 +171,7 @@
               </td>
               <td class="px-6 py-4">
                 <form @submit.prevent class="inline-block">
-                  <v-btn @click="speakersStore.destroySpeakers(speakers.id)"
-                         color="red-lighten-2"
-                         text="Delete"
-                  ></v-btn>
+                  <v-btn @click="speakersStore.destroySpeakers(speakers.id)" color="red-lighten-2" text="Delete"></v-btn>
                 </form>
               </td>
             </tr>
@@ -268,7 +277,7 @@ import {useSpeakersStore} from "@/stores/SpeakersStore.js";
 
 export default {
   components: {ErrorAlertComponent, SuccessAlertComponent, AdminNavComponent},
-  data(){
+  data() {
     return {
       first_name: '',
       last_name: '',
@@ -283,12 +292,13 @@ export default {
       linkedIn: '',
       facebook: '',
       twitter: '',
-      stages:[],
-      errors:[],
-      edit_speakers:[],
-      dialog:false,
-      error_dialog:false,
-
+      stages: [],
+      errors: [],
+      edit_speakers: [],
+      dialog: false,
+      error_dialog: false,
+      page: 1,
+      search: '',
       speakersStore: useSpeakersStore(),
     };
   },
@@ -298,9 +308,9 @@ export default {
   },
   mounted() {
     initFlowbite();
-    watch(() => this.speakersStore.errors_update, (newValue, oldValue) => {
-      if (newValue && newValue.length !== 0) {
-        this.callErrorDialog();
+    watch(() => this.page, (newValue, oldValue) => {
+      if (newValue) {
+        this.speakersStore.fetchSpeakers(this.page, this.search)
       }
     });
   }
@@ -339,10 +349,17 @@ export default {
       this.addImageUrl = '';
       this.addFileInput = '';
       this.addImageUrl = '';
+      this.speakersStore.refreshSpeakers();
+    },
+    onSearch() {
+      this.page = 1;
+      this.speakersStore.fetchSpeakers(this.page, this.search);
     },
     updateForm(speakers) {
-      console.log("File:", this.file);
       this.speakersStore.updateSpeakers(speakers, this.updateFile);
+      if (this.speakersStore.errors_update && Object.keys(this.speakersStore.errors_update).length > 0) {
+        this.callErrorDialog();
+      }
 
     },
     createImage(file, form) {
@@ -371,12 +388,12 @@ export default {
       }
       this.createImage(file, form);
     },
-    callErrorDialog(){
+    callErrorDialog() {
       this.error_dialog = true;
     },
-    closeErrorDialog(){
+    closeErrorDialog() {
       this.error_dialog = false;
-      this.speakersStore.errors_update=[];
+      this.speakersStore.errors_update = [];
       this.speakersStore.fetchSpeakers();
     }
 
