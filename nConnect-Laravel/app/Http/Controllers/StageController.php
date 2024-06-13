@@ -23,10 +23,21 @@ class StageController extends Controller
             )->paginate(5);
         return response()->json($stages);
     }
-    public function get_current_conference_stages(){
+    public function get_current_conference_stages(Request $request){
+        $search = $request->search;
         $conference = Conference::query()->where("is_current",true)->first();
-        $stages = $conference->stages;
-        return response()->json($stages);
+        if ($conference) {
+            $stages = $conference->stages()
+                ->when(
+                $search,
+                function (Builder $builder) use ($search) {
+                    $builder->where('name', 'like', "%{$search}%")
+                        ->orWhere('date', 'like', "%{$search}%");
+                }
+            )->paginate(5);
+            return response()->json($stages);
+        }
+        return response()->json(['message' => 'No current conference found'], 404);
     }
 
     public function get_available_stages(){

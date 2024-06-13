@@ -40,11 +40,14 @@ export const useStageStore = defineStore("stages",{
                  }
              }
         },
-        async fetchCurrentConferenceStages(){
+        async fetchCurrentConferenceStages(page=1,search){
             try {
-                const response = await axios.get('get-current-conference-stages');
+                const response = await axios.get('get-current-conference-stages?page='+page,{
+                    params:{
+                        search:search
+                    }
+                });
                 this.current_stages = response.data;
-                console.log(this.current_stages);
             } catch (error) {
                 if(error.response.status === 422){
                     this.errors.value = error.response.data.errors;

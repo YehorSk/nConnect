@@ -96,7 +96,7 @@
                 <v-select
                     :item-props="itemStages"
                     v-model="stage"
-                    :items="stageStore.getCurrentStages"
+                    :items="stageStore.getCurrentStages.data"
                     label="Available Stages"
                     color="orange"
                 ></v-select>
@@ -288,7 +288,7 @@
               auto-grow
               shaped
           ></v-textarea>
-          <v-select :item-props="itemStages" item-value="id" v-model="edit_lecture.stage_id" :items="stageStore.getCurrentStages" label="Available Stages"></v-select>
+          <v-select :item-props="itemStages" item-value="id" v-model="edit_lecture.stage_id" :items="stageStore.getCurrentStages.data" label="Available Stages"></v-select>
           <v-select :disabled="!edit_lecture.is_lecture" item-value="id" :item-props="itemSpeakers" v-model="edit_lecture.speaker_id" :items="speakerStore.getCurrentSpeakers" label="Available Speakers"></v-select>
         </v-card-text>
         <template v-slot:actions>
@@ -342,6 +342,7 @@ export default {
     this.lectureStore.fetchCurrentConferenceLectures();
     this.stageStore.fetchCurrentConferenceStages();
     this.speakerStore.fetchCurrentConferenceSpeakers();
+    this.stageStore.fetchAvailableStages();
     this.lectureStore.success = '';
   },
   mounted() {
@@ -355,6 +356,7 @@ export default {
   methods:{
     editLecture(lecture){
       this.edit_lecture = lecture;
+      console.log(lecture);
     },
     submitForm() {
       this.lectureStore.insertLecture(this.name, this.capacity, this.start_time, this.end_time, this.short_desc,this.long_desc,this.is_lecture,this.stage,this.speaker);
@@ -373,8 +375,7 @@ export default {
     },
     itemStages (item) {
       return {
-        title: item.name,
-        subtitle: item.date,
+        title: item.name
       }
     },
     itemSpeakers (item) {
