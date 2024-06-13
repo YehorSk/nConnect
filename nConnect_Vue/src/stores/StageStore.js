@@ -64,21 +64,20 @@ export const useStageStore = defineStore("stages",{
                 }
             }
         },
-        async insertStage(name,date){
+        async insertStage(name, date) {
             try {
                 const response = await axios.post('stages', {
                     name: name,
                     date: date,
                 });
-                this.stages.push(response.data);
                 this.success = "Added successfully";
                 await this.fetchStages();
             } catch (error) {
-                if(error.response.status === 422){
-                    if(error.response.data.errors.name){
+                if (error.response && error.response.status === 422) {
+                    if (error.response.data.errors.name) {
                         this.error_name = error.response.data.errors.name[0];
                     }
-                    if(error.response.data.errors.date){
+                    if (error.response.data.errors.date) {
                         this.error_date = error.response.data.errors.date[0];
                     }
                 }
@@ -101,13 +100,14 @@ export const useStageStore = defineStore("stages",{
             }
         }
     },
-        async destroyStage(id){
+        async destroyStage(id) {
             try {
-                const response = await axios.delete('stages/'+id);
-                this.stages = this.stages.filter(stage => stage.id !== id);
+                await axios.delete('stages/' + id);
+                this.stages.data = this.stages.data.filter(stage => stage.id !== id);
                 this.success = "Deleted successfully";
+                await this.fetchStages();
             } catch (error) {
-                if(error.response.status === 422){
+                if (error.response && error.response.status === 422) {
                     this.errors.value = error.response.data.errors;
                 }
             }
@@ -125,27 +125,27 @@ export const useStageStore = defineStore("stages",{
                 }
             }
         },
-        async updateStage(stage){
-             try{
-                 const response = await axios.put("stages/" +stage.id,{
-                     name: stage.name,
-                     date: stage.date,
-                 });
-                 const index = this.stages.findIndex(s => s.id === stage.id);
-                 if (index !== -1) {
-                     this.stages[index] = stage;
-                 }
-                 this.success = "Updated successfully";
-             }catch (error) {
-                 if(error.response.status === 422){
-                     if(error.response.data.errors.name){
-                         this.update_error_name = error.response.data.errors.name[0];
-                     }
-                     if(error.response.data.errors.date){
-                         this.update_error_date = error.response.data.errors.date[0];
-                     }
-                 }
-             }
+        async updateStage(stage) {
+            try {
+                await axios.put("stages/" + stage.id, {
+                    name: stage.name,
+                    date: stage.date,
+                });
+                const index = this.stages.data.findIndex(s => s.id === stage.id);
+                if (index !== -1) {
+                    this.stages.data[index] = stage;
+                }
+                this.success = "Updated successfully";
+            } catch (error) {
+                if (error.response && error.response.status === 422) {
+                    if (error.response.data.errors.name) {
+                        this.update_error_name = error.response.data.errors.name[0];
+                    }
+                    if (error.response.data.errors.date) {
+                        this.update_error_date = error.response.data.errors.date[0];
+                    }
+                }
+            }
         },
         async updateStageInConference(stage){
             try{

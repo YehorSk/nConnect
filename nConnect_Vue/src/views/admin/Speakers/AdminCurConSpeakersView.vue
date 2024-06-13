@@ -69,10 +69,11 @@
               </td>
               <td>
                 <form @submit.prevent class="inline-block">
-                  <v-btn @click="speakersStore.deleteSpeakersFromConference(speakers.id)"
+                  <v-btn @click="speakersStore.deleteSpeakersFromConference(speaker.id)"
                          color="red-lighten-2"
                          text="Delete"
                   ></v-btn>
+
                 </form>
               </td>
             </tr>
