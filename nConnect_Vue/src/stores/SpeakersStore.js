@@ -37,9 +37,8 @@ export const useSpeakersStore = defineStore("speakers", {
     actions: {
         async fetchSpeakers(page = 1, search = '') {
             try {
-                const response = await axios.get('speakers', {
+                const response = await axios.get('speakers?page=' + page, {
                     params: {
-                        page: page,
                         search: search
                     }
                 });

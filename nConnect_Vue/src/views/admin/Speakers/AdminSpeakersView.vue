@@ -261,6 +261,13 @@
       </v-card>
     </v-dialog>
 
+    <div class="text-center">
+      <v-pagination
+          v-model="page"
+          :length="speakersStore.getSpeakers.last_page"
+          rounded="circle"
+      ></v-pagination>
+    </div>
   </div>
 
 
