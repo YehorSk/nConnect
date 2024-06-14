@@ -21,6 +21,11 @@ class Conference extends Model
         return $this->belongsToMany(Sponsor::class);
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
     public function stages()
     {
         return $this->belongsToMany(Stage::class)->withPivot(['date']);

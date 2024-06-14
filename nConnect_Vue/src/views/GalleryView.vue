@@ -82,9 +82,9 @@ export default {
   methods: {
     filterByYear(year) {
       if (year === 'all') {
-        this.filteredGallery = this.galleryStore.gallery;
+        this.filteredGallery = this.galleryStore.gallery.data;
       } else {
-        this.filteredGallery = this.galleryStore.gallery.filter(gallery => gallery.year === year);
+        this.filteredGallery = this.galleryStore.gallery.data.filter(gallery => gallery.year === year);
       }
     },
   },

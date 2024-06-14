@@ -131,7 +131,6 @@ export const UseAuthStore = defineStore("auth",{
                         }
                     });
                     this.user = response.data;
-                    console.log(this.user);
                 }catch (error) {
                     if (error.response && error.response.status === 401) {
                         this.user = {};

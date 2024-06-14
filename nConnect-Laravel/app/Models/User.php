@@ -28,6 +28,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(Lecture::class);
     }
 
+    public function conferences()
+    {
+        return $this->belongsToMany(Conference::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

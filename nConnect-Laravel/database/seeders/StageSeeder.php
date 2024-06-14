@@ -18,15 +18,13 @@ class StageSeeder extends Seeder
     {
         $stage = new Stage();
         $stage->name = "SOFT DEV STAGE";
-        $stage->date = "14.MAREC";
         $stage->save();
         $stage2 = new Stage();
         $stage2->name = "AI&DATA STAGE";
-        $stage2->date = "14.MAREC";
         $stage2->save();
 
         $conference = Conference::query()->where("is_current",1)->first();
-        $conference->stages()->attach($stage);
-        $conference->stages()->attach($stage2);
+        $conference->stages()->attach($stage,['date' => "14.MAREC"]);
+        $conference->stages()->attach($stage2,['date' => "14.MAREC"]);
     }
 }
