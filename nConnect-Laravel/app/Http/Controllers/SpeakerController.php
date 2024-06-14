@@ -26,9 +26,17 @@ class SpeakerController extends Controller
         return response()->json($speaker);
     }
 
-    public function get_current_conference_speakers(){
-        $conference = Conference::query()->where("is_current",true)->first();
-        $speakers = $conference->speakers;
+    public function get_current_conference_speakers(Request $request)
+    {
+        $search = $request->input('search');
+        $conference = Conference::query()->where("is_current", true)->first();
+        $speakers = $conference->speakers()
+            ->when($search, function ($query, $search) {
+                return $query->where('first_name', 'LIKE', "%{$search}%")
+                    ->orWhere('last_name', 'LIKE', "%{$search}%");
+            })
+            ->paginate(5);
+
         return response()->json($speakers);
     }
 

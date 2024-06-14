@@ -49,9 +49,11 @@ export const useSpeakersStore = defineStore("speakers", {
                 }
             }
         },
-        async fetchCurrentConferenceSpeakers() {
+        async fetchCurrentConferenceSpeakers(page = 1, search = '') {
             try {
-                const response = await axios.get('get-current-conference-speakers');
+                const response = await axios.get('get-current-conference-speakers?page=' + page, {
+                    params: { search: search }
+                });
                 this.current_speakers = response.data;
             } catch (error) {
                 if (error.response.status === 422) {
@@ -191,7 +193,6 @@ export const useSpeakersStore = defineStore("speakers", {
                 const updatedResponse = await axios.put("/speakers/" + speakers.id, updatedData);
 
                 this.success = "Updated successfully";
-                await this.fetchSpeakers();
             } catch (error) {
                 if (error.response.status === 422) {
                     this.errors_update = error.response.data.errors;
