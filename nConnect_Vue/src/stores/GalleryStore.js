@@ -16,16 +16,17 @@ export const UseGalleryStore = defineStore("gallery", {
             }
         },
         actions: {
-            async fetchGallery() {
+            async fetchGallery(page = 1) {
                 try {
-                    const response = await axios.get('gallery');
+                    const response = await axios.get('gallery?page=' + page);
                     this.gallery = response.data;
                 } catch (error) {
-                    if (error.response.status === 422) {
-                        this.errors.value = error.response.data.errors;
+                    if (error.response && error.response.status === 422) {
+                        this.errors = error.response.data.errors;
                     }
                 }
             },
+
             async insertGallery(image, year) {
                 try {
                     let formData = new FormData();

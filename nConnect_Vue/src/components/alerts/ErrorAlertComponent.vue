@@ -18,7 +18,7 @@
 </template>
 <script>
 import {useStageStore} from "@/stores/StageStore.js";
-import {onMounted} from "vue";
+import {UseAuthStore} from "@/stores/AuthStore.js";
 import {initFlowbite} from "flowbite";
 
 export default {
@@ -27,7 +27,8 @@ export default {
   },
   data(){
     return{
-      stageStore: useStageStore()
+      stageStore: useStageStore(),
+      authStore: UseAuthStore()
     }
   },
   mounted() {

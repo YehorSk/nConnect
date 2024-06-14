@@ -11,7 +11,7 @@ use Illuminate\Validation\Rule;
 class GalleryController extends Controller
 {
     public function index(){
-        $gallery = Gallery::all();
+        $gallery = Gallery::paginate(5);
         return response()->json($gallery);
     }
     public function store(Request $request){

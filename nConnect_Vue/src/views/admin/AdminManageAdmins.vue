@@ -20,6 +20,9 @@
             <th scope="col" class="px-6 py-3">
               Email verified at
             </th>
+            <th scope="col" class="px-6 py-3">
+              Remove admin
+            </th>
           </tr>
           </thead>
           <tbody v-for="users in authStore.getAdminUsers" :key="users.id">
@@ -33,10 +36,22 @@
             <td class="px-6 py-4">
               {{ users.email_verified_at }}
             </td>
+            <td class="px-6 py-4">
+              <v-btn @click="authStore.removeAdminUser(users.id)"
+                     color="red-lighten-2"
+                     text="Remove"
+              ></v-btn>
+            </td>
           </tr>
           </tbody>
         </table>
       </div>
+    </div>
+    <div v-if="authStore.success" id="alert-3" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+      <SuccessAlertComponent :message="authStore.success"/>
+    </div>
+    <div v-if="authStore.errors" id="alert-2" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+      <ErrorAlertComponent :message="authStore.errors"/>
     </div>
   </div>
 </template>
@@ -55,9 +70,7 @@ export default {
       email: '',
       email_verified_at: '',
       errors: [],
-      admin_users:[],
       authStore: UseAuthStore(),
-
     };
 
   },
@@ -66,6 +79,11 @@ export default {
   },
   mounted() {
     initFlowbite();
+  },
+  methods:{
+    async removeAdminUser(userId) {
+      await this.authStore.removeAdminUser(userId);
+    }
   }
 
 

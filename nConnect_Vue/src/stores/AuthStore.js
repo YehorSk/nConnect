@@ -211,9 +211,13 @@ export const UseAuthStore = defineStore("auth",{
         async getToken(){
             await axios.get('/sanctum/csrf-cookie');
         },
-        async fetchRegularUsers(){
+        async fetchRegularUsers(page = 1, search = ''){
             try {
-                const response = await axios.get('users-regular');
+                const response = await axios.get('users-regular?page=' + page, {
+                    params: {
+                        search: search
+                    }
+                });
                 this.regular_users = response.data;
             } catch (error) {
                 if (error.response.status === 422) {
@@ -229,6 +233,52 @@ export const UseAuthStore = defineStore("auth",{
             } catch (error) {
                 if (error.response.status === 422) {
                     this.errors.value = error.response.data.errors;
+                }
+            }
+        },
+        async addAdminUser(id) {
+            if (this.token !== null) {
+                try {
+                    await this.getToken();
+                    const response = await axios.post('user-add-admin', { id: id }, {
+                        headers: {
+                            'Accept': 'application/vnd.api+json',
+                            "Content-Type": "application/vnd.api+json",
+                            "Access-Control-Allow-Origin": "*",
+                            'Authorization': `Bearer ${this.token}`
+                        }
+                    });
+                    this.success = response.data.message;
+                    await this.fetchRegularUsers();
+                    await this.fetchAdminUsers();
+                } catch (error) {
+                    console.log(error.response);
+                    if (error.response && error.response.status === 422) {
+                        this.errors = error.response.data.errors;
+                    }
+                }
+            }
+        },
+        async removeAdminUser(id){
+            if (this.token !== null) {
+                try {
+                    await this.getToken();
+                    const response = await axios.post('user-remove-admin', { id: id }, {
+                        headers: {
+                            'Accept': 'application/vnd.api+json',
+                            "Content-Type": "application/vnd.api+json",
+                            "Access-Control-Allow-Origin": "*",
+                            'Authorization': `Bearer ${this.token}`
+                        }
+                    });
+                    this.success = response.data.message;
+                    await this.fetchRegularUsers();
+                    await this.fetchAdminUsers();
+                } catch (error) {
+                    console.log(error.response);
+                    if (error.response && error.response.status === 422 && error.response.data.message) {
+                        this.errors = error.response.data.message;
+                    }
                 }
             }
         },

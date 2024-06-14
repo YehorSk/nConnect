@@ -52,7 +52,7 @@
             <th scope="col" class="px-6 py-3">Delete</th>
           </tr>
           </thead>
-          <tbody v-for="gallery in galleryStore.getGallery" :key="gallery.id">
+          <tbody v-for="gallery in galleryStore.getGallery.data" :key="gallery.id">
           <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
             <td class="px-6 py-4">
               <img :src="'http://127.0.0.1:8000/storage/' + gallery.image" class="w-32 md:w-64 max-w-full max-h-full" alt="Gallery image">
@@ -89,6 +89,13 @@
     <div v-if="galleryStore.errors" id="alert-2" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
       <ErrorAlertComponent :message="galleryStore.errors"/>
     </div>
+    <div class="text-center">
+      <v-pagination
+          v-model="page"
+          :length="galleryStore.getGallery.last_page"
+          rounded="circle"
+      ></v-pagination>
+    </div>
   </div>
 
 
@@ -99,12 +106,19 @@ import {UseGalleryStore} from "@/stores/GalleryStore.js";
 import AdminNavComponent from "@/components/AdminNavComponent.vue";
 import SuccessAlertComponent from "@/components/alerts/SuccessAlertComponent.vue";
 import ErrorAlertComponent from "@/components/alerts/ErrorAlertComponent.vue";
+import {watch} from "vue";
 
 
 export default {
   components: {ErrorAlertComponent, SuccessAlertComponent, AdminNavComponent},
   mounted() {
     initFlowbite();
+    watch(() => this.page, (newValue, oldValue) => {
+      if (newValue) {
+        this.galleryStore.fetchGallery(this.page)
+      }
+    })
+
   },
   data() {
     return {
@@ -116,6 +130,7 @@ export default {
       year: '',
       gallery: [],
       errors: [],
+      page: 1,
     };
   },
   created() {

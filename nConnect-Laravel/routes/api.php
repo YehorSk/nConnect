@@ -64,6 +64,8 @@ Route::get('/users-admin', [AuthController::class, 'getAdminUsers']);
 Route::get('/user-lectures', [AuthController::class, 'fetchLectures']);
 Route::post('/user-add-lecture', [AuthController::class, 'addLecture']);
 Route::post('/user-remove-lecture', [AuthController::class, 'removeLecture']);
+Route::post('/user-add-admin', [AuthController::class, 'addAdminUser']);
+Route::post('/user-remove-admin', [AuthController::class, 'removeAdminUser']);
 
 
 Route::group(['middleware' => ['auth:sanctum']], function () {

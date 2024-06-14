@@ -156,15 +156,61 @@ class AuthController extends Controller
             $lecture->save();
         }
     }
-    public function getRegularUsers()
+    public function getRegularUsers(Request $request)
     {
-        $users = User::where('is_admin', 0)->get();
+        $search = $request->input('search');
+        $users = User::query()
+            ->where('is_admin', 0)
+            ->when($search, function ($query, $search) {
+                return $query->where(function ($query) use ($search) {
+                    $query->where('name', 'LIKE', "%{$search}%")
+                        ->orWhere('email', 'LIKE', "%{$search}%");
+                });
+            })
+            ->paginate(10);
         return response()->json($users);
     }
+
 
     public function getAdminUsers()
     {
         $users = User::where('is_admin', 1)->get();
         return response()->json($users);
     }
+
+    public function addAdminUser(Request $request)
+    {
+        $userId = $request->input('id');
+        $user = User::find($userId);
+        if ($user) {
+            $user->is_admin = 1;
+            $user->save();
+
+            return $this->success('','User has been successfully added to admin.');
+        } else {
+            return $this->error('','Error occurred.', 422);
+        }
+    }
+    public function removeAdminUser(Request $request)
+    {
+        $userId = $request->input('id');
+        $currentUser = auth('sanctum')->user();
+
+        if ($currentUser->id == $userId) {
+            return $this->error('','You cannot remove admin role from yourself.', 422);
+        }
+
+        $user = User::find($userId);
+        if ($user) {
+            $user->is_admin = 0;
+            $user->save();
+
+            return $this->success('','User removed from admin.');
+        } else {
+            return $this->error('','Error occurred.', 422);
+        }
+    }
+
+
+
 }
