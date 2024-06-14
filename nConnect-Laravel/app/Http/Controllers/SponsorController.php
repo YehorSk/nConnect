@@ -9,17 +9,38 @@ use Illuminate\Support\Facades\File;
 
 class SponsorController extends Controller
 {
-    public function index(){
-        $sponsors = Sponsor::all();
+    public function index(Request $request)
+    {
+        $search = $request->input('search');
+        $sponsors = Sponsor::query()
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'LIKE', "%{$search}%")
+                    ->orWhere('link', 'LIKE', "%{$search}%");
+            })
+            ->paginate(5);
+
         return response()->json($sponsors);
     }
 
-    public function get_current_conference_sponsors(){
-        $conference = Conference::query()->where("is_current",true)->first();
+    public function get_current_conference_sponsors(Request $request)
+    {
+        $search = $request->input('search');
+        $conference = Conference::query()->where("is_current", true)->first();
+        $sponsors = $conference->sponsors()
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'LIKE', "%{$search}%")
+                    ->orWhere('link', 'LIKE', "%{$search}%");
+            })
+            ->paginate(5);
+
+        return response()->json($sponsors);
+    }
+    public function get_current_conference_sponsors_all()
+    {
+        $conference = Conference::query()->where("is_current", true)->first();
         $sponsors = $conference->sponsors;
         return response()->json($sponsors);
     }
-
     public function get_available_sponsors(){
         $conference = Conference::query()->where("is_current", true)->first();
         $allSponsors = Sponsor::all();

@@ -14,7 +14,7 @@
           <div class="block text-center">
             <!-- Sponsors image list -->
             <ul class="list-inline sponsors-list">
-              <li v-for="sponsor in sponsorsStore.getCurrentSponsors" :key="sponsor.id" class="list-inline-item">
+              <li v-for="sponsor in sponsorsStore.getCurrentSponsorsAll" :key="sponsor.id" class="list-inline-item">
                 <div class="image-block text-center">
                   <a :href="sponsor.link">
                     <img loading="lazy" :src="'http://127.0.0.1:8000/storage/' + sponsor.image" :alt="`${sponsor.name}`" class="img-fluid">
@@ -47,7 +47,7 @@ export default {
     };
   },
   created(){
-    this.sponsorsStore.fetchCurrentConferenceSponsors();
+    this.sponsorsStore.fetchCurrentConferenceSponsorsAll();
   },
   mounted() {
     initFlowbite();

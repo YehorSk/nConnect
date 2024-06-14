@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class="row">
-        <div v-for="speaker in speakersStore.getCurrentSpeakers" :key="speaker.id" class="col-lg-3 col-md-4 col-sm-6">
+        <div v-for="speaker in speakersStore.getCurrentSpeakersAll" :key="speaker.id" class="col-lg-3 col-md-4 col-sm-6">
           <!-- Speaker 1 -->
           <div class="speaker-item">
             <div class="image">
@@ -48,11 +48,10 @@ export default {
     };
   },
   created(){
-    this.speakersStore.fetchCurrentConferenceSpeakers();
+    this.speakersStore.fetchCurrentConferenceSpeakersAll();
   },
   mounted() {
     initFlowbite();
-  }
-  ,
+  },
 }
 </script>

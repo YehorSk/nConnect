@@ -14,7 +14,8 @@ export const useSponsorsStore = defineStore("sponsors",{
         update_error_name:'',
         update_error_date:'',
        success: '',
-        errors: ''
+        errors: '',
+        current_sponsors_all: [],
     }),
     getters:{
         getSponsors(){
@@ -25,25 +26,44 @@ export const useSponsorsStore = defineStore("sponsors",{
         },
         getCurrentSponsors(){
             return this.current_sponsors;
+        },
+        getCurrentSponsorsAll(){
+            return this.current_sponsors_all;
         }
     },
     actions:{
-        async fetchSponsors(){
+        async fetchSponsors(page = 1, search = '') {
             try {
-                const response = await axios.get('sponsors');
+                const response = await axios.get('sponsors?page=' + page, {
+                    params: {
+                        search: search
+                    }
+                });
                 this.sponsors = response.data;
             } catch (error) {
-                if(error.response.status === 422){
+                if (error.response && error.response.status === 422) {
                     this.errors.value = error.response.data.errors;
                 }
             }
         },
-        async fetchCurrentConferenceSponsors(){
+        async fetchCurrentConferenceSponsors(page = 1, search = '') {
             try {
-                const response = await axios.get('get-current-conference-sponsors');
+                const response = await axios.get('get-current-conference-sponsors?page=' + page, {
+                    params: { search: search }
+                });
                 this.current_sponsors = response.data;
             } catch (error) {
-                if(error.response.status === 422){
+                if (error.response.status === 422) {
+                    this.errors.value = error.response.data.errors;
+                }
+            }
+        },
+        async fetchCurrentConferenceSponsorsAll() {
+            try {
+                const response = await axios.get('get-current-conference-sponsors-all');
+                this.current_sponsors_all = response.data;
+            } catch (error) {
+                if (error.response.status === 422) {
                     this.errors.value = error.response.data.errors;
                 }
             }
@@ -98,7 +118,6 @@ export const useSponsorsStore = defineStore("sponsors",{
                         'Content-Type': 'multipart/form-data'
                     }
                 });
-                this.sponsors.push(response.data);
                 this.success = "Added successfully";
                 await this.fetchSponsors();
             } catch (error) {
@@ -115,8 +134,8 @@ export const useSponsorsStore = defineStore("sponsors",{
         },
         async destroySponsor(id){
             try {
-                const response = await axios.delete('sponsors/'+id);
-                this.sponsors = this.sponsors.filter(sponsor => sponsor.id !== id);
+                await axios.delete('sponsors/'+id);
+                this.sponsors.data = this.sponsors.data.filter(sponsor => sponsor.id !== id);
                 this.success = "Deleted successfully";
             } catch (error) {
                 if(error.response.status === 422){
@@ -148,7 +167,6 @@ export const useSponsorsStore = defineStore("sponsors",{
                 }
                 const updatedResponse = await axios.put("/sponsors/" + sponsors.id, updatedData);
                 this.success = "Updated successfully";
-                await this.fetchSponsors();
             }catch (error) {
                 if (error.response && error.response.status === 422) {
                     this.errors = Object.values(error.response.data.errors).flat().join(' ');

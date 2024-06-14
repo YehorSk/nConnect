@@ -85,6 +85,7 @@ Route::put('/update-stage-in-conference/{id}',[StageController::class,'updateInC
 
 Route::apiResource('sponsors',SponsorController::class);
 Route::get('/get-current-conference-sponsors',[SponsorController::class,'get_current_conference_sponsors']);
+Route::get('/get-current-conference-sponsors-all',[SponsorController::class,'get_current_conference_sponsors_all']);
 Route::post('/upload-sponsor-image', [SponsorController::class, 'uploadSponsorImage']);
 Route::get('/get-available-sponsors',[SponsorController::class,'get_available_sponsors']);
 Route::post('/add-sponsor-to-conference',[SponsorController::class,'addSponsorsToConference']);
@@ -96,6 +97,7 @@ Route::apiResource('speakers',SpeakerController::class);
 Route::post('/upload-image', [SpeakerController::class, 'uploadImage']);
 Route::get('/single-speaker/{id}', [SpeakerController::class, 'show']);
 Route::get('/get-current-conference-speakers',[SpeakerController::class,'get_current_conference_speakers']);
+Route::get('/get-current-conference-speakers-all',[SpeakerController::class,'get_current_conference_speakers_all']);
 Route::get('/get-available-speakers',[SpeakerController::class,'get_available_speakers']);
 Route::post('/add-speakers-to-conference',[SpeakerController::class,'addSpeakersToConference']);
 Route::delete('/delete-speakers-from-conference/{id}',[SpeakerController::class,'deleteSpeakerFromConference']);

@@ -22,6 +22,7 @@ export const useSpeakersStore = defineStore("speakers", {
         update_error_date: '',
         success: '',
         errors_update: [],
+        current_speakers_all: [],
     }),
     getters: {
         getSpeakers() {
@@ -32,6 +33,9 @@ export const useSpeakersStore = defineStore("speakers", {
         },
         getCurrentSpeakers() {
             return this.current_speakers;
+        },
+        getCurrentSpeakersAll() {
+            return this.current_speakers_all;
         },
     },
     actions: {
@@ -55,6 +59,16 @@ export const useSpeakersStore = defineStore("speakers", {
                     params: { search: search }
                 });
                 this.current_speakers = response.data;
+            } catch (error) {
+                if (error.response.status === 422) {
+                    this.errors.value = error.response.data.errors;
+                }
+            }
+        },
+        async fetchCurrentConferenceSpeakersAll() {
+            try {
+                const response = await axios.get('get-current-conference-speakers-all');
+                this.current_speakers_all = response.data;
             } catch (error) {
                 if (error.response.status === 422) {
                     this.errors.value = error.response.data.errors;
