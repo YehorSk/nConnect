@@ -18,6 +18,7 @@
   <li>✅ Administrátor musí vedieť vykonávať CRUD operácie nad sekciou Povedali o nás - foto, výrok</li>
   <li>✅ Administrátor musí vedieť za pomoci WYSIWYG editora vytvárať custom stránky - príklad Ochrana osobných údajov</li>
   <li>✅ Všetky obsahové sekcie ktoré administrátor vie vytvoriť musia byť prístupné pre používateľov</li>
+  <li>✅ DODATOCNE: Kontakt forma pre pouzivatelov, ktora odosiela spravu na predvolenu email adresu </li>
 </ul>
 
 
