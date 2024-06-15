@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Conference;
 use App\Models\Organizer;
 use Illuminate\Http\Request;
@@ -8,16 +9,38 @@ use Illuminate\Support\Facades\File;
 
 class OrganizerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $organizers = Organizer::all();
+        $search = $request->input('search');
+        $organizers = Organizer::query()
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'LIKE', "%{$search}%")
+                    ->orWhere('phone_number', 'LIKE', "%{$search}%")
+                    ->orWhere('email', 'LIKE', "%{$search}%");
+            })
+            ->paginate(5);
+
         return response()->json($organizers);
     }
 
-    public function get_current_conference_organizers()
+    public function get_current_conference_organizers_all()
     {
         $conference = Conference::query()->where("is_current", true)->first();
         $organizers = $conference->organizers;
+        return response()->json($organizers);
+    }
+    public function get_current_conference_organizers(Request $request)
+    {
+        $search = $request->input('search');
+        $conference = Conference::query()->where("is_current", true)->first();
+        $organizers = $conference->organizers()
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'LIKE', "%{$search}%")
+                    ->orWhere('phone_number', 'LIKE', "%{$search}%")
+                    ->orWhere('email', 'LIKE', "%{$search}%");
+            })
+            ->paginate(5);
+
         return response()->json($organizers);
     }
 

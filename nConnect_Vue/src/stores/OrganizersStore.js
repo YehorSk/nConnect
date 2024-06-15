@@ -14,7 +14,8 @@ export const UseOrganizersStore = defineStore("organizers", {
         error_id: '',
         error_image: '',
         success: '',
-        errors: ''
+        errors: '',
+        current_organizers_all: [],
     }),
     getters: {
         getOrganizers() {
@@ -25,6 +26,9 @@ export const UseOrganizersStore = defineStore("organizers", {
         },
         getCurrentOrganizers() {
             return this.current_organizers;
+        },
+        getCurrentOrganizersAll() {
+            return this.current_organizers_all;
         },
     },
     actions: {
@@ -49,18 +53,32 @@ export const UseOrganizersStore = defineStore("organizers", {
                 console.error("Error:", error);
             }
         },
-        async fetchOrganizers() {
+        async fetchOrganizers(page = 1, search = '') {
             try {
-                const response = await axios.get('organizers');
+                const response = await axios.get('organizers?page=' + page, {
+                    params: {
+                        search: search
+                    }
+                });
                 this.organizers = response.data;
             } catch (error) {
                 this.handleErrors(error);
             }
         },
-        async fetchCurrentConferenceOrganizers() {
+        async fetchCurrentConferenceOrganizers(page = 1, search = '') {
             try {
-                const response = await axios.get('get_current_conference_organizers');
+                const response = await axios.get('get_current_conference_organizers?page=' + page, {
+                    params: { search: search }
+                });
                 this.current_organizers = response.data;
+            } catch (error) {
+                this.handleErrors(error);
+            }
+        },
+        async fetchCurrentConferenceOrganizersAll() {
+            try {
+                const response = await axios.get('get_current_conference_organizers_all');
+                this.current_organizers_all = response.data;
             } catch (error) {
                 this.handleErrors(error);
             }
@@ -105,12 +123,11 @@ export const UseOrganizersStore = defineStore("organizers", {
                 formData.append('phone_number', phone_number);
                 formData.append('email', email);
 
-                const response = await axios.post('organizers', formData, {
+                await axios.post('organizers', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
                 });
-                this.organizers.push(response.data);
                 this.success = "Added successfully";
                 await this.fetchOrganizers();
             } catch (error) {
@@ -120,7 +137,7 @@ export const UseOrganizersStore = defineStore("organizers", {
         async destroyOrganizers(id) {
             try {
                 await axios.delete('organizers/' + id);
-                this.organizers = this.organizers.filter(organizer => organizer.id !== id);
+                this.organizers.data = this.organizers.data.filter(organizer => organizer.id !== id);
                 this.success = "Deleted successfully";
             } catch (error) {
                 this.handleErrors(error);

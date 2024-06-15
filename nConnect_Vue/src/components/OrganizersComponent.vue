@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class="row justify-content-center">
-        <div v-for="organizer in organizersStore.getCurrentOrganizers" :key="organizer.id" class="col-lg-3 col-md-4 col-sm-6 mx-auto">
+        <div v-for="organizer in organizersStore.getCurrentOrganizersAll" :key="organizer.id" class="col-lg-3 col-md-4 col-sm-6 mx-auto">
           <!-- Organizer 1 -->
           <div class="speaker-item">
             <div class="image">
@@ -40,7 +40,7 @@ export default {
     };
   },
   created(){
-    this.organizersStore.fetchCurrentConferenceOrganizers();
+    this.organizersStore.fetchCurrentConferenceOrganizersAll();
   },
   mounted() {
     initFlowbite();

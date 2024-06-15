@@ -113,7 +113,7 @@ export const useSponsorsStore = defineStore("sponsors",{
                 formData.append('link', link);
                 formData.append('image', image);
 
-                const response = await axios.post('sponsors', formData,{
+                await axios.post('sponsors', formData,{
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
