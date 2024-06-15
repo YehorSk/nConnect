@@ -35,6 +35,7 @@
             <tr>
               <th scope="col" class="px-6 py-3">Name</th>
               <th scope="col" class="px-6 py-3">Date</th>
+              <th scope="col" class="px-6 py-3">Registered users</th>
               <th scope="col" class="px-6 py-3">Current</th>
               <th scope="col" class="px-6 py-3">Update</th>
               <th scope="col" class="px-6 py-3">Delete</th>
@@ -44,6 +45,11 @@
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <td class="px-6 py-4"><input type="text" v-model="conference.name" placeholder="Name" class="w-full"></td>
               <td class="px-6 py-4"><input type="text" v-model="conference.year" placeholder="Date" class="w-full"></td>
+              <td class="px-6 py-4">
+                <v-btn class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block" @click="callUserDialog(conference.id)">
+                Users
+              </v-btn>
+              </td>
               <td class="px-6 py-4">
                 <label class="inline-flex items-center cursor-pointer">
                   <input type="checkbox" class="sr-only peer" @change="updateIsCurrent($event, conference)" :checked="conference.is_current === 1">
@@ -69,6 +75,24 @@
         </div>
       </div>
     </div>
+    <v-dialog v-model="users_dialog" width="auto">
+      <v-card min-width="600" prepend-icon="mdi-update" title="Users" >
+        <v-card-text>
+          <v-card-subtitle> Users count: {{conferenceStore.total_users}}</v-card-subtitle>
+          <v-list lines="one">
+            <v-list-item
+                v-for="user in conferenceStore.current_users"
+                :key="user.id"
+                :title="'Name: ' + user.name"
+                :subtitle="'Email: ' + user.email"
+            ></v-list-item>
+          </v-list>
+        </v-card-text>
+        <template v-slot:actions>
+          <v-btn class="ms-auto" text="Close" @click="users_dialog = false"></v-btn>
+        </template>
+      </v-card>
+    </v-dialog>
     <div v-if="conferenceStore.success" id="alert-3" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
       <SuccessAlertComponent :message="conferenceStore.success"/>
     </div>
@@ -88,7 +112,6 @@
 
 </template>
 <script>
-import { onMounted } from 'vue'
 import { initFlowbite } from 'flowbite'
 import {UseConferenceStore} from "@/stores/ConferenceStore.js"
 import AdminNavComponent from "@/components/AdminNavComponent.vue";
@@ -104,6 +127,7 @@ export default{
       date: '',
       is_current: 0,
       conferences:[],
+      users_dialog:false,
       conferenceStore: UseConferenceStore(),
     };
   },
@@ -126,7 +150,11 @@ export default{
     },
     updateIsCurrent(event, conference) {
       conference.is_current = event.target.checked ? 1 : 0;
-    }
+    },
+    async callUserDialog(id) {
+      this.users_dialog = true;
+      await this.conferenceStore.getConferenceUsers(id)
+    },
   }
 }
 </script>

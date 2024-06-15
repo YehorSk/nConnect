@@ -172,5 +172,17 @@ export const UseConferenceStore = defineStore("conferences",{
         async getToken(){
             await axios.get('/sanctum/csrf-cookie');
         },
+        async getConferenceUsers(conference_id){
+           try{
+               await this.getToken();
+               const response = await axios.get(`get-conference-users/${conference_id}`);
+               this.current_users = response.data.users;
+               this.total_users = response.data.total_users;
+           } catch (error){
+               if (error.response.status === 422) {
+                   this.errors.value = error.response.data.errors;
+               }
+           }
+        }
     }
 });

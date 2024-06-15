@@ -153,7 +153,9 @@ export const useLectureStore = defineStore("lectures", {
                 this.current_users = response.data;
                 console.log(response.data);
             }catch (error){
-
+                if (error.response.status === 422) {
+                    this.errors.value = error.response.data.errors;
+                }
             }
         }
     }

@@ -67,9 +67,6 @@ Route::post('/user-add-lecture', [UserController::class, 'addLecture']);
 Route::post('/user-remove-lecture', [UserController::class, 'removeLecture']);
 Route::post('/user-add-admin', [UserController::class, 'addAdminUser']);
 Route::post('/user-remove-admin', [UserController::class, 'removeAdminUser']);
-Route::post('/user-add-conference', [ConferenceController::class, 'addUser']);
-Route::post('/user-remove-conference', [ConferenceController::class, 'removeUser']);
-Route::post('/user-has-conference', [ConferenceController::class, 'userHasCurrentConference']);
 
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
@@ -132,6 +129,11 @@ Route::delete('/delete-organizers-from-conference/{id}',[OrganizerController::cl
 
 Route::apiResource('conferences',ConferenceController::class);
 Route::get('/get-active-conference',[ConferenceController::class,'get_active_conference']);
+Route::get('/get-conference-users/{id}',[ConferenceController::class,'getConferenceUsers']);
+Route::post('/user-add-conference', [ConferenceController::class, 'addUser']);
+Route::post('/user-remove-conference', [ConferenceController::class, 'removeUser']);
+Route::post('/user-has-conference', [ConferenceController::class, 'userHasCurrentConference']);
+
 
 //-------------------------------------------------------------
 

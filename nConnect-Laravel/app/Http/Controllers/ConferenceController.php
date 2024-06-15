@@ -115,6 +115,15 @@ class ConferenceController extends Controller
             return response()->json(['has_current_conference' => false]);
         }
     }
+    public function getConferenceUsers($id){
+        $conference = Conference::find($id);
+        $users = $conference->users;
+        $totalUsers = $users->count();
+        return response()->json([
+            'total_users' => $totalUsers,
+            'users' => $users
+        ]);
+    }
 
 
 
