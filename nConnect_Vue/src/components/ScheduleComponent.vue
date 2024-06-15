@@ -82,8 +82,8 @@
                 <v-divider :thickness="8" color="info"></v-divider>
                 <v-btn color="black" @click="dialog = false" text>Close</v-btn>
                 <template v-if="!user.is_admin && show_lecture.is_lecture === 1">
-                  <v-btn v-if="user.email_verified_at && !authStore.lectures.some(lecture => lecture.id === show_lecture.id)" @click="registerLecture" color="green" text>Register</v-btn>
-                  <v-btn v-if="user.email_verified_at && authStore.lectures.some(lecture => lecture.id === show_lecture.id)" @click="removeLecture" color="red" text>Remove</v-btn>
+                  <v-btn v-if="user.email_verified_at && !userStore.lectures.some(lecture => lecture.id === show_lecture.id)" @click="registerLecture" color="green" text>Register</v-btn>
+                  <v-btn v-if="user.email_verified_at && userStore.lectures.some(lecture => lecture.id === show_lecture.id)" @click="removeLecture" color="red" text>Remove</v-btn>
                 </template>
               </v-card-actions>
             </v-card>
@@ -92,7 +92,7 @@
           <v-dialog v-model="error_dialog" width="auto" persistent>
             <v-card min-width="600" prepend-icon="mdi-update" title="We couldn't perform the operation.">
               <v-card-text>
-                <p>{{authStore.errors.message}}</p>
+                <p>{{userStore.errors.message}}</p>
               </v-card-text>
               <template v-slot:actions>
                 <v-btn class="ms-auto" @click="closeErrorDialog">Close</v-btn>
@@ -100,9 +100,9 @@
             </v-card>
           </v-dialog>
           <!-- Success Alert -->
-            <div v-if="authStore.success" role="alert">
+            <div v-if="userStore.success" role="alert">
               <v-alert  dismissible v-model="successVisible">
-                {{ authStore.success }}
+                {{ userStore.success }}
               </v-alert>
             </div>
         </div>
@@ -114,15 +114,15 @@
 <script>
 import { useStageStore } from "@/stores/StageStore.js";
 import { useLectureStore } from "@/stores/LectureStore.js";
-import { UseAuthStore } from "@/stores/AuthStore.js";
 import { watch } from "vue";
+import {UseUserStore} from "@/stores/UserStore.js";
 
 export default {
   data() {
     return {
       stageStore: useStageStore(),
       lectureStore: useLectureStore(),
-      authStore: UseAuthStore(),
+      userStore: UseUserStore(),
       dialog: false,
       error_dialog: false,
       action_type: "",
@@ -147,15 +147,15 @@ export default {
       this.fetchLecturesByStage();
     });
     this.lectureStore.fetchCurrentConferenceLectures();
-    this.user = this.authStore.getUser;
+    this.user = this.userStore.getUser;
   },
   mounted() {
-    watch(() => this.authStore.errors, (newValue, oldValue) => {
+    watch(() => this.userStore.errors, (newValue, oldValue) => {
       if (newValue && newValue.length !== 0) {
         this.callErrorDialog();
       }
     });
-    watch(() => this.authStore.success, (newValue, oldValue) => {
+    watch(() => this.userStore.success, (newValue, oldValue) => {
       if (newValue) {
         this.successVisible = true;
         setTimeout(() => {
@@ -174,19 +174,19 @@ export default {
     },
     closeErrorDialog() {
       this.error_dialog = false;
-      this.authStore.errors = [];
+      this.userStore.errors = [];
     },
     registerLecture() {
       this.dialog = false;
-      this.authStore.addLecture(this.show_lecture.id).then(() => {
-        if (this.authStore.errors.length === 0) {
+      this.userStore.addLecture(this.show_lecture.id).then(() => {
+        if (this.userStore.errors.length === 0) {
           this.show_lecture.taken_spots++;
         }
       });
     },
     removeLecture() {
       this.dialog = false;
-      this.authStore.deleteLecture(this.show_lecture.id).then(() => {
+      this.userStore.deleteLecture(this.show_lecture.id).then(() => {
         this.show_lecture.taken_spots--;
       });
     },

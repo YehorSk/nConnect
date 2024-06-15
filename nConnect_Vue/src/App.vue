@@ -4,16 +4,16 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <script>
-import {UseAuthStore} from "@/stores/AuthStore.js";
+import {UseUserStore} from "@/stores/UserStore.js";
 
 export default {
   data(){
     return{
-      authStore: UseAuthStore()
+      userStore: UseUserStore()
     };
   },
   created() {
-    this.authStore.fetchUser();
+    this.userStore.fetchUser();
   }
 }
 </script>

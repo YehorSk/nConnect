@@ -38,7 +38,7 @@
 
           </tr>
           </thead>
-          <tbody v-for="users in authStore.getRegularUsers.data" :key="users.id">
+          <tbody v-for="users in userStore.getRegularUsers.data" :key="users.id">
           <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
               {{ users.name }}
@@ -50,7 +50,7 @@
               {{ users.email_verified_at }}
             </td>
             <td class="px-6 py-4">
-              <v-btn @click="authStore.addAdminUser(users.id)"
+              <v-btn @click="userStore.addAdminUser(users.id)"
                      color="green-lighten-2"
                      class="white--text"
                      text="Add"
@@ -61,16 +61,16 @@
         </table>
       </div>
     </div>
-    <div v-if="authStore.success" id="alert-3" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
-      <SuccessAlertComponent :message="authStore.success"/>
+    <div v-if="userStore.success" id="alert-3" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+      <SuccessAlertComponent :message="userStore.success"/>
     </div>
-    <div v-if="authStore.errors" id="alert-2" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-      <ErrorAlertComponent :message="authStore.errors"/>
+    <div v-if="userStore.errors" id="alert-2" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+      <ErrorAlertComponent :message="userStore.errors"/>
     </div>
     <div class="text-center">
       <v-pagination
           v-model="page"
-          :length="authStore.getRegularUsers.last_page"
+          :length="userStore.getRegularUsers.last_page"
           rounded="circle"
       ></v-pagination>
     </div>
@@ -82,7 +82,7 @@ import AdminNavComponent from "@/components/AdminNavComponent.vue";
 import {defineComponent, watch} from "vue";
 import ErrorAlertComponent from "@/components/alerts/ErrorAlertComponent.vue";
 import SuccessAlertComponent from "@/components/alerts/SuccessAlertComponent.vue";
-import {UseAuthStore} from "@/stores/AuthStore.js";
+import {UseUserStore} from "@/stores/UserStore.js";
 export default {
   components: {ErrorAlertComponent, SuccessAlertComponent, AdminNavComponent},
   data(){
@@ -93,28 +93,28 @@ export default {
       errors: [],
       page: 1,
       search: '',
-      authStore: UseAuthStore(),
+      userStore: UseUserStore(),
 
     };
   },
   created() {
-    this.authStore.fetchRegularUsers();
+    this.userStore.fetchRegularUsers();
   },
   mounted() {
     initFlowbite();
     watch(() => this.page, (newValue, oldValue) => {
       if (newValue) {
-        this.authStore.fetchRegularUsers(this.page, this.search)
+        this.userStore.fetchRegularUsers(this.page, this.search)
       }
     });
   },
   methods: {
     onSearch() {
       this.page = 1;
-      this.authStore.fetchRegularUsers(this.page, this.search);
+      this.userStore.fetchRegularUsers(this.page, this.search);
     },
     async addAdminUser(userId) {
-      await this.authStore.addAdminUser(userId);
+      await this.userStore.addAdminUser(userId);
     }
   }
 

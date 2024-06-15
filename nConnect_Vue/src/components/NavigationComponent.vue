@@ -74,7 +74,7 @@
       </v-card-title>
       <v-card-text>
         <v-list>
-          <v-list-item v-for="lecture in authStore.lectures" :key="lecture.id">
+          <v-list-item v-for="lecture in userStore.lectures" :key="lecture.id">
               <v-list-item-title>{{ lecture.name }}</v-list-item-title>
               <v-list-item-subtitle>{{ lecture.start_time }} - {{ lecture.end_time }}</v-list-item-subtitle>
               <v-list-item-subtitle>{{ 'Voľné miesta: ' + (lecture.capacity - lecture.taken_spots) }}</v-list-item-subtitle>
@@ -93,16 +93,18 @@
 </template>
 
 <script>
-import { UseAuthStore } from "@/stores/AuthStore.js";
 import { useEditorStore } from "@/stores/EditorStore.js";
 import { useLectureStore } from "@/stores/LectureStore.js";
+import {UseUserStore} from "@/stores/UserStore.js";
+import {UseAuthStore} from "@/stores/AuthStore.js";
 
 export default {
   data() {
     return {
-      authStore: UseAuthStore(),
+      userStore: UseUserStore(),
       editorStore: useEditorStore(),
       lectureStore: useLectureStore(),
+      authStore: UseAuthStore(),
       user: {},
       conference_dialog: false,
       showRemovalAlert: false,
@@ -110,9 +112,9 @@ export default {
     };
   },
   created() {
-      this.user = this.authStore.getUser;
+      this.user = this.userStore.getUser;
       if (this.user) {
-        this.authStore.fetchLectures().finally(() => {
+        this.userStore.fetchLectures().finally(() => {
           this.loading = false;
         });
       } else {
@@ -125,7 +127,7 @@ export default {
       this.conference_dialog = true;
     },
     removeLecture(lectureId) {
-      this.authStore.deleteLecture(lectureId).then(() => {
+      this.userStore.deleteLecture(lectureId).then(() => {
         this.showRemovalAlert = true;
         setTimeout(() => {
           this.showRemovalAlert = false;

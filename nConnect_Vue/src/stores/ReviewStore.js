@@ -5,16 +5,17 @@ axios.defaults.baseURL = "http://localhost/nConnect/nConnect-Laravel/public/api/
 export const UseReviewStore = defineStore("reviews", {
         state: () => ({
             reviews: [],
+            errors: '',
             error_name: '',
             error_text: '',
             error_photo: '',
+            errors_update: [],
             success: '',
-            errors: ''
         }),
         getters: {
             getReviews() {
                 return this.reviews;
-            }
+            },
         },
         actions: {
             async fetchReviews() {
@@ -97,17 +98,20 @@ export const UseReviewStore = defineStore("reviews", {
                     this.success = "Updated successfully";
                     await this.fetchReviews();
                 } catch (error) {
-                    if (error.response && error.response.data && error.response.data.errors) {
-                        this.errors = Object.values(error.response.data.errors).flat().join(' ');
-                    } else {
-                        console.error(error.response.data);
+                    if (error.response.status === 422) {
+                        this.errors_update = error.response.data.errors;
+                    }
+                }
+            },
+            async refreshReviews(){
+                try{
+                    await this.fetchReviews();
+                } catch (error) {
+                    if (error.response.status === 422) {
+                        this.errors.value = error.response.data.errors;
                     }
                 }
             }
-
-
-
-
         }
     }
 );

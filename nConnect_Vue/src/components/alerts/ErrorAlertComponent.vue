@@ -20,6 +20,7 @@
 import {useStageStore} from "@/stores/StageStore.js";
 import {UseAuthStore} from "@/stores/AuthStore.js";
 import {initFlowbite} from "flowbite";
+import {UseUserStore} from "@/stores/UserStore.js";
 
 export default {
   props: {
@@ -28,7 +29,8 @@ export default {
   data(){
     return{
       stageStore: useStageStore(),
-      authStore: UseAuthStore()
+      authStore: UseAuthStore(),
+      userStore: UseUserStore(),
     }
   },
   mounted() {

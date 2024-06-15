@@ -26,6 +26,7 @@ import {UseOrganizersStore} from "@/stores/OrganizersStore.js";
 import {UseGalleryStore} from "@/stores/GalleryStore.js";
 import {UseAuthStore} from "@/stores/AuthStore.js";
 import {UseReviewStore} from "@/stores/ReviewStore.js";
+import {UseUserStore} from "@/stores/UserStore.js";
 
 export default {
   props: {
@@ -42,7 +43,8 @@ export default {
       organizersStore: UseOrganizersStore(),
       galleryStore: UseGalleryStore(),
       authStore: UseAuthStore(),
-      reviewStore: UseReviewStore()
+      reviewStore: UseReviewStore(),
+      userStore: UseUserStore(),
     }
   },
   mounted() {

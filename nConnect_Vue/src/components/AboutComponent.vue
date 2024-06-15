@@ -15,18 +15,12 @@
                 Po mnohých rokoch premýšľania a plánovania sme vytvorili nConnect, jedinečnú udalosť v Nitre, ktorá spája študentov IT a popredné firmy z tohto dynamického odvetvia. Konferencia nConnect nadväzuje na dlhoročnú tradíciu formátu "IT v praxi" Fakulty prírodných vied a informatiky UKF v Nitre. Táto iniciatíva je mostom medzi novou generáciou talentov a skúsenými profesionálmi, ktorý poskytuje fórum pre vzájomnú výmenu myšlienok a inšpirácií. Naše poslanie bolo jasné: vyplniť medzeru v regionálnej komunikácii a spolupráci v IT a nConnect je hrdým výsledkom tejto vízie.
               </p>
             </div>
-<!--            <div class="description-two">-->
-<!--              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmtempor incididunt ut labore et dolore magna aliq enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.</p>-->
-<!--            </div>-->
             <ul class="list-inline">
               <div v-if="!user.id">
                 <li class="list-inline-item">
                   <router-link to="/register" class="btn btn-main-md">REGISTRÁCIA</router-link>
                 </li>
               </div>
-<!--              <li class="list-inline-item">-->
-<!--                <a href="#" class="btn btn-transparent-md">Read more</a>-->
-<!--              </li>-->
             </ul>
           </div>
         </div>
@@ -37,17 +31,17 @@
 </template>
 
 <script>
-import {UseAuthStore} from "@/stores/AuthStore.js";
+import {UseUserStore} from "@/stores/UserStore.js";
 
 export default {
   data(){
     return{
-      authStore: UseAuthStore(),
+      userStore: UseUserStore(),
       user: {}
     };
   },
   created() {
-    this.user = this.authStore.getUser;
+    this.user = this.userStore.getUser;
   }
 }
 </script>

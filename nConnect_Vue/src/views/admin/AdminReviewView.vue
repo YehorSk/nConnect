@@ -46,7 +46,6 @@
             <tr>
               <th scope="col" class="px-6 py-3">Image</th>
               <th scope="col" class="px-6 py-3">Name</th>
-              <th scope="col" class="px-6 py-3">Text</th>
               <th scope="col" class="px-6 py-3">Update</th>
               <th scope="col" class="px-6 py-3">Delete</th>
             </tr>
@@ -61,16 +60,12 @@
                 </form>
               </td>
               <td class="px-6 py-4">
-                <input type="text" v-model="review.name" placeholder="Name" class="inline-block w-full">
+                {{review.name}}
               </td>
               <td class="px-6 py-4">
-                <input type="text" v-model="review.text" placeholder="Text" class="inline-block w-full">
-              </td>
-              <td class="px-6 py-4">
-                <v-btn @click="updateForm(review)"
-                       color="green-lighten-2"
-                       text="Update"
-                ></v-btn>
+                <v-btn class="font-medium text-green-600 dark:text-green-500 hover:underline inline-block" @click="dialog = true,editReviews(review)">
+                  Show/Update
+                </v-btn>
               </td>
               <td class="px-6 py-4">
                 <form @submit.prevent class="inline-block">
@@ -93,6 +88,47 @@
     <div v-if="reviewStore.errors" id="alert-2" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
       <ErrorAlertComponent :message="reviewStore.errors"/>
     </div>
+    <v-dialog v-model="dialog" width="auto" persistent>
+      <v-card min-width="600" prepend-icon="mdi-update" title="Update Review">
+        <v-card-text>
+          <img :src="'http://127.0.0.1:8000/storage/' + edit_reviews.image" class="w-16 md:w-32 max-w-full max-h-full" alt="Review picture">
+          <input type="file" accept="image/*" @change="onFileChange($event, 'update')" class="mb-4">
+          <v-text-field
+              v-model="edit_reviews.name"
+              label="Name"
+              color="orange"
+          ></v-text-field>
+          <v-textarea
+              v-model="edit_reviews.text"
+              label="Text"
+              color="orange"
+              row-height="25"
+              rows="4"
+              auto-grow
+          ></v-textarea>
+        </v-card-text>
+        <template v-slot:actions>
+          <v-btn class="ms-auto" text="Close" @click="dialog = false, reviewStore.refreshReviews()"></v-btn>
+          <v-btn class="font-medium text-green-600 dark:text-green-500 hover:underline" text="Update" @click="dialog = false,updateForm(edit_reviews)"></v-btn>
+        </template>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="error_dialog" width="auto" persistent>
+      <v-card min-width="600" prepend-icon="mdi-update" title="We couldn't perform the update. Please check the data you've entered and try again.">
+        <v-card-text>
+          <ul>
+            <li v-for="(errors, fieldName) in reviewStore.errors_update" :key="fieldName">
+              <ul>
+                <li v-for="error in errors" :key="error">{{ error }}</li>
+              </ul>
+            </li>
+          </ul>
+        </v-card-text>
+        <template v-slot:actions>
+          <v-btn class="ms-auto" text="Close" @click="closeErrorDialog"></v-btn>
+        </template>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -118,7 +154,9 @@ export default {
       updateImageUrl: "",
       name: '',
       text: '',
-      reviews: [],
+      edit_reviews: [],
+      dialog: false,
+      error_dialog: false,
       errors: [],
       reviewStore: UseReviewStore(),
     };
@@ -128,6 +166,9 @@ export default {
     this.reviewStore.success = '';
   },
   methods: {
+    editReviews(reviews){
+      this.edit_reviews = reviews;
+    },
     submitForm() {
       this.reviewStore.insertReviews(this.name, this.text, this.addPhoto);
       this.reviewStore.error_name = '';
@@ -137,16 +178,16 @@ export default {
       this.text = '';
       this.addPhoto = null;
       this.addImageUrl = "";
+      this.reviewStore.refreshReviews();
     },
     updateForm(reviews){
       console.log("File", this.file);
       this.reviewStore.updateReview(reviews, this.updatePhoto);
+      if (this.reviewStore.errors_update.length > 0){
+        this.callErrorDialog();
+      }
     },
     createImage(file,form) {
-      if (!(file instanceof Blob)) {
-        console.error('blob error');
-        return;
-      }
       const reader = new FileReader();
 
       reader.onload = e => {
@@ -170,8 +211,14 @@ export default {
       }
       this.createImage(file,form);
     },
-
-
+    callErrorDialog() {
+      this.error_dialog = true;
+    },
+    closeErrorDialog() {
+      this.error_dialog = false;
+      this.reviewStore.errors_update = [];
+      this.reviewStore.fetchReviews();
+    }
   },
 }
 </script>

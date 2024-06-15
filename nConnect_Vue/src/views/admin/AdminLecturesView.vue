@@ -109,7 +109,7 @@
                     :disabled="!is_lecture"
                     :item-props="itemSpeakers"
                     v-model="speaker"
-                    :items="speakerStore.getCurrentSpeakers"
+                    :items="speakerStore.getCurrentSpeakers.data"
                     label="Available Speakers"
                     color="orange"
                 ></v-select>
@@ -297,7 +297,7 @@
               shaped
           ></v-textarea>
           <v-select :item-props="itemStages" item-value="id" v-model="edit_lecture.stage_id" :items="stageStore.getCurrentStages.data" label="Available Stages"></v-select>
-          <v-select :disabled="!edit_lecture.is_lecture" item-value="id" :item-props="itemSpeakers" v-model="edit_lecture.speaker_id" :items="speakerStore.getCurrentSpeakers" label="Available Speakers"></v-select>
+          <v-select :disabled="!edit_lecture.is_lecture" item-value="id" :item-props="itemSpeakers" v-model="edit_lecture.speaker_id" :items="speakerStore.getCurrentSpeakers.data" label="Available Speakers"></v-select>
         </v-card-text>
         <template v-slot:actions>
           <v-btn class="ms-auto" text="Close" @click="dialog = false, lectureStore.refreshLectures()"></v-btn>
@@ -336,7 +336,7 @@ export default {
       stage:[],
       speaker:[],
       is_lecture:false,
-      edit_lecture:[],
+      edit_lecture:null,
       dialog:false,
       error_dialog:false,
       users_dialog:false,

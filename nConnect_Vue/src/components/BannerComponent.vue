@@ -8,7 +8,8 @@
             <!-- Countdown Timer -->
             <!-- <div class="timer"></div> -->
             <h1>{{ conferenceStore.getCurrentConference.name }}</h1>
-            <h2>TECH KONFERENCIA PRE ŠTUDENTOV V NITRE</h2>
+            <h2>TECH KONFERENCIA </h2>
+            <h2>PRE ŠTUDENTOV V NITRE</h2>
             <h6>{{ conferenceStore.getCurrentConference.year }}</h6>
           </div>
         </div>

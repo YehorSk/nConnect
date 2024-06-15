@@ -25,7 +25,7 @@
             </th>
           </tr>
           </thead>
-          <tbody v-for="users in authStore.getAdminUsers" :key="users.id">
+          <tbody v-for="users in userStore.getAdminUsers" :key="users.id">
           <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
               {{ users.name }}
@@ -37,7 +37,7 @@
               {{ users.email_verified_at }}
             </td>
             <td class="px-6 py-4">
-              <v-btn @click="authStore.removeAdminUser(users.id)"
+              <v-btn @click="userStore.removeAdminUser(users.id)"
                      color="red-lighten-2"
                      text="Remove"
               ></v-btn>
@@ -47,11 +47,11 @@
         </table>
       </div>
     </div>
-    <div v-if="authStore.success" id="alert-3" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
-      <SuccessAlertComponent :message="authStore.success"/>
+    <div v-if="userStore.success" id="alert-3" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+      <SuccessAlertComponent :message="userStore.success"/>
     </div>
-    <div v-if="authStore.errors" id="alert-2" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-      <ErrorAlertComponent :message="authStore.errors"/>
+    <div v-if="userStore.errors" id="alert-2" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+      <ErrorAlertComponent :message="userStore.errors"/>
     </div>
   </div>
 </template>
@@ -61,7 +61,7 @@ import AdminNavComponent from "@/components/AdminNavComponent.vue";
 import {defineComponent} from "vue";
 import SuccessAlertComponent from "@/components/alerts/SuccessAlertComponent.vue";
 import ErrorAlertComponent from "@/components/alerts/ErrorAlertComponent.vue";
-import {UseAuthStore} from "@/stores/AuthStore.js";
+import {UseUserStore} from "@/stores/UserStore.js";
 export default {
   components: {ErrorAlertComponent, SuccessAlertComponent, AdminNavComponent},
   data(){
@@ -70,19 +70,19 @@ export default {
       email: '',
       email_verified_at: '',
       errors: [],
-      authStore: UseAuthStore(),
+      userStore: UseUserStore(),
     };
 
   },
   created() {
-    this.authStore.fetchAdminUsers();
+    this.userStore.fetchAdminUsers();
   },
   mounted() {
     initFlowbite();
   },
   methods:{
     async removeAdminUser(userId) {
-      await this.authStore.removeAdminUser(userId);
+      await this.userStore.removeAdminUser(userId);
     }
   }
 

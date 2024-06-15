@@ -123,17 +123,17 @@
   </aside>
 </template>
 <script>
-import {UseAuthStore} from "@/stores/AuthStore.js";
+import {UseUserStore} from "@/stores/UserStore.js";
 
 export default {
   data(){
     return{
-      authStore: UseAuthStore(),
+      userStore: UseUserStore(),
       user: {}
     };
   },
   created() {
-    this.user = this.authStore.getUser;
+    this.user = this.userStore.getUser;
   }
 }
 </script>

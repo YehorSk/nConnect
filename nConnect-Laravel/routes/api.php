@@ -11,6 +11,7 @@ use \App\Http\Controllers\LectureController;
 use App\Http\Controllers\OrganizerController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
@@ -58,14 +59,14 @@ Route::post('/send-email',[EmailController::class, 'sendEmail']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/sanctum/csrf-cookie', [CsrfCookieController::class, 'show']);
-Route::get('/fetchuser', [AuthController::class, 'fetchUser']);
-Route::get('/users-regular', [AuthController::class, 'getRegularUsers']);
-Route::get('/users-admin', [AuthController::class, 'getAdminUsers']);
-Route::get('/user-lectures', [AuthController::class, 'fetchLectures']);
-Route::post('/user-add-lecture', [AuthController::class, 'addLecture']);
-Route::post('/user-remove-lecture', [AuthController::class, 'removeLecture']);
-Route::post('/user-add-admin', [AuthController::class, 'addAdminUser']);
-Route::post('/user-remove-admin', [AuthController::class, 'removeAdminUser']);
+Route::get('/fetchuser', [UserController::class, 'fetchUser']);
+Route::get('/users-regular', [UserController::class, 'getRegularUsers']);
+Route::get('/users-admin', [UserController::class, 'getAdminUsers']);
+Route::get('/user-lectures', [UserController::class, 'fetchLectures']);
+Route::post('/user-add-lecture', [UserController::class, 'addLecture']);
+Route::post('/user-remove-lecture', [UserController::class, 'removeLecture']);
+Route::post('/user-add-admin', [UserController::class, 'addAdminUser']);
+Route::post('/user-remove-admin', [UserController::class, 'removeAdminUser']);
 
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
