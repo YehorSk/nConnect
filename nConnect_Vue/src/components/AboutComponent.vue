@@ -21,6 +21,20 @@
                   <router-link to="/register" class="btn btn-main-md">REGISTRÁCIA</router-link>
                 </li>
               </div>
+              <div v-else>
+                <div v-if="user.is_admin === 0">
+                  <div v-if="conferenceStore.has_current === false">
+                    <li class="list-inline-item">
+                      <button @click="conferenceStore.addConference()" class="btn btn-main-md">Registrácia na konferenciu</button>
+                    </li>
+                  </div>
+                  <div v-else-if="conferenceStore.has_current === true">
+                    <li class="list-inline-item">
+                      <button @click="conferenceStore.removeConference(), userStore.fetchLectures()" class="btn btn-main-md">Odhlásenie z konferencie</button>
+                    </li>
+                  </div>
+                </div>
+              </div>
             </ul>
           </div>
         </div>
@@ -32,11 +46,13 @@
 
 <script>
 import {UseUserStore} from "@/stores/UserStore.js";
+import {UseConferenceStore} from "@/stores/ConferenceStore.js";
 
 export default {
   data(){
     return{
       userStore: UseUserStore(),
+      conferenceStore: UseConferenceStore(),
       user: {}
     };
   },

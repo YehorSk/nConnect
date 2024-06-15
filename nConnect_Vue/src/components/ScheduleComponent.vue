@@ -81,7 +81,7 @@
                 </v-list-item>
                 <v-divider :thickness="8" color="info"></v-divider>
                 <v-btn color="black" @click="dialog = false" text>Close</v-btn>
-                <template v-if="!user.is_admin && show_lecture.is_lecture === 1">
+                <template v-if="!user.is_admin && show_lecture.is_lecture === 1 && conferenceStore.has_current">
                   <v-btn v-if="user.email_verified_at && !userStore.lectures.some(lecture => lecture.id === show_lecture.id)" @click="registerLecture" color="green" text>Register</v-btn>
                   <v-btn v-if="user.email_verified_at && userStore.lectures.some(lecture => lecture.id === show_lecture.id)" @click="removeLecture" color="red" text>Remove</v-btn>
                 </template>
@@ -114,6 +114,7 @@
 <script>
 import { useStageStore } from "@/stores/StageStore.js";
 import { useLectureStore } from "@/stores/LectureStore.js";
+import {UseConferenceStore} from "@/stores/ConferenceStore.js";
 import { watch } from "vue";
 import {UseUserStore} from "@/stores/UserStore.js";
 
@@ -122,6 +123,7 @@ export default {
     return {
       stageStore: useStageStore(),
       lectureStore: useLectureStore(),
+      conferenceStore: UseConferenceStore(),
       userStore: UseUserStore(),
       dialog: false,
       error_dialog: false,

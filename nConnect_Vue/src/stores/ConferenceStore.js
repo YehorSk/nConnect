@@ -1,5 +1,6 @@
 import axios from "axios";
 import {defineStore} from "pinia";
+import {useStorage} from "@vueuse/core";
 
 
 axios.defaults.baseURL = "http://localhost/nConnect/nConnect-Laravel/public/api/";
@@ -14,7 +15,9 @@ export const UseConferenceStore = defineStore("conferences",{
        update_error_year:'',
        update_error_current:'',
        error:'',
-       success: ''
+       success: '',
+       token: useStorage('token',null),
+       has_current: useStorage('has_current',false)
    }) ,
     getters:{
        getConferences(){
@@ -106,6 +109,68 @@ export const UseConferenceStore = defineStore("conferences",{
                     }
                 }
             }
+        },
+        async addConference(){
+           try{
+               await this.getToken();
+               const response = await axios.post('user-add-conference',{},{
+                   headers: {
+                       'Accept': 'application/vnd.api+json',
+                       "Content-Type": "application/vnd.api+json",
+                       "Access-Control-Allow-Origin":"*",
+                       'Authorization': `Bearer ${this.token}`
+                   }
+               });
+               this.success = 'Ste zaregistrovaný/á!'
+               await this.checkConference();
+           }catch(error){
+               if(error.response.status === 422){
+
+               }
+           }
+        },
+        async removeConference(){
+            try{
+                await this.getToken();
+                const response = await axios.post('user-remove-conference',{},{
+                    headers: {
+                        'Accept': 'application/vnd.api+json',
+                        "Content-Type": "application/vnd.api+json",
+                        "Access-Control-Allow-Origin":"*",
+                        'Authorization': `Bearer ${this.token}`
+                    }
+                });
+                this.success = 'Ste odhlasený/á!'
+                await this.checkConference();
+            }catch(error){
+                if(error.response.status === 422){
+
+                }
+            }
+        },
+        async checkConference(){
+            try{
+                await this.getToken();
+                const response = await axios.post('user-has-conference',{},{
+                    headers: {
+                        'Accept': 'application/vnd.api+json',
+                        "Content-Type": "application/vnd.api+json",
+                        "Access-Control-Allow-Origin":"*",
+                        'Authorization': `Bearer ${this.token}`
+                    }
+                });
+                this.has_current = response.data.has_current_conference;
+            }catch(error){
+                if(error.response.status === 422){
+                    console.log(error.response.data);
+                }
+                if(error.response.status === 500){
+                    console.log(error.response.data);
+                }
+            }
+        },
+        async getToken(){
+            await axios.get('/sanctum/csrf-cookie');
         },
     }
 });

@@ -67,6 +67,9 @@ Route::post('/user-add-lecture', [UserController::class, 'addLecture']);
 Route::post('/user-remove-lecture', [UserController::class, 'removeLecture']);
 Route::post('/user-add-admin', [UserController::class, 'addAdminUser']);
 Route::post('/user-remove-admin', [UserController::class, 'removeAdminUser']);
+Route::post('/user-add-conference', [ConferenceController::class, 'addUser']);
+Route::post('/user-remove-conference', [ConferenceController::class, 'removeUser']);
+Route::post('/user-has-conference', [ConferenceController::class, 'userHasCurrentConference']);
 
 
 Route::group(['middleware' => ['auth:sanctum']], function () {

@@ -5,15 +5,18 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <script>
 import {UseUserStore} from "@/stores/UserStore.js";
+import {UseConferenceStore} from "@/stores/ConferenceStore.js";
 
 export default {
   data(){
     return{
-      userStore: UseUserStore()
+      userStore: UseUserStore(),
+      conferenceStore: UseConferenceStore()
     };
   },
   created() {
     this.userStore.fetchUser();
+    this.conferenceStore.checkConference();
   }
 }
 </script>

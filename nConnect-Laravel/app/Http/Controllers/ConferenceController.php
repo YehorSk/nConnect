@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Conference;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -86,4 +87,35 @@ class ConferenceController extends Controller
         return response()->json("Conference Deleted");
 
     }
+
+    public function addUser(){
+        $conference = Conference::query()->where("is_current",1)->first();
+        $user = auth('sanctum')->user();
+        $conference->users()->attach($user);
+    }
+
+    public function removeUser(){
+        $conference = Conference::query()->where("is_current",1)->first();
+        $user = auth('sanctum')->user();
+        $conference->users()->detach($user);
+        foreach ($user->lectures as $lecture) {
+            $lecture->taken_spots = $lecture->taken_spots - 1;
+            $lecture->save();
+        }
+        $user->lectures()->detach();
+    }
+
+    public function userHasCurrentConference(){
+        $conference = Conference::query()->where("is_current", 1)->first();
+        $user = auth('sanctum')->user();
+
+        if ($conference && $conference->users()->where('user_id', $user->id)->exists()) {
+            return response()->json(['has_current_conference' => true]);
+        } else {
+            return response()->json(['has_current_conference' => false]);
+        }
+    }
+
+
+
 }
