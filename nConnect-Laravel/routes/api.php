@@ -29,8 +29,7 @@ use \App\Http\Controllers\VerificationController;
 |
 */
 
-
-
+//Login/logout/forgot pwd routes
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -49,91 +48,111 @@ Route::post('/forgot-password', function (Request $request) {
         : back()->withErrors(['email' => __($status)]);
 })->name('password.email');
 
-Route::get('/reset-password/{token}/{email}', [AuthController::class, 'reset_password'])->name('password.reset');
-
-Route::post('/update-password', [AuthController::class, 'update_password']);
-
-Route::post('/send-email',[EmailController::class, 'sendEmail']);
-
-//Auth routes
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-Route::get('/sanctum/csrf-cookie', [CsrfCookieController::class, 'show']);
-Route::get('/fetchuser', [UserController::class, 'fetchUser']);
-Route::get('/users-regular', [UserController::class, 'getRegularUsers']);
-Route::get('/users-admin', [UserController::class, 'getAdminUsers']);
-Route::get('/user-lectures', [UserController::class, 'fetchLectures']);
-Route::post('/user-add-lecture', [UserController::class, 'addLecture']);
-Route::post('/user-remove-lecture', [UserController::class, 'removeLecture']);
-Route::post('/user-add-admin', [UserController::class, 'addAdminUser']);
-Route::post('/user-remove-admin', [UserController::class, 'removeAdminUser']);
-
-
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 });
 
+//Auth routes
+Route::controller(AuthController::class)->group(function (){
+    Route::get('/reset-password/{token}/{email}','reset_password')->name('password.reset');
+    Route::post('/update-password', 'update_password');
+    Route::post('/register', 'register');
+    Route::post('/login', 'login');
+});
+
+//Contact form routes
+Route::post('/send-email',[EmailController::class, 'sendEmail']);
+
+Route::get('/sanctum/csrf-cookie', [CsrfCookieController::class, 'show']);
+
+//User routes
+Route::controller(UserController::class)->group(function (){
+    Route::get('/fetchuser','fetchUser');
+    Route::get('/users-regular', 'getRegularUsers');
+    Route::get('/users-admin','getAdminUsers');
+    Route::get('/user-lectures','fetchLectures');
+    Route::post('/user-add-lecture', 'addLecture');
+    Route::post('/user-remove-lecture', 'removeLecture');
+    Route::post('/user-add-admin', 'addAdminUser');
+    Route::post('/user-remove-admin','removeAdminUser');
+});
+
+
 //----------------------------Stages Routes---------------------------------
-Route::apiResource('stages',StageController::class);
-Route::get('/get-current-conference-stages',[StageController::class,'get_current_conference_stages']);
-Route::get('/get-available-stages',[StageController::class,'get_available_stages']);
-Route::post('/add-stages-to-conference',[StageController::class,'addStageToConference']);
-Route::delete('/delete-stage-from-conference/{id}',[StageController::class,'deleteStageFromConference']);
-Route::put('/update-stage-in-conference/{id}',[StageController::class,'updateInConference']);
+
+Route::controller(StageController::class)->group(function () {
+    Route::apiResource('stages', StageController::class);
+    Route::get('/get-current-conference-stages', 'get_current_conference_stages');
+    Route::get('/get-available-stages', 'get_available_stages');
+    Route::post('/add-stages-to-conference', 'addStageToConference');
+    Route::delete('/delete-stage-from-conference/{id}', 'deleteStageFromConference');
+    Route::put('/update-stage-in-conference/{id}', 'updateInConference');
+});
 //----------------------------End Stages Routes ----------------------------
 
 //----------------------------Sponsors Routes---------------------------------
 
-Route::apiResource('sponsors',SponsorController::class);
-Route::get('/get-current-conference-sponsors',[SponsorController::class,'get_current_conference_sponsors']);
-Route::get('/get-current-conference-sponsors-all',[SponsorController::class,'get_current_conference_sponsors_all']);
-Route::post('/upload-sponsor-image', [SponsorController::class, 'uploadSponsorImage']);
-Route::get('/get-available-sponsors',[SponsorController::class,'get_available_sponsors']);
-Route::post('/add-sponsor-to-conference',[SponsorController::class,'addSponsorsToConference']);
-Route::delete('/delete-sponsor-from-conference/{id}',[SponsorController::class,'deleteSponsorFromConference']);
+Route::controller(SponsorController::class)->group(function () {
+    Route::apiResource('sponsors', SponsorController::class);
+    Route::get('get-current-conference-sponsors', 'get_current_conference_sponsors');
+    Route::get('get-current-conference-sponsors-all', 'get_current_conference_sponsors_all');
+    Route::post('upload-sponsor-image', 'uploadSponsorImage');
+    Route::get('get-available-sponsors', 'get_available_sponsors');
+    Route::post('add-sponsor-to-conference', 'addSponsorsToConference');
+    Route::delete('delete-sponsor-from-conference/{id}', 'deleteSponsorFromConference');
+});
 
 //----------------------------Speakers Routes---------------------------------
 
-Route::apiResource('speakers',SpeakerController::class);
-Route::post('/upload-image', [SpeakerController::class, 'uploadImage']);
-Route::get('/single-speaker/{id}', [SpeakerController::class, 'show']);
-Route::get('/get-current-conference-speakers',[SpeakerController::class,'get_current_conference_speakers']);
-Route::get('/get-current-conference-speakers-all',[SpeakerController::class,'get_current_conference_speakers_all']);
-Route::get('/get-available-speakers',[SpeakerController::class,'get_available_speakers']);
-Route::post('/add-speakers-to-conference',[SpeakerController::class,'addSpeakersToConference']);
-Route::delete('/delete-speakers-from-conference/{id}',[SpeakerController::class,'deleteSpeakerFromConference']);
+Route::controller(SpeakerController::class)->group(function () {
+    Route::apiResource('speakers', SpeakerController::class);
+    Route::post('upload-image', 'uploadImage');
+    Route::get('single-speaker/{id}', 'show');
+    Route::get('get-current-conference-speakers', 'get_current_conference_speakers');
+    Route::get('get-current-conference-speakers-all', 'get_current_conference_speakers_all');
+    Route::get('get-available-speakers', 'get_available_speakers');
+    Route::post('add-speakers-to-conference', 'addSpeakersToConference');
+    Route::delete('delete-speakers-from-conference/{id}', 'deleteSpeakerFromConference');
+});
 
 //----------------------------End Sponsors Routes ----------------------------
 
 //----------------------------Lectures Routes---------------------------------
-Route::apiResource('lectures',LectureController::class);
-Route::get('/get-current-conference-lectures',[LectureController::class,'get_current_conference_lectures']);
-Route::get('/get-lecture-users/{id}',[LectureController::class,'get_lecture_users']);
-Route::post('/add-speaker-to-lecture',[LectureController::class,'addSpeakerToLecture']);
-Route::post('/add-stage-to-lecture',[LectureController::class,'addStageToLecture']);
+
+Route::controller(LectureController::class)->group(function () {
+    Route::apiResource('lectures', LectureController::class);
+    Route::get('get-current-conference-lectures', 'get_current_conference_lectures');
+    Route::get('get-lecture-users/{id}', 'get_lecture_users');
+    Route::post('add-speaker-to-lecture', 'addSpeakerToLecture');
+    Route::post('add-stage-to-lecture', 'addStageToLecture');
+});
 
 //------------------------------------------------------------------------
 
 //----------------------------Organizers Routes---------------------------------
-Route::apiResource('organizers',OrganizerController::class);
-Route::post('/upload-organizer-image', [OrganizerController::class, 'uploadOrganizerImage']);
-Route::get('/get_current_conference_organizers',[OrganizerController::class,'get_current_conference_organizers']);
-Route::get('/get_current_conference_organizers_all',[OrganizerController::class,'get_current_conference_organizers_all']);
-Route::get('/get-available-organizers',[OrganizerController::class,'get_available_organizers']);
-Route::post('/add-organizers-to-conference',[OrganizerController::class,'addOrganizersToConference']);
-Route::delete('/delete-organizers-from-conference/{id}',[OrganizerController::class,'deleteOrganizerFromConference']);
+
+Route::controller(OrganizerController::class)->group(function () {
+    Route::apiResource('organizers', OrganizerController::class);
+    Route::post('upload-organizer-image', 'uploadOrganizerImage');
+    Route::get('get_current_conference_organizers', 'get_current_conference_organizers');
+    Route::get('get_current_conference_organizers_all', 'get_current_conference_organizers_all');
+    Route::get('get-available-organizers', 'get_available_organizers');
+    Route::post('add-organizers-to-conference', 'addOrganizersToConference');
+    Route::delete('delete-organizers-from-conference/{id}', 'deleteOrganizerFromConference');
+});
 
 //------------------------------------------------------------------------
 
 //----------------------------Conference Routes---------------------------------
 
-Route::apiResource('conferences',ConferenceController::class);
-Route::get('/get-active-conference',[ConferenceController::class,'get_active_conference']);
-Route::get('/get-conference-users/{id}',[ConferenceController::class,'getConferenceUsers']);
-Route::post('/user-add-conference', [ConferenceController::class, 'addUser']);
-Route::post('/user-remove-conference', [ConferenceController::class, 'removeUser']);
-Route::post('/user-has-conference', [ConferenceController::class, 'userHasCurrentConference']);
-
+Route::controller(ConferenceController::class)->group(function () {
+    Route::apiResource('conferences', ConferenceController::class);
+    Route::get('get-active-conference', 'get_active_conference');
+    Route::get('get-conference-users/{id}', 'getConferenceUsers');
+    Route::post('user-add-conference', 'addUser');
+    Route::post('user-remove-conference', 'removeUser');
+    Route::post('user-has-conference', 'userHasCurrentConference');
+});
 
 //-------------------------------------------------------------
 
@@ -147,7 +166,7 @@ Route::post('/upload-gallery-image', [GalleryController::class, 'uploadGalleryIm
 //----------------------------Review Routes---------------------------------
 
 Route::apiResource('reviews',ReviewController::class);
-Route::get('display-reviews', [ReviewController::class, 'display']);
+Route::get('/display-reviews', [ReviewController::class, 'display']);
 Route::post('/upload-review-image', [ReviewController::class,'uploadReviewImage']);
 //------------------------------------------------------------
 
