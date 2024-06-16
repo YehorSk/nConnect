@@ -9,7 +9,7 @@
         </div>
       </div>
       <div class="row mt-20">
-        <div v-for="(review, index) in reviewStore.getReviews" :key="index" class="col-lg-4 col-md-6 mb-20">
+        <div v-for="(review, index) in reviewStore.getReviews.data" :key="index" class="col-lg-4 col-md-6 mb-20">
           <!-- Testimonial -->
           <div class="testimonial-item">
             <!-- Given Comment -->
@@ -30,20 +30,36 @@
         </div>
       </div>
     </div>
+    <div class="text-center">
+      <v-pagination
+          v-model="page"
+          :length="reviewStore.reviews.last_page"
+          rounded="circle"
+      ></v-pagination>
+    </div>
   </section>
 </template>
 
 <script>
 import { UseReviewStore } from "@/stores/ReviewStore.js";
+import {watch} from "vue";
 
 export default {
   data() {
     return {
       reviewStore: UseReviewStore(),
+      page: 1,
     };
   },
   created() {
-    this.reviewStore.fetchReviews();
+    this.reviewStore.fetchViewReviews();
+  },
+  mounted(){
+    watch(() => this.page, (newValue, oldValue) => {
+      if (newValue) {
+        this.reviewStore.fetchViewReviews(this.page);
+      }
+    });
   }
 };
 </script>

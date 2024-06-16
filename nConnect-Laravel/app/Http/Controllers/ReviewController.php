@@ -10,12 +10,19 @@ use Illuminate\Validation\Rule;
 
 class ReviewController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $reviews = Review::all();
+        $search = $request->input('search');
+        $reviews = Review::query()->when($search, function ($query, $search){
+            return $query->where('name', 'LIKE', "%{$search}%");
+        })->paginate(5);
+
         return response()->json($reviews);
     }
-
+    public function display(){
+        $reviews = Review::paginate(3);
+        return response()->json($reviews);
+    }
     public function store(Request $request)
     {
         $request->validate([

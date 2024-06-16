@@ -18,9 +18,13 @@ export const UseReviewStore = defineStore("reviews", {
             },
         },
         actions: {
-            async fetchReviews() {
+            async fetchReviews(page = 1, search = '') {
                 try {
-                    const response = await axios.get('reviews');
+                    const response = await axios.get('reviews?page=' + page, {
+                        params: {
+                            search: search
+                        }
+                    });
                     this.reviews = response.data;
                 } catch (error) {
                     if (error.response.status === 422) {
@@ -28,6 +32,15 @@ export const UseReviewStore = defineStore("reviews", {
                     }
                 }
             },
+            async fetchViewReviews(page = 1){
+                try {
+                    const response = await axios.get('display-reviews?page='+page);
+                    this.reviews = response.data;
+                } catch (error) {
+                    if (error.response.status === 422) {
+            }
+                }
+                },
             async insertReviews(name, text, image) {
                 try {
                     let formData = new FormData();

@@ -147,6 +147,7 @@ Route::post('/upload-gallery-image', [GalleryController::class, 'uploadGalleryIm
 //----------------------------Review Routes---------------------------------
 
 Route::apiResource('reviews',ReviewController::class);
+Route::get('display-reviews', [ReviewController::class, 'display']);
 Route::post('/upload-review-image', [ReviewController::class,'uploadReviewImage']);
 //------------------------------------------------------------
 
