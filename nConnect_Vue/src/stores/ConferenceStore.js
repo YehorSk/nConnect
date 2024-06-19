@@ -1,6 +1,7 @@
 import axios from "axios";
 import {defineStore} from "pinia";
 import {useStorage} from "@vueuse/core";
+import {UseUserStore} from "@/stores/UserStore.js";
 
 
 axios.defaults.baseURL = "http://localhost/nConnect/nConnect-Laravel/public/api/";
@@ -17,7 +18,9 @@ export const UseConferenceStore = defineStore("conferences",{
        error:'',
        success: '',
        token: useStorage('token',null),
-       has_current: useStorage('has_current',false)
+       has_current: useStorage('has_current',false),
+       userStore: UseUserStore(),
+       contactFormStore: useContactFormStore()
    }) ,
     getters:{
        getConferences(){
@@ -142,6 +145,7 @@ export const UseConferenceStore = defineStore("conferences",{
                 });
                 this.success = 'Ste odhlasený/á!'
                 await this.checkConference();
+                await this.userStore.fetchLectures();
             }catch(error){
                 if(error.response.status === 422){
 
