@@ -69,7 +69,7 @@ export default {
     };
   },
   created(){
-    this.galleryStore.fetchGallery();
+    this.galleryStore.fetchGalleryAll();
   },
   mounted() {
     initFlowbite();
@@ -82,9 +82,9 @@ export default {
   methods: {
     filterByYear(year) {
       if (year === 'all') {
-        this.filteredGallery = this.galleryStore.gallery.data;
+        this.filteredGallery = this.galleryStore.gallery;
       } else {
-        this.filteredGallery = this.galleryStore.gallery.data.filter(gallery => gallery.year === year);
+        this.filteredGallery = this.galleryStore.gallery.filter(gallery => gallery.year === year);
       }
     },
   },

@@ -26,6 +26,16 @@ export const UseGalleryStore = defineStore("gallery", {
                     }
                 }
             },
+            async fetchGalleryAll() {
+                try {
+                    const response = await axios.get('gallery-all');
+                    this.gallery = response.data;
+                } catch (error) {
+                    if (error.response && error.response.status === 422) {
+                        this.errors = error.response.data.errors;
+                    }
+                }
+            },
 
             async insertGallery(image, year) {
                 try {
@@ -37,7 +47,7 @@ export const UseGalleryStore = defineStore("gallery", {
                             'Content-Type': 'multipart/form-data'
                         }
                     });
-                    this.gallery.push(response.data);
+                    this.gallery.data.push(response.data);
                     this.success = "Added successfully";
                     await this.fetchGallery();
                 } catch (error) {
@@ -49,7 +59,7 @@ export const UseGalleryStore = defineStore("gallery", {
                             this.error_year = error.response.data.errors.year[0];
                         }
                     } else {
-                        console.error(error.response.data);
+                        console.error(error.response);
                     }
 
                 }
@@ -58,7 +68,7 @@ export const UseGalleryStore = defineStore("gallery", {
             async destroyGallery(id) {
                 try {
                     const response = await axios.delete('gallery/' + id);
-                    this.gallery = this.gallery.filter(gallery => gallery.id !== id);
+                    this.gallery.data = this.gallery.data.filter(gallery => gallery.id !== id);
                     this.success = "Deleted successfully";
                 } catch (error) {
                     if (error.response.status === 422) {

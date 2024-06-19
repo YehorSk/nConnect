@@ -52,7 +52,7 @@ export const UseReviewStore = defineStore("reviews", {
                             'Content-Type': 'multipart/form-data'
                         }
                         });
-                    this.reviews.push(response.data);
+                    this.reviews.data.push(response.data);
                     this.success = "Added successfully";
                     await this.fetchReviews();
                 } catch (error) {
@@ -75,7 +75,7 @@ export const UseReviewStore = defineStore("reviews", {
             async destroyReviews(id) {
                 try {
                     const response = await axios.delete('reviews/' + id);
-                    this.reviews = this.reviews.filter(review => review.id !== id);
+                    this.reviews.data = this.reviews.data.filter(review => review.id !== id);
                     this.success = "Deleted successfully";
                 } catch (error) {
                     if (error.response.status === 422) {

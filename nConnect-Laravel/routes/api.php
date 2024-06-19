@@ -160,6 +160,8 @@ Route::controller(ConferenceController::class)->group(function () {
 //----------------------------Gallery Routes---------------------------------
 
 Route::apiResource('gallery', GalleryController::class);
+Route::get('gallery-all', [GalleryController::class, 'indexAll']);
+
 Route::post('/upload-gallery-image', [GalleryController::class, 'uploadGalleryImage']);
 //-------------------------------------------------------------
 
