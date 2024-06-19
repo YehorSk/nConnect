@@ -19,8 +19,7 @@ export const UseConferenceStore = defineStore("conferences",{
        success: '',
        token: useStorage('token',null),
        has_current: useStorage('has_current',false),
-       userStore: UseUserStore(),
-       contactFormStore: useContactFormStore()
+       userStore: UseUserStore()
    }) ,
     getters:{
        getConferences(){
