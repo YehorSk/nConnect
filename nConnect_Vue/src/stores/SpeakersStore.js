@@ -1,6 +1,5 @@
 import {defineStore} from "pinia";
 import axios from "axios";
-axios.defaults.baseURL = "http://localhost/nConnect/nConnect-Laravel/public/api/";
 
 export const useSpeakersStore = defineStore("speakers", {
     state: () => ({
@@ -126,7 +125,6 @@ export const useSpeakersStore = defineStore("speakers", {
                 formData.append('facebook', facebook);
                 formData.append('twitter', twitter);
                 formData.append('image', image);
-
                 const response = await axios.post('/speakers', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'

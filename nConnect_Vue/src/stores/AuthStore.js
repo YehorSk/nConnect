@@ -2,9 +2,6 @@ import axios from "axios";
 import {defineStore} from "pinia";
 import {useStorage} from "@vueuse/core";
 
-
-axios.defaults.baseURL = "http://localhost/nConnect/nConnect-Laravel/public/";
-
 export const UseAuthStore = defineStore("auth",{
     state:() =>({
         user: useStorage('user', {}),
@@ -60,14 +57,7 @@ export const UseAuthStore = defineStore("auth",{
         async logout() {
             try {
                 await this.getToken();
-                const response = await axios.post('logout', null, {
-                    headers: {
-                        'Accept': 'application/vnd.api+json',
-                        "Content-Type": "application/json",
-                        "Access-Control-Allow-Origin":"*",
-                        'Authorization': `Bearer ${this.token}`
-                    }
-                });
+                const response = await axios.post('logout', null);
                 this.user = {};
                 this.token = null;
                 window.location.reload();

@@ -1,8 +1,6 @@
 import axios from "axios";
 import {defineStore} from "pinia";
 
-axios.defaults.baseURL = "http://localhost/nConnect/nConnect-Laravel/public/api/";
-
 export function stripHtmlTags(str) {
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = str;

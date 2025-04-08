@@ -86,7 +86,7 @@
             <tbody v-for="organizer in organizersStore.organizers.data" :key="organizer.id">
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <td class="px-6 py-4">
-                <img :src="'http://127.0.0.1:8000/storage/' + organizer.image" class="w-16 md:w-32 max-w-full max-h-full" alt="Organizer's Profile Picture">
+                <img :src="'https://api.nconnect.mojawebka.eu/nConnect-Laravel/storage/' + organizer.image" class="w-16 md:w-32 max-w-full max-h-full" alt="Organizer's Profile Picture">
                 <form @submit.prevent class="inline-block mt-2">
                   <input type="hidden" v-model="organizer.id">
                   <input type="file" accept="image/*" @change="onFileChange($event,'update')" class="inline-block">

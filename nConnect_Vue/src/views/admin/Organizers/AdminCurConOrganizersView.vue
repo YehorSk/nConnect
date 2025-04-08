@@ -53,7 +53,7 @@
             <tbody v-for="organizer in organizersStore.current_organizers.data" :key="organizer.id">
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <td class="p-4">
-                <img :src="'http://127.0.0.1:8000/storage/' + organizer.image" class="w-32 md:w-64 max-w-full max-h-full" alt="Organizer's Profile Picture">
+                <img :src="'https://api.nconnect.mojawebka.eu/nConnect-Laravel/storage/' + organizer.image" class="w-32 md:w-64 max-w-full max-h-full" alt="Organizer's Profile Picture">
               </td>
               <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{organizer.name}}</td>
               <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{organizer.phone_number}}</td>

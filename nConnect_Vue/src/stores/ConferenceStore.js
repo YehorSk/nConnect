@@ -3,9 +3,6 @@ import {defineStore} from "pinia";
 import {useStorage} from "@vueuse/core";
 import {UseUserStore} from "@/stores/UserStore.js";
 
-
-axios.defaults.baseURL = "http://localhost/nConnect/nConnect-Laravel/public/api/";
-
 export const UseConferenceStore = defineStore("conferences",{
    state:() =>({
        conferences: [],
@@ -115,14 +112,7 @@ export const UseConferenceStore = defineStore("conferences",{
         async addConference(){
            try{
                await this.getToken();
-               const response = await axios.post('user-add-conference',{},{
-                   headers: {
-                       'Accept': 'application/vnd.api+json',
-                       "Content-Type": "application/vnd.api+json",
-                       "Access-Control-Allow-Origin":"*",
-                       'Authorization': `Bearer ${this.token}`
-                   }
-               });
+               const response = await axios.post('user-add-conference',{});
                this.success = 'Ste zaregistrovaný/á!'
                await this.checkConference();
            }catch(error){
@@ -134,14 +124,7 @@ export const UseConferenceStore = defineStore("conferences",{
         async removeConference(){
             try{
                 await this.getToken();
-                const response = await axios.post('user-remove-conference',{},{
-                    headers: {
-                        'Accept': 'application/vnd.api+json',
-                        "Content-Type": "application/vnd.api+json",
-                        "Access-Control-Allow-Origin":"*",
-                        'Authorization': `Bearer ${this.token}`
-                    }
-                });
+                const response = await axios.post('user-remove-conference',{});
                 this.success = 'Ste odhlasený/á!'
                 await this.checkConference();
                 await this.userStore.fetchLectures();
@@ -154,14 +137,7 @@ export const UseConferenceStore = defineStore("conferences",{
         async checkConference(){
             try{
                 await this.getToken();
-                const response = await axios.post('user-has-conference',{},{
-                    headers: {
-                        'Accept': 'application/vnd.api+json',
-                        "Content-Type": "application/vnd.api+json",
-                        "Access-Control-Allow-Origin":"*",
-                        'Authorization': `Bearer ${this.token}`
-                    }
-                });
+                const response = await axios.post('user-has-conference',{});
                 this.has_current = response.data.has_current_conference;
             }catch(error){
                 if(error.response.status === 422){

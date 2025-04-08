@@ -17,7 +17,7 @@
               <li v-for="sponsor in sponsorsStore.getCurrentSponsorsAll" :key="sponsor.id" class="list-inline-item">
                 <div class="image-block text-center">
                   <a :href="sponsor.link">
-                    <img loading="lazy" :src="'http://127.0.0.1:8000/storage/' + sponsor.image" :alt="`${sponsor.name}`" class="img-fluid">
+                    <img loading="lazy" :src="'https://api.nconnect.mojawebka.eu/nConnect-Laravel/storage/' + sponsor.image" :alt="`${sponsor.name}`" class="img-fluid">
                   </a>
                 </div>
               </li>

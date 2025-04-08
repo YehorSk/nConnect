@@ -20,7 +20,7 @@
       <div class="row">
         <div class="col-md-4">
           <div class="speaker-image">
-            <img :src="'http://127.0.0.1:8000/storage/' + speaker.picture" class="img-fluid rounded shadow" :alt="speaker.first_name + ' ' + speaker.last_name">
+            <img :src="'https://api.nconnect.mojawebka.eu/nConnect-Laravel/storage/' + speaker.picture" class="img-fluid rounded shadow" :alt="speaker.first_name + ' ' + speaker.last_name">
           </div>
         </div>
         <div class="col-md-8">

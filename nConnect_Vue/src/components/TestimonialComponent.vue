@@ -19,7 +19,7 @@
             <div class="person">
               <div class="media">
                 <!-- Person Image -->
-                <img loading="lazy" :src="'http://127.0.0.1:8000/storage/' + review.image" alt="person-image"> <!-- Use the 'photo' property from the store -->
+                <img loading="lazy" :src="'https://api.nconnect.mojawebka.eu/nConnect-Laravel/storage/' + review.image" alt="person-image"> <!-- Use the 'photo' property from the store -->
                 <div class="media-body">
                   <!-- Person Name -->
                   <div class="name"><p>{{ review.name }}</p></div> <!-- Use the 'name' property from the store -->

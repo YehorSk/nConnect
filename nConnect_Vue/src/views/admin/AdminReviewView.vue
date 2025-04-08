@@ -65,7 +65,7 @@
             <tbody v-for="review in reviewStore.getReviews.data" :key="review.id">
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <td class="px-6 py-4">
-                <img :src="'http://127.0.0.1:8000/storage/' + review.image" class="w-32 md:w-64 max-w-full max-h-full" alt="Review Image">
+                <img :src="'https://api.nconnect.mojawebka.eu/nConnect-Laravel/storage/' + review.image" class="w-32 md:w-64 max-w-full max-h-full" alt="Review Image">
                 <form @submit.prevent class="inline-block mt-2">
                   <input type="hidden" v-model="review.id">
                   <input type="file" accept="image/*" @change="onFileChange($event, 'update')" class="inline-block">
@@ -103,7 +103,7 @@
     <v-dialog v-model="dialog" width="auto" persistent>
       <v-card min-width="600" prepend-icon="mdi-update" title="Update Review">
         <v-card-text>
-          <img :src="'http://127.0.0.1:8000/storage/' + edit_reviews.image" class="w-16 md:w-32 max-w-full max-h-full" alt="Review picture">
+          <img :src="'https://api.nconnect.mojawebka.eu/nConnect-Laravel/storage/' + edit_reviews.image" class="w-16 md:w-32 max-w-full max-h-full" alt="Review picture">
           <input type="file" accept="image/*" @change="onFileChange($event, 'update')" class="mb-4">
           <v-text-field
               v-model="edit_reviews.name"

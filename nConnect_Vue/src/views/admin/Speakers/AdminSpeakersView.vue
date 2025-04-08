@@ -156,7 +156,7 @@
             <tbody v-for="speakers in speakersStore.getSpeakers.data" :key="speakers.id">
             <tr v-if="speakers" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <td class="px-6 py-4">
-                <img :src="'http://127.0.0.1:8000/storage/' + speakers.picture" class="w-16 md:w-32 max-w-full max-h-full" alt="Speaker's Profile Picture">
+                <img :src="'https://api.nconnect.mojawebka.eu/nConnect-Laravel/storage/' + speakers.picture" class="w-16 md:w-32 max-w-full max-h-full" alt="Speaker's Profile Picture">
               </td>
               <td class="px-6 py-4">
                 {{ speakers.first_name }}
@@ -187,7 +187,7 @@
     <v-dialog v-model="dialog" width="auto" persistent>
       <v-card min-width="600" prepend-icon="mdi-update" title="Update Speaker">
         <v-card-text>
-          <img :src="'http://127.0.0.1:8000/storage/' + edit_speakers.picture" class="w-16 md:w-32 max-w-full max-h-full" alt="Speaker's Profile Picture">
+          <img :src="'https://api.nconnect.mojawebka.eu/nConnect-Laravel/storage/' + edit_speakers.picture" class="w-16 md:w-32 max-w-full max-h-full" alt="Speaker's Profile Picture">
           <input type="file" accept="image/*" @change="onFileChange($event, 'update')" class="mb-4">
           <v-text-field
               v-model="edit_speakers.first_name"
@@ -367,7 +367,6 @@ export default {
       if (this.speakersStore.errors_update && Object.keys(this.speakersStore.errors_update).length > 0) {
         this.callErrorDialog();
       }
-
     },
     createImage(file, form) {
       const reader = new FileReader();
@@ -403,9 +402,6 @@ export default {
       this.speakersStore.errors_update = [];
       this.speakersStore.fetchSpeakers();
     }
-
-
-
   }
 }
 </script>

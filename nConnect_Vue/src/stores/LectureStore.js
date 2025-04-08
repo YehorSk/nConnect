@@ -1,8 +1,6 @@
 import {defineStore} from "pinia";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost/nConnect/nConnect-Laravel/public/api/";
-
 export const useLectureStore = defineStore("lectures", {
     state: () => ({
         lectures: [],

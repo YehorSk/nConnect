@@ -50,7 +50,7 @@
                         </div>
                         <!-- Speaker -->
                         <div class="speaker">
-                          <img v-if="lecture.speaker_image !== null" :src="'http://127.0.0.1:8000/storage/' + lecture.speaker_image" width="50px" height="50px" alt="speaker-thumb-one">
+                          <img v-if="lecture.speaker_image !== null" :src="'https://api.nconnect.mojawebka.eu/nConnect-Laravel/storage/' + lecture.speaker_image" width="50px" height="50px" alt="speaker-thumb-one">
                           <span v-if="lecture.speaker_name !== null" class="name">{{lecture.speaker_name + " " + lecture.speaker_lastname}}</span>
                         </div>
                         <!-- Subject -->
@@ -73,7 +73,7 @@
               <v-card-actions>
                 <v-list-item class="w-200" v-if="show_lecture.is_lecture === 1">
                   <template v-slot:prepend>
-                    <v-avatar color="grey-darken-3" :image="'http://127.0.0.1:8000/storage/' + show_lecture.speaker_image"></v-avatar>
+                    <v-avatar color="grey-darken-3" :image="'https://api.nconnect.mojawebka.eu/nConnect-Laravel/storage/' + show_lecture.speaker_image"></v-avatar>
                   </template>
                   <v-list-item-title>{{ 'Voľné miesta: ' + remainingSpots }}</v-list-item-title>
                   <v-list-item-title>{{ show_lecture.speaker_name }} {{ show_lecture.speaker_lastname }}  {{ show_lecture.overlapping }}</v-list-item-title>

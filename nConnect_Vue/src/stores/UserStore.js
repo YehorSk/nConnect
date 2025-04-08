@@ -2,9 +2,6 @@ import axios from "axios";
 import {defineStore} from "pinia";
 import {useStorage} from "@vueuse/core";
 
-
-axios.defaults.baseURL = "http://localhost/nConnect/nConnect-Laravel/public/";
-
 export const UseUserStore = defineStore("user",{
     state:() =>({
         user: useStorage('user', {}),
@@ -31,14 +28,7 @@ export const UseUserStore = defineStore("user",{
             if(this.token !== null){
                 try{
                     await this.getToken();
-                    const response = await axios.get('fetchuser',{
-                        headers: {
-                            'Accept': 'application/vnd.api+json',
-                            "Content-Type": "application/vnd.api+json",
-                            "Access-Control-Allow-Origin":"*",
-                            'Authorization': `Bearer `+this.token
-                        }
-                    });
+                    const response = await axios.get('fetchuser');
                     this.user = response.data;
                 }catch (error) {
                     if (error.response && error.response.status === 401) {
@@ -54,14 +44,7 @@ export const UseUserStore = defineStore("user",{
             if(this.token !== null){
                 try{
                     // await this.getToken();
-                    const response = await axios.get('user-lectures',{
-                        headers: {
-                            'Accept': 'application/vnd.api+json',
-                            "Content-Type": "application/vnd.api+json",
-                            "Access-Control-Allow-Origin":"*",
-                            'Authorization': `Bearer `+this.token
-                        }
-                    });
+                    const response = await axios.get('user-lectures');
                     this.lectures = response.data;
                 }catch (error) {
                     if (error.response && error.response.status === 401) {
@@ -76,13 +59,6 @@ export const UseUserStore = defineStore("user",{
                     await this.getToken();
                     const response = await axios.post('user-add-lecture', {
                         id: id
-                    }, {
-                        headers: {
-                            'Accept': 'application/vnd.api+json',
-                            "Content-Type": "application/vnd.api+json",
-                            "Access-Control-Allow-Origin":"*",
-                            'Authorization': `Bearer ${this.token}`
-                        }
                     });
                     await this.fetchLectures();
                     this.success = 'Ste zaregistrovaný/á!'
@@ -99,13 +75,6 @@ export const UseUserStore = defineStore("user",{
                     await this.getToken();
                     const response = await axios.post('user-remove-lecture', {
                         id: id
-                    }, {
-                        headers: {
-                            'Accept': 'application/vnd.api+json',
-                            "Content-Type": "application/vnd.api+json",
-                            "Access-Control-Allow-Origin":"*",
-                            'Authorization': `Bearer ${this.token}`
-                        }
                     });
                     await this.fetchLectures();
                     this.success = 'Ste odhlasený/á!'
@@ -148,14 +117,7 @@ export const UseUserStore = defineStore("user",{
             if (this.token !== null) {
                 try {
                     await this.getToken();
-                    const response = await axios.post('user-add-admin', { id: id }, {
-                        headers: {
-                            'Accept': 'application/vnd.api+json',
-                            "Content-Type": "application/vnd.api+json",
-                            "Access-Control-Allow-Origin": "*",
-                            'Authorization': `Bearer ${this.token}`
-                        }
-                    });
+                    const response = await axios.post('user-add-admin', { id: id });
                     this.success = response.data.message;
                     await this.fetchRegularUsers();
                     await this.fetchAdminUsers();
@@ -171,14 +133,7 @@ export const UseUserStore = defineStore("user",{
             if (this.token !== null) {
                 try {
                     await this.getToken();
-                    const response = await axios.post('user-remove-admin', { id: id }, {
-                        headers: {
-                            'Accept': 'application/vnd.api+json',
-                            "Content-Type": "application/vnd.api+json",
-                            "Access-Control-Allow-Origin": "*",
-                            'Authorization': `Bearer ${this.token}`
-                        }
-                    });
+                    const response = await axios.post('user-remove-admin', { id: id });
                     this.success = response.data.message;
                     await this.fetchRegularUsers();
                     await this.fetchAdminUsers();

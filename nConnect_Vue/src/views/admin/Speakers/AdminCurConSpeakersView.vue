@@ -50,7 +50,7 @@
               <tbody v-for="speaker in speakersStore.current_speakers.data" :key="speaker.id">
               <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <td class="p-4">
-                  <img :src="'http://127.0.0.1:8000/storage/' + speaker.picture" class="w-16 md:w-32 max-w-full max-h-full" alt="Speaker Image">
+                  <img :src="'https://api.nconnect.mojawebka.eu/nConnect-Laravel/storage/' + speaker.picture" class="w-16 md:w-32 max-w-full max-h-full" alt="Speaker Image">
                 </td>
                 <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{speaker.first_name}}</td>
                 <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{speaker.last_name}}</td>
@@ -76,7 +76,7 @@
     <v-dialog v-model="dialog" width="auto" persistent>
       <v-card min-width="600" prepend-icon="mdi-update" title="Show Speaker">
         <v-card-text>
-          <img :src="'http://127.0.0.1:8000/storage/' + Show_speakers.picture" class="w-16 md:w-32 max-w-full max-h-full mb-4" alt="Speaker's Profile Picture">
+          <img :src="'https://api.nconnect.mojawebka.eu/nConnect-Laravel/storage/' + Show_speakers.picture" class="w-16 md:w-32 max-w-full max-h-full mb-4" alt="Speaker's Profile Picture">
           <v-text-field v-model="Show_speakers.first_name" label="First Name" readonly></v-text-field>
           <v-text-field v-model="Show_speakers.last_name" label="Last Name" readonly></v-text-field>
           <v-text-field v-model="Show_speakers.short_desc" label="Short Description" readonly></v-text-field>
