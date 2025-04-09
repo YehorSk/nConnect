@@ -5,7 +5,7 @@ import {useStorage} from "@vueuse/core";
 export const UseUserStore = defineStore("user",{
     state:() =>({
         user: useStorage('user', {}),
-        token: useStorage('token',null),
+        token: useStorage('token',''),
         errors:'',
         regular_users: [],
         admin_users:[],
@@ -25,18 +25,16 @@ export const UseUserStore = defineStore("user",{
     },
     actions:{
         async fetchUser(){
-            if(this.token !== null){
-                try{
-                    await this.getToken();
-                    const response = await axios.get('fetchuser');
-                    this.user = response.data;
-                }catch (error) {
-                    if (error.response && error.response.status === 401) {
-                        this.user = {};
-                        this.token = null;
-                    }
-                    if (error.response && error.response.status === 500) {
-                    }
+            try{
+                await this.getToken();
+                const response = await axios.get('fetchuser');
+                this.user = response.data;
+            }catch (error) {
+                if (error.response && error.response.status === 401) {
+                    this.user = {};
+                    this.token = null;
+                }
+                if (error.response && error.response.status === 500) {
                 }
             }
         },

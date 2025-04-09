@@ -14,7 +14,7 @@
           <!-- Speaker 1 -->
           <div class="speaker-item">
             <div class="image">
-              <img loading="lazy" :src="'https://api.nconnect.mojawebka.eu/nConnect-Laravel/storage/' + speaker.picture" :alt="`${speaker.last_name}`" class="img-fluid">
+              <img loading="lazy" :src="'https://api.nconnect.mojawebka.eu/nConnect-Laravel/public/storage/' + speaker.picture" :alt="`${speaker.last_name}`" class="img-fluid">
               <div v-if="speaker.facebook || speaker.twitter || speaker.linkedIn || speaker.instagram" class="primary-overlay"></div>
               <div  class="socials">
                 <ul class="list-inline">

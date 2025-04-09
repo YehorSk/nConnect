@@ -29,9 +29,9 @@
             <div v-for="gallery in filteredGallery" :key="gallery.id" class="gallery-item mix {{ gallery.year }}">
               <div class="image-block">
                 <div class="image">
-                  <img :src="'https://api.nconnect.mojawebka.eu/nConnect-Laravel/storage/' + gallery.image" :alt="`gallery-image-${gallery.id}`" class="img-fluid">
+                  <img :src="'https://api.nconnect.mojawebka.eu/nConnect-Laravel/public/storage/' + gallery.image" :alt="`gallery-image-${gallery.id}`" class="img-fluid">
                   <div class="primary-overlay">
-                    <a class="image-popup" data-effect="mfp-with-zoom" :href="'https://api.nconnect.mojawebka.eu/nConnect-Laravel/storage/' + gallery.image"><i class="fa fa-picture-o"></i></a>
+                    <a class="image-popup" data-effect="mfp-with-zoom" :href="'https://api.nconnect.mojawebka.eu/nConnect-Laravel/public/storage/' + gallery.image"><i class="fa fa-picture-o"></i></a>
                   </div>
                 </div>
               </div>

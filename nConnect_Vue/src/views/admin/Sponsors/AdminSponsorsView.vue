@@ -75,7 +75,7 @@
             <tbody v-for="sponsor in sponsorsStore.getSponsors.data" :key="sponsor.id">
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <td class="px-6 py-4">
-                <img :src="'https://api.nconnect.mojawebka.eu/nConnect-Laravel/storage/' + sponsor.image" class="w-32 md:w-64 max-w-full max-h-full" alt="Sponsor Image">
+                <img :src="'https://api.nconnect.mojawebka.eu/nConnect-Laravel/public/storage/' + sponsor.image" class="w-32 md:w-64 max-w-full max-h-full" alt="Sponsor Image">
                 <form @submit.prevent class="inline-block mt-2">
                   <input type="hidden" v-model="sponsor.id">
                   <input type="file" accept="image/*" @change="onFileChange($event,'update')" class="inline-block">

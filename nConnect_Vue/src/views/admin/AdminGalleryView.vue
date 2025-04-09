@@ -55,7 +55,7 @@
           <tbody v-for="gallery in galleryStore.getGallery.data" :key="gallery.id">
           <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
             <td class="px-6 py-4">
-              <img :src="'https://api.nconnect.mojawebka.eu/nConnect-Laravel/storage/' + gallery.image" class="w-32 md:w-64 max-w-full max-h-full" alt="Gallery image">
+              <img :src="'https://api.nconnect.mojawebka.eu/nConnect-Laravel/public/storage/' + gallery.image" class="w-32 md:w-64 max-w-full max-h-full" alt="Gallery image">
               <form @submit.prevent class="inline-block mt-2">
                 <input type="hidden" v-model="gallery.id">
                 <input type="file" accept="image/*" @change="onFileChange($event,'update')" class="inline-block">

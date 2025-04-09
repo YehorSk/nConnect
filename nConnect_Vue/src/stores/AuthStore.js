@@ -5,7 +5,7 @@ import {useStorage} from "@vueuse/core";
 export const UseAuthStore = defineStore("auth",{
     state:() =>({
         user: useStorage('user', {}),
-        token: useStorage('token',null),
+        token: useStorage('token',''),
         errors:'',
         credentials:'',
         success: ''
@@ -15,6 +15,7 @@ export const UseAuthStore = defineStore("auth",{
             await axios.get('/sanctum/csrf-cookie');
         },
         async register(name,email,password,password_confirmation){
+            await this.getToken();
             try {
                 const response = await axios.post('register', {
                     name: name,
@@ -34,11 +35,13 @@ export const UseAuthStore = defineStore("auth",{
             }
         },
         async login(email,password){
+            await this.getToken();
             try {
                 const response = await axios.post('login', {
                     email: email,
                     password: password,
                 });
+                console.log(response)
                 this.user = response.data.data.user;
                 this.token = response.data.data.token;
                 window.location.reload();
@@ -55,8 +58,8 @@ export const UseAuthStore = defineStore("auth",{
             }
         },
         async logout() {
+            await this.getToken();
             try {
-                await this.getToken();
                 const response = await axios.post('logout', null);
                 this.user = {};
                 this.token = null;
@@ -69,6 +72,7 @@ export const UseAuthStore = defineStore("auth",{
             }
         },
         async forgot_password(email){
+            await this.getToken();
             try {
                 const response = await axios.post('forgot-password', {
                     email: email,
@@ -81,6 +85,7 @@ export const UseAuthStore = defineStore("auth",{
             }
         },
         async reset_password(new_pwd,confirm_new_pwd,email,token){
+            await this.getToken();
             try {
                 await this.getToken();
                 const response = await axios.post('update-password', {

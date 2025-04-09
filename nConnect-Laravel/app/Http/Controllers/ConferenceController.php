@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Conference;
 
 use App\Models\User;
+use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class ConferenceController extends Controller
 {
+    use HttpResponses;
     public function index(){
         $conferences = Conference::all();
         return response()->json($conferences);
@@ -109,11 +111,14 @@ class ConferenceController extends Controller
         $conference = Conference::query()->where("is_current", 1)->first();
         $user = auth('sanctum')->user();
 
-        if ($conference && $conference->users()->where('user_id', $user->id)->exists()) {
-            return response()->json(['has_current_conference' => true]);
-        } else {
-            return response()->json(['has_current_conference' => false]);
+        if($user instanceof User){
+            if ($conference && $conference->users()->where('user_id', $user->id)->exists()) {
+                return response()->json(['has_current_conference' => true]);
+            } else {
+                return response()->json(['has_current_conference' => false]);
+            }
         }
+        return $this->error('', 'No user', 401);
     }
     public function getConferenceUsers($id){
         $conference = Conference::find($id);
