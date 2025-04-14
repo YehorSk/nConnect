@@ -1,4 +1,5 @@
-
+<p>Available here: <a href="https://nconnect.mojawebka.eu/">Link</a></p>
+<hr>
 <h1>Základné funkčné požiadavky</h1>
 <ul>
   <li>✅ Aplikácia musí obsahovať prihlasovanie/registráciu administrátorov</li>
